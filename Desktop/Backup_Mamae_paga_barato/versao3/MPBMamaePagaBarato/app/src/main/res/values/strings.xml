@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">"MPB Mamae Paga Barato "</string>
+    <string name="titulo_produto">Título</string>
+    <string name="titulo_produto_obrigatorio">Campo Título Obrigatório!</string>
+    <string name="descricao_produto">Descrição</string>
+    <string name="categoria_produto">Categoria</string>
+    <string name="tipo_produto">Tipo</string>
+    <string name="estado_produto">Estado</string>
+    <string name="preco_produto">Preço R$</string>
+    <string name="preco_produto_obrigatorio">Campo Preço Obrigatório!</string>
+    <string name="novo">Novo</string>
+    <string name="usado">Usado</string>
+    <string name="salvar">Salvar</string>
+    <string name="Voltar">Voltar</string>
+</resources>
