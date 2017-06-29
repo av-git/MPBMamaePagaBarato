@@ -94,6 +94,8 @@ public class AdapterProdutoPersonalizadoNaListView extends BaseAdapter {
 
         if (produto.getId() == 2) {
             produtoHolder.imagem.setImageResource(R.drawable.pamper);
+        } else if (produto.getId() == 1) {
+            produtoHolder.imagem.setImageResource(R.drawable.aptamil);
         } else if (produto.getId() == 3) {
             produtoHolder.imagem.setImageResource(R.drawable.nan_pro);
         } else if (produto.getId() == 4) {
@@ -101,7 +103,7 @@ public class AdapterProdutoPersonalizadoNaListView extends BaseAdapter {
         } else if (produto.getId() == 6) {
             produtoHolder.imagem.setImageResource(R.drawable.mamadeira);
         } else {
-            produtoHolder.imagem.setImageResource(R.drawable.aptamil);
+            produtoHolder.imagem.setImageResource(R.drawable.foto);
         }
 
 

@@ -17,6 +17,7 @@ import java.util.List;
 import br.com.viperfish.mpbmamaepagabarato.R;
 import br.com.viperfish.mpbmamaepagabarato.activity.produto.adapter.AdapterProdutoPersonalizadoNaListView;
 import br.com.viperfish.mpbmamaepagabarato.dao.categoria.CategoriaDao;
+import br.com.viperfish.mpbmamaepagabarato.dao.produto.ProdutoDao;
 import br.com.viperfish.mpbmamaepagabarato.modelo.categoria.Categoria;
 import br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto;
 
@@ -30,12 +31,16 @@ public class ListaProdutosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_produtos);
 
-        criarMockComProdutos();
-
-        popularListViewComProdutos();
+        //carregarListaProdutos(); // carrega a lista no OnResume Boa pratica pois a Activity poderia estar Em Pause
         configurarBotaoFlutuanteNovo();
     }
 
+    private void carregarListaProdutos() {
+        criarMockComProdutos();
+        popularListViewComProdutos();
+    }
+
+    //TODO AVELINO REMOVER ESSE MOCK QUANDO A CONEXAO BD ESTIVER CONCLUIDO
     private void criarMockComProdutos() {
         listaProdutos = new ArrayList<Produto>();
 
@@ -57,13 +62,31 @@ public class ListaProdutosActivity extends AppCompatActivity {
         Produto produto6 = new Produto(new Long(6),"Mamaderas Avent", "Promoção na Casa do Paulo ", "Mamadeira", "Usado", new Double(11.68));
         listaProdutos.add(produto6);
 
+        listarCategorias();
+        listarProdutos();
+    }
+
+    // TODO AVELINO SOMENTE PARA TESTES. VERIFICAR SE ESTA CARREGANDO DO BANCO DADOS
+    private void listarCategorias() {
         CategoriaDao categoriaDao = new CategoriaDao(ListaProdutosActivity.this);
         List<Categoria> c = categoriaDao.buscaCategorias();
 
-        for (Categoria cat : c){
-            //Log.i("av: ", cat.toString());
-            Log.i("pena: ", String.valueOf(cat.getNome()));
+        for (Categoria cat : c) {
+            Log.i("avelino: ", "Listando as categorias" + String.valueOf(cat.getNome()));
         }
+    }
+
+    // TODO AVELINO SOMENTE PARA TESTES. VERIFICAR SE ESTA CARREGANDO DO BANCO DADOS
+    private void listarProdutos() {
+
+        ProdutoDao produtoDao = new ProdutoDao(ListaProdutosActivity.this);
+        List<Produto> produtos = produtoDao.buscaTodos();
+
+        for (Produto p : produtos){
+            Log.i("avelino: ", "Listando os produtos"+ String.valueOf(p.toString()));
+        }
+        //TODO AVELINO. REMOVER. ESTOU SO FORCANDO UMA ATUALIZACAO DA LISTA VIA BANCO DE DADOS
+        listaProdutos.addAll(produtos);
     }
 
     /**
@@ -102,6 +125,7 @@ public class ListaProdutosActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         Log.i("Avelino", "ListaProdutosActivity OnResume");
+        carregarListaProdutos();
         super.onResume();
     }
 

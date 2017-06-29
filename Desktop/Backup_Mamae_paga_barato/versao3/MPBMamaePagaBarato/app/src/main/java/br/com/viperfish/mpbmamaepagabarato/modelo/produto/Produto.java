@@ -14,7 +14,7 @@ public class Produto {
     private String descricao;
     private Long categoria_id;
     private Long fabricante_id;
-    private BigDecimal preco;
+    private Double preco;
 
     public Produto() {
 
@@ -78,11 +78,11 @@ public class Produto {
         this.fabricante_id = fabricante_id;
     }
 
-    public BigDecimal getPreco() {
+    public Double getPreco() {
         return preco;
     }
 
-    public void setPreco(BigDecimal preco) {
+    public void setPreco(Double preco) {
         this.preco = preco;
     }
 
@@ -92,8 +92,9 @@ public class Produto {
                 "id=" + id +
                 ", titulo='" + titulo + '\'' +
                 ", descricao='" + descricao + '\'' +
-                ", categoria_id=" + categoria_id +
-                ", fabricante_id=" + fabricante_id +
+                ", categoria_id=" + categoria_id + '\'' +
+                ", fabricante_id=" + fabricante_id + '\'' +
+                ", preco=" + preco +
                 '}';
     }
 }

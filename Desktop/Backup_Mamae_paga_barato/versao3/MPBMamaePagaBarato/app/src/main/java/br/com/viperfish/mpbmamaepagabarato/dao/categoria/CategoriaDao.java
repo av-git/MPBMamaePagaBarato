@@ -20,7 +20,7 @@ public class CategoriaDao extends SQLiteOpenHelper {
 
     private static final String NOME_BANCO = "mpb.db";
     private static final String TABELA = "CATEGORIA";
-    private static final int VERSAO = 2;
+    private static final int VERSAO = 3;
 
     /**
      *
@@ -32,10 +32,10 @@ public class CategoriaDao extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-    String sql = "CREATE TABLE "+ TABELA  +
-                 " (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                 " idPai INTEGER, " +
-                 " nome TEXT);";
+        String sql = "CREATE TABLE "+ TABELA  +
+                " (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                " idPai INTEGER, " +
+                " nome TEXT);";
         db.execSQL(sql);
         db.execSQL(carregarScriptInicial());
     }
@@ -57,22 +57,22 @@ public class CategoriaDao extends SQLiteOpenHelper {
         sql.append("INSERT INTO categoria (id, idPai, nome) VALUES ");
         sql.append("(1, null, null),");
         sql.append("(2, 1, 'Higiene e Saúde'),");
-            sql.append("(3, 2, 'Fraldas'),");
-            sql.append("(4, 2, 'Lenços Umedecidos'),");
-            sql.append("(5, 2, 'Pomadas de Assadura'),");
-            sql.append("(6, 2, 'Corpo e Banho'),");
-            sql.append("(7, 2, 'Higiene Bucal'),");
-            sql.append("(8, 2, 'OUTROS'),");
+        sql.append("(3, 2, 'Fraldas'),");
+        sql.append("(4, 2, 'Lenços Umedecidos'),");
+        sql.append("(5, 2, 'Pomadas de Assadura'),");
+        sql.append("(6, 2, 'Corpo e Banho'),");
+        sql.append("(7, 2, 'Higiene Bucal'),");
+        sql.append("(8, 2, 'OUTROS'),");
         sql.append("(9, 1, 'Alimentação'),");
-            sql.append("(10, 9, 'Leites e Fórmulas'),");
-            sql.append("(11, 9, 'Papinhas'),");
-            sql.append("(12, 9, 'Amamentação/Acessórios'),");
-            sql.append("(13, 9, 'Garrafas/Potes/Copos'),");
-            sql.append("(14, 9, 'OUTROS'),");
+        sql.append("(10, 9, 'Leites e Fórmulas'),");
+        sql.append("(11, 9, 'Papinhas'),");
+        sql.append("(12, 9, 'Amamentação/Acessórios'),");
+        sql.append("(13, 9, 'Garrafas/Potes/Copos'),");
+        sql.append("(14, 9, 'OUTROS'),");
         sql.append("(15, 1, 'Medicamentos'),");
-            sql.append("(16, 15, 'Dor e Febre'),");
+        sql.append("(16, 15, 'Dor e Febre'),");
         sql.append("(17, 1, 'OUTROS'),");
-            sql.append("(18, 17, 'OUTROS');");
+        sql.append("(18, 17, 'OUTROS');");
 
         return sql.toString();
     }

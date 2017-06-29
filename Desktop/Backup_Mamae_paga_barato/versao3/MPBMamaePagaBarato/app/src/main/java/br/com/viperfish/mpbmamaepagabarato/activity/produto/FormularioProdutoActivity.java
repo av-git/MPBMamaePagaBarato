@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
 import br.com.viperfish.mpbmamaepagabarato.activity.produto.helper.FormularioProdutoHelper;
+import br.com.viperfish.mpbmamaepagabarato.dao.produto.ProdutoDao;
 import br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto;
 
 public class FormularioProdutoActivity extends AppCompatActivity {
@@ -70,6 +71,10 @@ public class FormularioProdutoActivity extends AppCompatActivity {
 
                 if (helper.isCamposObritagoriosPreenchidos() ){
                     Produto produto = helper.obterProduto();
+
+                    Log.i("Avelino", "Salvando o Produto: " +produto.toString());
+                    salvar(produto);
+
                     Toast.makeText(FormularioProdutoActivity.this, "Registrado com sucesso. Obrigado", Toast.LENGTH_LONG).show();
                     finish();
                 }
@@ -81,6 +86,11 @@ public class FormularioProdutoActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void salvar(Produto produto) {
+        ProdutoDao produtoDao = new ProdutoDao(FormularioProdutoActivity.this);
+        produtoDao.insere(produto);
     }
 
     @Override

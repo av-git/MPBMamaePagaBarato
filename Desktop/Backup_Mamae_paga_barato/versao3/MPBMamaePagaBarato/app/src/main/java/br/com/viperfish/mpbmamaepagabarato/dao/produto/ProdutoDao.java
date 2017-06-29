@@ -19,7 +19,7 @@ public class ProdutoDao extends SQLiteOpenHelper {
 
     private static final String NOME_BANCO = "mpb.db";
     private static final String TABELA = "PRODUTO";
-    private static final int VERSAO = 1;
+    private static final int VERSAO = 3;
 
     /**
      * @param context
@@ -36,11 +36,12 @@ public class ProdutoDao extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String sql = "CREATE TABLE "+TABELA+
-                        "(id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        "CATEGORIA_id INTEGER references CATEGORIA(id)," +
-                        "FABRICANTE_id INTEGER references FABRICANTE(id)," +
-                        "titulo TEXT NOT NULL, " +
-                        "descricao TEXT);";
+                "(id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "CATEGORIA_id INTEGER references CATEGORIA(id)," +
+                "FABRICANTE_id INTEGER references FABRICANTE(id)," +
+                "titulo TEXT NOT NULL, " +
+                "descricao TEXT," +
+                "preco REAL );";
         sqLiteDatabase.execSQL(sql);
     }
 
@@ -72,6 +73,7 @@ public class ProdutoDao extends SQLiteOpenHelper {
             produto.setFabricante_id(c.getLong(c.getColumnIndex("FABRICANTE_id")));
             produto.setTitulo(c.getString(c.getColumnIndex("titulo")));
             produto.setDescricao(c.getString(c.getColumnIndex("descricao")));
+            produto.setPreco(c.getDouble(c.getColumnIndex("preco")));
 
             produtos.add(produto);
         }
@@ -89,8 +91,9 @@ public class ProdutoDao extends SQLiteOpenHelper {
         dados.put("descricao", produto.getDescricao());
         dados.put("categoria_id", produto.getCategoria_id());
         dados.put("fabricante_id", produto.getFabricante_id());
-        //dados.put("preco", aluno.getNota());
+        dados.put("preco", produto.getPreco());
 
-        db.insert("Alunos", null, dados );
+        db.insert(TABELA, null, dados );
+        close(); // Boa Pratica e fechar tambem a conexao com Bando Dados
     }
 }

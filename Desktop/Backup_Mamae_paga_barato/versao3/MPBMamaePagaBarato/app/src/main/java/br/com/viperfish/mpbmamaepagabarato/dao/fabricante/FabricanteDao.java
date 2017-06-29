@@ -19,7 +19,7 @@ public class FabricanteDao extends SQLiteOpenHelper {
 
     private static final String NOME_BANCO = "mpb.db";
     private static final String TABELA = "FABRICANTE";
-    private static final int VERSAO = 1;
+    private static final int VERSAO = 3;
 
     /**
      * @param context
@@ -36,8 +36,8 @@ public class FabricanteDao extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String sql = "CREATE TABLE "+TABELA+
-                     "(id INTEGER PRIMARY KEY AUTOINCREMENT,"+
-                     "nome TEXT NOT NULL);";
+                "(id INTEGER PRIMARY KEY AUTOINCREMENT,"+
+                "nome TEXT NOT NULL);";
     }
 
     //TODO REMOVER ASSIM QUE O CASO DE USO ESTIVER PRONTO.
