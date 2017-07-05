@@ -1,5 +1,6 @@
 package br.com.viperfish.mpbmamaepagabarato.modelo.produto;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import br.com.viperfish.mpbmamaepagabarato.activity.produto.FormularioProdutoActivity;
@@ -7,7 +8,7 @@ import br.com.viperfish.mpbmamaepagabarato.activity.produto.FormularioProdutoAct
 /**
  * Created by ddark on 13/11/16.
  */
-public class Produto {
+public class Produto implements Serializable {
 
     private Long id;
     private String titulo;

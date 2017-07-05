@@ -3,14 +3,12 @@ package br.com.viperfish.mpbmamaepagabarato.activity.produto;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,13 +24,47 @@ public class ListaProdutosActivity extends AppCompatActivity {
     //String[] produtos = {"Aptamil 1 Premuim", "Nan Pro 2", "Ninho Fase +1","Nestogeno 1 ", "Enfamil Premium ", "Ninho Fase +1","Aptamil 1 Premuim", "Nan Pro 3", "Ninho Fase +3","Aptamil 2 Premuim", "Nan Pro 2", "Ninho Fase +4"};
     private List<Produto> listaProdutos;
 
+    //Representa a lista de produtos.
+    ListView listViewProdutos;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_produtos);
 
+        //recupera componente ListView (Bynding)
+        listViewProdutos = (ListView) findViewById(R.id.lista_produtos);
+
+        configurarAcaoOnClickLista();
+
         //carregarListaProdutos(); // carrega a lista no OnResume Boa pratica pois a Activity poderia estar Em Pause
         configurarBotaoFlutuanteNovo();
+    }
+
+    /**
+     * Define a acao de onlick no item da lista de produtos
+     */
+    private void configurarAcaoOnClickLista() {
+        listViewProdutos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> lista, View item, int posicao, long id) {
+                Produto produto = (Produto) lista.getItemAtPosition(posicao);
+                //Toast.makeText(ListaProdutosActivity.this, "Produto selecionado: " + produto.getTitulo(), Toast.LENGTH_LONG).show();
+                navegarParaTelaMaisInformacoes(produto);
+            }
+        });
+    }
+
+    /**
+     *
+     * @param produto
+     */
+    private void navegarParaTelaMaisInformacoes(Produto produto) {
+        //Navegacao para uma nova activity MaisInformacoesProduto
+        Intent irParaMaisInformacoesProduto = new Intent(ListaProdutosActivity.this, MaisInformacoesProdutoActivity.class);
+        //PENDURA NA INTENT O PRODUTO SELECIONADO PARA SER RECUPERADO PELA OUTRA ACTIVITY
+        irParaMaisInformacoesProduto.putExtra("produto", produto);
+        startActivity(irParaMaisInformacoesProduto);
     }
 
     private void carregarListaProdutos() {
@@ -83,7 +115,7 @@ public class ListaProdutosActivity extends AppCompatActivity {
         List<Produto> produtos = produtoDao.buscaTodos();
 
         for (Produto p : produtos){
-            Log.i("avelino: ", "Listando os produtos"+ String.valueOf(p.toString()));
+           Log.i("avelino: ", "Listando os produtos"+ String.valueOf(p.toString()));
         }
         //TODO AVELINO. REMOVER. ESTOU SO FORCANDO UMA ATUALIZACAO DA LISTA VIA BANCO DE DADOS
         listaProdutos.addAll(produtos);
@@ -108,8 +140,7 @@ public class ListaProdutosActivity extends AppCompatActivity {
      * Popula o componente ListView com os Produtos
      */
     private void popularListViewComProdutos() {
-        //recupera a componenet ListView
-        ListView listViewProdutos = (ListView) findViewById(R.id.lista_produtos);
+
         //precisamos criar um adapter para colocar os dados no ListView
         AdapterProdutoPersonalizadoNaListView adapterProdutos = new AdapterProdutoPersonalizadoNaListView(listaProdutos, ListaProdutosActivity.this);
         //setamos o adapter na ListView

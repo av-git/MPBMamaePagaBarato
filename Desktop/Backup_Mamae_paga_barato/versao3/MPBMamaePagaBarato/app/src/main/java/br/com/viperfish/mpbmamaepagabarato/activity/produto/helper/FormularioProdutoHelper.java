@@ -28,7 +28,9 @@ public class FormularioProdutoHelper {
     private final EditText campoTipo;
     private final EditText campoPreco;
     private final FormularioProdutoActivity activity;
+    private Produto produto;
     private Resources recursos;
+
     //private List<View> camposObrigatorios = new ArrayList<View>();
 
     public FormularioProdutoHelper(FormularioProdutoActivity activity) {
@@ -44,7 +46,7 @@ public class FormularioProdutoHelper {
         campoPreco = (EditText) obterViewById(R.id.formulario_produto_preco);
         //Falta pegar o radio
         //activity.findViewById(R.id.formulario_produto_preco);
-
+        produto = new Produto();
     }
 
     private View obterViewById(int idView) {
@@ -53,8 +55,6 @@ public class FormularioProdutoHelper {
 
     public Produto obterProduto() {
 
-
-        Produto produto = new Produto();
         produto.setTitulo(campoTitulo.getText().toString());
         produto.setDescricao(campoDescricao.getText().toString());
 
@@ -65,6 +65,14 @@ public class FormularioProdutoHelper {
 
 
         return produto;
+    }
+
+    public void preencheFormulario(Produto produto) {
+
+        campoTitulo.setText(produto.getTitulo());
+        campoDescricao.setText(produto.getDescricao());
+
+        this.produto = produto;
     }
 
     public boolean isCamposObritagoriosPreenchidos(){

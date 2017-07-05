@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.NonNull;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +20,8 @@ import br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto;
 public class ProdutoDao extends SQLiteOpenHelper {
 
     private static final String NOME_BANCO = "mpb.db";
-    private static final String TABELA = "PRODUTO";
-    private static final int VERSAO = 3;
+    private static final String TABELA = "PRODUTOS";
+    private static final int VERSAO = 7;
 
     /**
      * @param context
@@ -36,12 +38,12 @@ public class ProdutoDao extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String sql = "CREATE TABLE "+TABELA+
-                "(id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "CATEGORIA_id INTEGER references CATEGORIA(id)," +
-                "FABRICANTE_id INTEGER references FABRICANTE(id)," +
-                "titulo TEXT NOT NULL, " +
-                "descricao TEXT," +
-                "preco REAL );";
+                        "(id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        "CATEGORIA_id INTEGER references CATEGORIA(id)," +
+                        "FABRICANTE_id INTEGER references FABRICANTE(id)," +
+                        "titulo TEXT NOT NULL, " +
+                        "descricao TEXT," +
+                        "preco REAL );";
         sqLiteDatabase.execSQL(sql);
     }
 
@@ -79,12 +81,28 @@ public class ProdutoDao extends SQLiteOpenHelper {
         }
         c.close(); // Boa Pratica e fechar o cursor para liberar memoria e recursos do android
         close(); // Boa Pratica e fechar tambem a conexao com Bando Dados
+
         return  produtos;
     }
 
     public void insere(Produto produto)  {
 
         SQLiteDatabase db = getWritableDatabase(); // escrever no banco dados
+
+        ContentValues dados = getPrepararDadosParaSalvar(produto);
+
+        db.insert(TABELA, null, dados );
+        close(); // Boa Pratica e fechar tambem a conexao com Bando Dados
+    }
+
+    /**
+     * O {@link ContentValues} prepara os dados antes de serem submetidos
+     * para o banco de dados. Evita SQL Injection
+     * @param produto
+     * @return ContentValues
+     */
+    @NonNull
+    private ContentValues getPrepararDadosParaSalvar(Produto produto) {
 
         ContentValues dados = new ContentValues();
         dados.put("titulo", produto.getTitulo());
@@ -93,7 +111,23 @@ public class ProdutoDao extends SQLiteOpenHelper {
         dados.put("fabricante_id", produto.getFabricante_id());
         dados.put("preco", produto.getPreco());
 
-        db.insert(TABELA, null, dados );
+        return dados;
+    }
+
+    public void deleta(Produto produto) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        //DICA. PODE SER UM ARRAY DE PARAMETROS
+        //EX: String [] params = {String.valueOf(produto.getId(), produto.getCategoria, ... etc)};
+        String [] params = {String.valueOf(produto.getId())};
+        db.delete(TABELA, "id = ?", params);
+    }
+
+    public void altera(Produto produto) {
+        SQLiteDatabase db = getWritableDatabase(); // escrever no banco dados
+        ContentValues dados = getPrepararDadosParaSalvar(produto);
+        String [] params = {String.valueOf(produto.getId())};
+        db.update(TABELA, dados, "id = ?", params);
         close(); // Boa Pratica e fechar tambem a conexao com Bando Dados
     }
 }

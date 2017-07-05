@@ -10,92 +10,66 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.viperfish.mpbmamaepagabarato.ConexaoBancoDados;
+import br.com.viperfish.mpbmamaepagabarato.dao.DatabaseHelper;
 import br.com.viperfish.mpbmamaepagabarato.modelo.categoria.Categoria;
 
 /**
  * Created by BBTS on 22/11/2016.
  */
 
-public class CategoriaDao extends SQLiteOpenHelper {
+public class CategoriaDao {
 
-    private static final String NOME_BANCO = "mpb.db";
-    private static final String TABELA = "CATEGORIA";
-    private static final int VERSAO = 3;
+    private DatabaseHelper databaseHelper;
+    private SQLiteDatabase db;
 
-    /**
-     *
-     * @param context
-     */
     public CategoriaDao(Context context) {
-        super(context, NOME_BANCO, null, VERSAO);
+        databaseHelper = new DatabaseHelper(context);
     }
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        String sql = "CREATE TABLE "+ TABELA  +
-                " (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                " idPai INTEGER, " +
-                " nome TEXT);";
-        db.execSQL(sql);
-        db.execSQL(carregarScriptInicial());
+    private SQLiteDatabase getDb() {
+        if (db == null) {
+            db = databaseHelper.getWritableDatabase();
+        }
+        return db;
     }
 
-    //TODO REMOVER ASSIM QUE O CASO DE USO ESTIVER PRONTO.
-    //A IDEIA DO METODO E SEMPRE RECRIAR O BANCO APOS ATUALIZAR SUA ESTRUTURA.
-    //LEMBRAR DE VERSIONAR O BANCO PARA O onUpgrade Funcionar
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int versaoAntiga, int novaVersao) {
-        String sql = "DROP TABLE IF EXISTS " +TABELA;
-        db.execSQL(sql);
-        onCreate(db);
+    public void close(){
+        databaseHelper.close();
     }
 
-    private String carregarScriptInicial (){
+    public List<Categoria> buscarTodos() {
 
-        StringBuilder sql = new StringBuilder();
-
-        sql.append("INSERT INTO categoria (id, idPai, nome) VALUES ");
-        sql.append("(1, null, null),");
-        sql.append("(2, 1, 'Higiene e Saúde'),");
-        sql.append("(3, 2, 'Fraldas'),");
-        sql.append("(4, 2, 'Lenços Umedecidos'),");
-        sql.append("(5, 2, 'Pomadas de Assadura'),");
-        sql.append("(6, 2, 'Corpo e Banho'),");
-        sql.append("(7, 2, 'Higiene Bucal'),");
-        sql.append("(8, 2, 'OUTROS'),");
-        sql.append("(9, 1, 'Alimentação'),");
-        sql.append("(10, 9, 'Leites e Fórmulas'),");
-        sql.append("(11, 9, 'Papinhas'),");
-        sql.append("(12, 9, 'Amamentação/Acessórios'),");
-        sql.append("(13, 9, 'Garrafas/Potes/Copos'),");
-        sql.append("(14, 9, 'OUTROS'),");
-        sql.append("(15, 1, 'Medicamentos'),");
-        sql.append("(16, 15, 'Dor e Febre'),");
-        sql.append("(17, 1, 'OUTROS'),");
-        sql.append("(18, 17, 'OUTROS');");
-
-        return sql.toString();
-    }
-
-    public List<Categoria> buscaCategorias() {
-        String sql = "SELECT * FROM " + TABELA + ";";
-        SQLiteDatabase db = getReadableDatabase();
-        Cursor c = db.rawQuery(sql, null);
+        Cursor cursor = getDb().query(DatabaseHelper.Categoria.TABELA,
+                DatabaseHelper.Categoria.COLUNAS,
+                null, null, null, null, null);
 
         List<Categoria> categorias = new ArrayList<Categoria>();
 
-        while (c.moveToNext()) {
-//            Log.i("consulta", String.valueOf(c.getColumnIndex("id")));
-//            Log.i("consulta", String.valueOf(c.getColumnIndex("idPai")));
-//            Log.i("consulta", String.valueOf(c.getColumnIndex("nome")));
-            Categoria categoria = new Categoria();
-            categoria.setId(c.getLong(c.getColumnIndex("id")));
-            categoria.setIdPai(c.getLong(c.getColumnIndex("idPai")));
-            categoria.setNome(c.getString(c.getColumnIndex("nome")));
+        while(cursor.moveToNext()){
+            Categoria categoria = criarCategoria(cursor);
             categorias.add(categoria);
         }
-        c.close();
-        return  categorias;
+
+        cursor.close();
+        return categorias;
+    }
+
+    public Categoria buscarPorId(Integer id) {
+
+        Cursor cursor = getDb().query(DatabaseHelper.Categoria.TABELA,
+                DatabaseHelper.Categoria.COLUNAS,
+                DatabaseHelper.Categoria._ID + " = ?",
+                new String[]{ id.toString() },
+                null, null, null);
+
+        if(cursor.moveToNext()) {
+            Categoria categoria = criarCategoria(cursor);
+            cursor.close();
+
+            return categoria;
+        }
+
+        return null;
     }
 
     public List<Categoria> buscarCategoriasOrganizadas() {
@@ -109,5 +83,21 @@ public class CategoriaDao extends SQLiteOpenHelper {
         varname1.append("SELECT NOME FROM LINK WHERE NOME IS NOT NULL ORDER BY ID;");
 
         return null;
+    }
+
+    private Categoria criarCategoria(Cursor cursor) {
+
+        Categoria categoria = new Categoria(
+                cursor.getLong(cursor.getColumnIndex(
+                        DatabaseHelper.Categoria._ID)),
+
+                cursor.getLong(cursor.getColumnIndex(
+                        DatabaseHelper.Categoria.IDPAI)),
+
+                cursor.getString(cursor.getColumnIndex(
+                        DatabaseHelper.Categoria.NOME))
+        );
+
+        return categoria;
     }
 }

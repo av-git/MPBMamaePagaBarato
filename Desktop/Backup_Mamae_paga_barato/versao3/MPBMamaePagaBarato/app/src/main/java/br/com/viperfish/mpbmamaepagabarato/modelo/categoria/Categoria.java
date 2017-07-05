@@ -13,6 +13,13 @@ public class Categoria {
     public Categoria() {
     }
 
+    public Categoria(Long id, Long idPai, String nome) {
+        this.id = id;
+        this.idPai = idPai;
+        this.nome = nome;
+    }
+
+
     public Long getId() {
         return id;
     }

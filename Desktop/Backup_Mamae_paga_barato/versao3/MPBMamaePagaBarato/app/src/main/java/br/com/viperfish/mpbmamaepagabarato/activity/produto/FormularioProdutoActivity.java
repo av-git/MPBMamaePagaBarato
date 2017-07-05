@@ -90,7 +90,14 @@ public class FormularioProdutoActivity extends AppCompatActivity {
 
     private void salvar(Produto produto) {
         ProdutoDao produtoDao = new ProdutoDao(FormularioProdutoActivity.this);
-        produtoDao.insere(produto);
+
+        //NOVO REGISTRO
+        if (produto.getId() == null ) {
+            produtoDao.insere(produto);
+        } else {
+            //ALTERAR REGISTRO
+            produtoDao.altera(produto);
+        }
     }
 
     @Override

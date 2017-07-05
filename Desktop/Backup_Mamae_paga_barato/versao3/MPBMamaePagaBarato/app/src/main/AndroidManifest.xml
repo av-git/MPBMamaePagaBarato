@@ -8,27 +8,32 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity
-            android:name=".activity.produto.ListaProdutosActivity">
-
+        <activity android:name=".activity.produto.ListaProdutosActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.produto.FormularioProdutoActivity"
+            android:parentActivityName=".activity.produto.ListaProdutosActivity">
 
+            <!-- Configura a nevagacao do botao voltar. Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="br.com.viperfish.mpbmamaepagabarato.activity.produto.ListaProdutosActivity" />
         </activity>
 
-        <activity android:name=".activity.produto.FormularioProdutoActivity"
-            android:parentActivityName="br.com.viperfish.mpbmamaepagabarato.activity.produto.ListaProdutosActivity" >
+        <activity android:name=".activity.produto.MaisInformacoesProdutoActivity"
+                  android:parentActivityName=".activity.produto.ListaProdutosActivity">>
 
-            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <!-- Configura a nevagacao do botao voltar. Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="br.com.viperfish.mpbmamaepagabarato.activity.produto.ListaProdutosActivity" />
 
         </activity>
-
     </application>
 
 </manifest>
