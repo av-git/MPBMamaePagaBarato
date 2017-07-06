@@ -14,24 +14,25 @@ import br.com.viperfish.mpbmamaepagabarato.dao.DatabaseHelper;
 import br.com.viperfish.mpbmamaepagabarato.modelo.categoria.Categoria;
 
 /**
- * Created by BBTS on 22/11/2016.
+ * Created by AV on 22/11/2016.
  */
 
 public class CategoriaDao {
 
     private DatabaseHelper databaseHelper;
-    private SQLiteDatabase db;
+    //private SQLiteDatabase db;
 
     public CategoriaDao(Context context) {
         databaseHelper = new DatabaseHelper(context);
     }
-
+    /*
     private SQLiteDatabase getDb() {
         if (db == null) {
             db = databaseHelper.getWritableDatabase();
         }
         return db;
     }
+    */
 
     public void close(){
         databaseHelper.close();
@@ -39,7 +40,9 @@ public class CategoriaDao {
 
     public List<Categoria> buscarTodos() {
 
-        Cursor cursor = getDb().query(DatabaseHelper.Categoria.TABELA,
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+
+        Cursor cursor = db.query(DatabaseHelper.Categoria.TABELA,
                 DatabaseHelper.Categoria.COLUNAS,
                 null, null, null, null, null);
 
@@ -51,27 +54,36 @@ public class CategoriaDao {
         }
 
         cursor.close();
+        close();
+
         return categorias;
     }
 
     public Categoria buscarPorId(Integer id) {
 
-        Cursor cursor = getDb().query(DatabaseHelper.Categoria.TABELA,
+        Categoria categoria = null;
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+
+        Cursor cursor = db.query(DatabaseHelper.Categoria.TABELA,
                 DatabaseHelper.Categoria.COLUNAS,
                 DatabaseHelper.Categoria._ID + " = ?",
                 new String[]{ id.toString() },
                 null, null, null);
 
         if(cursor.moveToNext()) {
-            Categoria categoria = criarCategoria(cursor);
-            cursor.close();
-
-            return categoria;
+            categoria = criarCategoria(cursor);
         }
 
-        return null;
+        cursor.close();
+        close();
+
+        return categoria;
     }
 
+    /**
+     * TODO AVELINO. VERIFICAR A NECESSIDADE
+     * @return
+     */
     public List<Categoria> buscarCategoriasOrganizadas() {
         StringBuffer  varname1 = new StringBuffer();
         varname1.append("WITH LINK(ID, NOME, LEVEL) AS ( ");

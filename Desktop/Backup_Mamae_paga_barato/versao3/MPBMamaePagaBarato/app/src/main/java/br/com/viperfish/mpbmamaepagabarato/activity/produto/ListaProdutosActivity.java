@@ -76,22 +76,22 @@ public class ListaProdutosActivity extends AppCompatActivity {
     private void criarMockComProdutos() {
         listaProdutos = new ArrayList<Produto>();
 
-        Produto produto1 = new Produto(new Long(1),"Aptamil 1 Premuim", "Corram Mamães!!! Promoção BigBen Da Doca", "Leite", "Novo", new Double(23.3));
+        Produto produto1 = new Produto(new Long(1),"Aptamil 1 Premuim", "Corram Mamães!!! Promoção BigBen Da Doca", new Long(1), new Long(1) , new Double(23.3));
         listaProdutos.add(produto1);
 
-        Produto fralda = new Produto(new Long(2),"Pacote de Fraldas com 86 Unidades Confort sec M Pampers", "Achei no Walmart da Curuzu", "Fralda", "Novo", new Double(68.23));
+        Produto fralda = new Produto(new Long(2),"Pacote de Fraldas com 86 Unidades Confort sec M Pampers", "Achei no Walmart da Curuzu", new Long(1), new Long(1) , new Double(23.3));
         listaProdutos.add(fralda);
 
-        Produto produto2 = new Produto(new Long(3),"Nan Pro 2", "Melhor Preço da Cidade djkasdlaskjiwuhjsdajskhdkjashdjsahjdkhsaj sjkahduaj jka jkash jkash jey hqwkjhq qwhkejh qwjk ehqkwjehqwkj ", "Leite", "Novo", new Double(68.23));
+        Produto produto2 = new Produto(new Long(3),"Nan Pro 2", "Melhor Preço da Cidade djkasdlaskjiwuhjsdajskhdkjashdjsahjdkhsaj sjkahduaj jka jkash jkash jey hqwkjhq qwhkejh qwjk ehqkwjehqwkj ", new Long(1), new Long(1) , new Double(23.3));
         listaProdutos.add(produto2);
 
-        Produto produto3 = new Produto(new Long(4),"Ninho Fase +1", "Lojas Americanas Patio Belem. Fraldas com desconto", "Leite", "Novo", new Double(33.33));
+        Produto produto3 = new Produto(new Long(4),"Ninho Fase +1", "Lojas Americanas Patio Belem. Fraldas com desconto", new Long(1), new Long(1) , new Double(23.3));
         listaProdutos.add(produto3);
 
-        Produto produto4 = new Produto(new Long(5),"Nestogeno 1", "Corram Mamães!!! Promoção BigBen Da Doca", "Leite", "Usado", new Double(11.68));
+        Produto produto4 = new Produto(new Long(5),"Nestogeno 1", "Corram Mamães!!! Promoção BigBen Da Doca", new Long(1), new Long(1) , new Double(23.3));
         listaProdutos.add(produto4);
 
-        Produto produto6 = new Produto(new Long(6),"Mamaderas Avent", "Promoção na Casa do Paulo ", "Mamadeira", "Usado", new Double(11.68));
+        Produto produto6 = new Produto(new Long(6),"Mamaderas Avent", "Promoção na Casa do Paulo ", new Long(1), new Long(1) , new Double(23.3));
         listaProdutos.add(produto6);
 
         listarCategorias();
@@ -100,19 +100,21 @@ public class ListaProdutosActivity extends AppCompatActivity {
 
     // TODO AVELINO SOMENTE PARA TESTES. VERIFICAR SE ESTA CARREGANDO DO BANCO DADOS
     private void listarCategorias() {
+        /*
         CategoriaDao categoriaDao = new CategoriaDao(ListaProdutosActivity.this);
         List<Categoria> c = categoriaDao.buscaCategorias();
 
         for (Categoria cat : c) {
             Log.i("avelino: ", "Listando as categorias" + String.valueOf(cat.getNome()));
         }
+        */
     }
 
     // TODO AVELINO SOMENTE PARA TESTES. VERIFICAR SE ESTA CARREGANDO DO BANCO DADOS
     private void listarProdutos() {
 
         ProdutoDao produtoDao = new ProdutoDao(ListaProdutosActivity.this);
-        List<Produto> produtos = produtoDao.buscaTodos();
+        List<Produto> produtos = produtoDao.buscarTodos();
 
         for (Produto p : produtos){
            Log.i("avelino: ", "Listando os produtos"+ String.valueOf(p.toString()));

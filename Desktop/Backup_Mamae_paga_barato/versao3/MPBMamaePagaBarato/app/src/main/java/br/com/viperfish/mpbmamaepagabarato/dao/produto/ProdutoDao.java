@@ -4,71 +4,169 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.viperfish.mpbmamaepagabarato.dao.DatabaseHelper;
 import br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto;
 
 /**
  * Created by Av on 16/11/2016.
  */
 
-public class ProdutoDao extends SQLiteOpenHelper {
+public class ProdutoDao {
 
-    private static final String NOME_BANCO = "mpb.db";
-    private static final String TABELA = "PRODUTOS";
-    private static final int VERSAO = 7;
+    private DatabaseHelper databaseHelper;
+    //private SQLiteDatabase db;
 
-    /**
-     * @param context
-     */
     public ProdutoDao(Context context) {
-        super(context, NOME_BANCO, null, VERSAO);
+        databaseHelper = new DatabaseHelper(context);
     }
 
+    public void close(){
+        databaseHelper.close();
+    }
+
+    private Produto criarProduto(Cursor cursor) {
+
+        Produto produto = new Produto(
+
+                cursor.getLong(cursor.getColumnIndex(
+                        DatabaseHelper.Produto._ID)),
+
+                cursor.getString(cursor.getColumnIndex(
+                        DatabaseHelper.Produto.TITULO)),
+
+
+                cursor.getString(cursor.getColumnIndex(
+                        DatabaseHelper.Produto.DESCRICAO)),
+
+
+                cursor.getLong(cursor.getColumnIndex(
+                        DatabaseHelper.Produto.CATEGORIA_ID)),
+
+
+                cursor.getLong(cursor.getColumnIndex(
+                        DatabaseHelper.Produto.FABRICANTE_ID)),
+
+
+                cursor.getDouble(cursor.getColumnIndex(
+                        DatabaseHelper.Produto.PRECO))
+        );
+
+        return produto;
+    }
+
+    public List<Produto> buscarTodos() {
+
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+
+        Cursor cursor = db.query(DatabaseHelper.Produto.TABELA,
+                DatabaseHelper.Produto.COLUNAS,
+                null, null, null, null, null);
+
+        List<Produto> produtos = new ArrayList<Produto>();
+
+        while(cursor.moveToNext()){
+            Produto produto = criarProduto(cursor);
+            produtos.add(produto);
+        }
+
+        cursor.close();
+        close();
+
+        return produtos;
+    }
+
+    public Produto buscarPorId(Integer id) {
+
+        Produto produto = null;
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+
+        Cursor cursor = db.query(DatabaseHelper.Produto.TABELA,
+                DatabaseHelper.Produto.COLUNAS,
+                DatabaseHelper.Produto._ID + " = ?",
+                new String[]{ id.toString() },
+                null, null, null);
+
+        if(cursor.moveToNext()) {
+            produto = criarProduto(cursor);
+        }
+
+        cursor.close();
+        close();
+
+        return produto;
+    }
+
+    public long inserir(Produto produto) {
+
+        ContentValues values = new ContentValues();
+
+        values.put(DatabaseHelper.Produto.TITULO,
+                produto.getTitulo());
+
+        values.put(DatabaseHelper.Produto.DESCRICAO,
+                produto.getDescricao());
+
+        values.put(DatabaseHelper.Produto.CATEGORIA_ID,
+                produto.getCategoria_id());
+
+        values.put(DatabaseHelper.Produto.FABRICANTE_ID,
+                produto.getFabricante_id());
+
+        values.put(DatabaseHelper.Produto.PRECO,
+                produto.getPreco());
+
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+
+        return db.insert(DatabaseHelper.Produto.TABELA, null, values);
+    }
+
+    public long atualizar(Produto produto) {
+
+        ContentValues values = new ContentValues();
+
+        values.put(DatabaseHelper.Produto.TITULO,
+                produto.getTitulo());
+
+        values.put(DatabaseHelper.Produto.DESCRICAO,
+                produto.getDescricao());
+
+        values.put(DatabaseHelper.Produto.CATEGORIA_ID,
+                produto.getCategoria_id());
+
+        values.put(DatabaseHelper.Produto.FABRICANTE_ID,
+                produto.getFabricante_id());
+
+        values.put(DatabaseHelper.Produto.PRECO,
+                produto.getPreco());
+
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+
+        return db.update(DatabaseHelper.Produto.TABELA,
+                values, DatabaseHelper.Produto._ID + " = ?",
+                new String[]{produto.getId().toString()});
+    }
 
     /**
-     * Cria a Tabela
-     * @param sqLiteDatabase
+     * Nao utilizar. somente para mostrar uma outra alternativa de criar
+     * uma consulta
+     * @return
      */
-    @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String sql = "CREATE TABLE "+TABELA+
-                        "(id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        "CATEGORIA_id INTEGER references CATEGORIA(id)," +
-                        "FABRICANTE_id INTEGER references FABRICANTE(id)," +
-                        "titulo TEXT NOT NULL, " +
-                        "descricao TEXT," +
-                        "preco REAL );";
-        sqLiteDatabase.execSQL(sql);
-    }
+    @Deprecated
+    public List<Produto> buscaTodosOld() {
 
-    //TODO REMOVER ASSIM QUE O CASO DE USO ESTIVER PRONTO.
-    //A IDEIA DO METODO E SEMPRE RECRIAR O BANCO APOS ATUALIZAR SUA ESTRUTURA.
-    //LEMBRAR DE VERSIONAR O BANCO PARA O onUpgrade Funcionar
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int versaoAntiga, int novaVersao) {
-        String sql = "DROP TABLE IF EXISTS " +TABELA;
-        db.execSQL(sql);
-        onCreate(db);
-    }
-
-    public List<Produto> buscaTodos() {
-
-        String sql = "SELECT * FROM " + TABELA + ";";
-        SQLiteDatabase db = getReadableDatabase(); // realizar a leitura
+        String sql = "SELECT * FROM PRODUTO;";
+        SQLiteDatabase db = databaseHelper.getReadableDatabase(); // realizar a leitura
         Cursor c = db.rawQuery(sql, null);
 
         List<Produto> produtos = new ArrayList<Produto>();
 
         while (c.moveToNext()) {
-//            Log.i("consulta", String.valueOf(c.getColumnIndex("id")));
-//            Log.i("consulta", String.valueOf(c.getColumnIndex("idPai")));
-//            Log.i("consulta", String.valueOf(c.getColumnIndex("nome")));
+
             Produto produto = new Produto();
             produto.setId(c.getLong(c.getColumnIndex("id")));
             produto.setCategoria_id(c.getLong(c.getColumnIndex("CATEGORIA_id")));
@@ -80,18 +178,24 @@ public class ProdutoDao extends SQLiteOpenHelper {
             produtos.add(produto);
         }
         c.close(); // Boa Pratica e fechar o cursor para liberar memoria e recursos do android
-        close(); // Boa Pratica e fechar tambem a conexao com Bando Dados
+        //close(); // Boa Pratica e fechar tambem a conexao com Bando Dados
 
         return  produtos;
     }
 
-    public void insere(Produto produto)  {
+    /**
+     * Utilizar outro metodo insert. existe somente para mostrar outra forma
+     *
+     * @param produto
+     */
+    @Deprecated
+    public void insereOld(Produto produto)  {
 
-        SQLiteDatabase db = getWritableDatabase(); // escrever no banco dados
+        SQLiteDatabase db = databaseHelper.getWritableDatabase(); // escrever no banco dados
 
         ContentValues dados = getPrepararDadosParaSalvar(produto);
 
-        db.insert(TABELA, null, dados );
+        db.insert("PRODUTO", null, dados );
         close(); // Boa Pratica e fechar tambem a conexao com Bando Dados
     }
 
@@ -114,20 +218,22 @@ public class ProdutoDao extends SQLiteOpenHelper {
         return dados;
     }
 
-    public void deleta(Produto produto) {
-        SQLiteDatabase db = getWritableDatabase();
+    @Deprecated
+    public void deletaOld(Produto produto) {
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
 
         //DICA. PODE SER UM ARRAY DE PARAMETROS
         //EX: String [] params = {String.valueOf(produto.getId(), produto.getCategoria, ... etc)};
         String [] params = {String.valueOf(produto.getId())};
-        db.delete(TABELA, "id = ?", params);
+        db.delete("PRODUTO", "id = ?", params);
     }
 
-    public void altera(Produto produto) {
-        SQLiteDatabase db = getWritableDatabase(); // escrever no banco dados
+    @Deprecated
+    public void alteraOld(Produto produto) {
+        SQLiteDatabase db = databaseHelper.getWritableDatabase(); // escrever no banco dados
         ContentValues dados = getPrepararDadosParaSalvar(produto);
         String [] params = {String.valueOf(produto.getId())};
-        db.update(TABELA, dados, "id = ?", params);
+        db.update("PRODUTO", dados, "id = ?", params);
         close(); // Boa Pratica e fechar tambem a conexao com Bando Dados
     }
 }

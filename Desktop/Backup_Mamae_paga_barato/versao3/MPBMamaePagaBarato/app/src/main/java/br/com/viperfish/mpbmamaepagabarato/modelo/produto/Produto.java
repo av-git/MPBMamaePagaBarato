@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import br.com.viperfish.mpbmamaepagabarato.activity.produto.FormularioProdutoActivity;
 
 /**
- * Created by ddark on 13/11/16.
+ * Created by av on 13/11/16.
  */
 public class Produto implements Serializable {
 
@@ -18,26 +18,16 @@ public class Produto implements Serializable {
     private Double preco;
 
     public Produto() {
-
     }
 
-    /** Remover o id quando o cadastro estiver concluido */
-    public Produto(Long aLong, String s, String s1, String leite, String novo, Double aDouble) {
-        this.id = aLong;
-        this.titulo = s;
-        this.descricao = s1;
-    }
-
-    @Deprecated
-    public Produto(Long id, String titulo, String descricao, Long categoria, Long fabricante) {
+    public Produto(Long id, String titulo, String descricao, Long categoria, Long fabricante, Double preco) {
         this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
         this.categoria_id = categoria;
         this.fabricante_id = fabricante;
+        this.preco = preco;
     }
-
-
 
     public Long getId() {
         return id;

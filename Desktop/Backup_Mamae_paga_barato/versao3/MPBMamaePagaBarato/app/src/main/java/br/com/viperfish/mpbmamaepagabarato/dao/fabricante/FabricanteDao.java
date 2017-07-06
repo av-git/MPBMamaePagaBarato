@@ -3,72 +3,85 @@ package br.com.viperfish.mpbmamaepagabarato.dao.fabricante;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.viperfish.mpbmamaepagabarato.dao.DatabaseHelper;
 import br.com.viperfish.mpbmamaepagabarato.modelo.fabricante.Fabricante;
-import br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto;
 
 /**
  * Created by Av on 16/11/2016.
+ *
+ * Seguindo a recomendacao: https://developer.android.com/training/basics/data-storage/databases.html
  */
 
-public class FabricanteDao extends SQLiteOpenHelper {
+public class FabricanteDao {
 
-    private static final String NOME_BANCO = "mpb.db";
-    private static final String TABELA = "FABRICANTE";
-    private static final int VERSAO = 5;
+    private DatabaseHelper databaseHelper;
+    //private SQLiteDatabase db;
 
-    /**
-     * @param context
-     */
     public FabricanteDao(Context context) {
-        super(context, NOME_BANCO, null, VERSAO);
+        databaseHelper = new DatabaseHelper(context);
     }
 
-
-    /**
-     * Cria a Tabela
-     * @param sqLiteDatabase
-     */
-    @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String sql = "CREATE TABLE "+TABELA+
-                     "(id.save INTEGER PRIMARY KEY AUTOINCREMENT,"+
-                     "nome TEXT NOT NULL);";
+    public void close(){
+        databaseHelper.close();
     }
 
-    //TODO REMOVER ASSIM QUE O CASO DE USO ESTIVER PRONTO.
-    //A IDEIA DO METODO E SEMPRE RECRIAR O BANCO APOS ATUALIZAR SUA ESTRUTURA.
-    //LEMBRAR DE VERSIONAR O BANCO PARA O onUpgrade Funcionar
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int versaoAntiga, int novaVersao) {
-        String sql = "DROP TABLE IF EXISTS " +TABELA;
-        db.execSQL(sql);
-        onCreate(db);
-    }
+    public List<Fabricante> buscarTodos() {
 
-    public List<Fabricante> buscaTodos() {
-        String sql = "SELECT * FROM " + TABELA + ";";
-        SQLiteDatabase db = getReadableDatabase();
-        Cursor c = db.rawQuery(sql, null);
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+
+        Cursor cursor = db.query(DatabaseHelper.Fabricante.TABELA,
+                DatabaseHelper.Fabricante.COLUNAS,
+                null, null, null, null, null);
 
         List<Fabricante> fabricantes = new ArrayList<Fabricante>();
 
-        while (c.moveToNext()) {
-//            Log.i("consulta", String.valueOf(c.getColumnIndex("id")));
-//            Log.i("consulta", String.valueOf(c.getColumnIndex("idPai")));
-//            Log.i("consulta", String.valueOf(c.getColumnIndex("nome")));
-            Fabricante fabricante = new Fabricante();
-            fabricante.setId(c.getLong(c.getColumnIndex("id")));
-            fabricante.setNome(c.getString(c.getColumnIndex("nome")));
-
+        while(cursor.moveToNext()){
+            Fabricante fabricante = criarFabricante(cursor);
             fabricantes.add(fabricante);
         }
-        c.close();
-        return  fabricantes;
+
+        cursor.close();
+        close();
+
+        return fabricantes;
+    }
+
+    public Fabricante buscarPorId(Integer id) {
+
+        Fabricante fabricante = null;
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+
+        Cursor cursor = db.query(DatabaseHelper.Fabricante.TABELA,
+                DatabaseHelper.Fabricante.COLUNAS,
+                DatabaseHelper.Fabricante._ID + " = ?",
+                new String[]{ id.toString() },
+                null, null, null);
+
+        if(cursor.moveToNext()) {
+            fabricante = criarFabricante(cursor);
+        }
+
+        cursor.close();
+        close();
+
+        return fabricante;
+    }
+
+    private Fabricante criarFabricante(Cursor cursor) {
+
+        Fabricante fabricante = new Fabricante(
+                cursor.getLong(cursor.getColumnIndex(
+                        DatabaseHelper.Fabricante._ID)),
+
+                cursor.getString(cursor.getColumnIndex(
+                        DatabaseHelper.Fabricante.NOME))
+        );
+
+        return fabricante;
     }
 
 }

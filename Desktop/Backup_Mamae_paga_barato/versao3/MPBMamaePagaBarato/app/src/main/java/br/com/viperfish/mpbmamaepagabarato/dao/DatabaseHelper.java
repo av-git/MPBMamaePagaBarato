@@ -48,6 +48,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         };
     }
 
+    private static final String SQL_CREATE_PRODUTO =
+            "CREATE TABLE " + Produto.TABELA + " (" +
+                    Produto._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    Produto.CATEGORIA_ID+ " INTEGER references "+Categoria.TABELA +Produto._ID+ ", " +
+                    Produto.FABRICANTE_ID+ " INTEGER references "+Fabricante.TABELA +Produto._ID+", " +
+                    Produto.TITULO+ " TEXT, " +
+                    Produto.DESCRICAO+ " TEXT, " +
+                    Produto.PRECO + " REAL)";
+
+    private static final String SQL_CREATE_CATEGORIA =
+            "CREATE TABLE " + Categoria.TABELA + " (" +
+                    Categoria._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    Categoria.IDPAI+ " INTEGER, " +
+                    Categoria.NOME+ " TEXT); ";
+
+    private static final String SQL_CREATE_FABRICANTE =
+            "CREATE TABLE " + Fabricante.TABELA + " (" +
+                    Fabricante._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    Fabricante.NOME+ " TEXT NOT NULL); ";
 
     public DatabaseHelper(Context context) {
         super(context, NOME_BANCO, null, VERSAO);
@@ -55,39 +74,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
-        criarTabelaProduto(db);
-
-        criarTabelaFabricante(db);
-
-        criarTabelaCategoria(db);
-    }
-
-    private void criarTabelaFabricante(SQLiteDatabase db) {
-        String sql = "CREATE TABLE FABRICANTE " +
-                "(id INTEGER PRIMARY KEY AUTOINCREMENT, "+
-                "nome TEXT NOT NULL);";
-        db.execSQL(sql);
-    }
-
-    private void criarTabelaCategoria(SQLiteDatabase db) {
-        String sql = "CREATE TABLE CATEGORIA "   +
-                " (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                " idPai INTEGER, " +
-                " nome TEXT);";
-        db.execSQL(sql);
-        db.execSQL(carregarInicialCategoria());
-    }
-
-    private void criarTabelaProduto(SQLiteDatabase db) {
-        String sql = "CREATE TABLE PRODUTO " +
-                "(id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "CATEGORIA_id INTEGER references CATEGORIA(id), " +
-                "FABRICANTE_id INTEGER references FABRICANTE(id), " +
-                "titulo TEXT NOT NULL, " +
-                "descricao TEXT, " +
-                "preco REAL );";
-        db.execSQL(sql);
+        criarTabelas(db);
     }
 
     //TODO REMOVER ASSIM QUE O CASO DE USO ESTIVER PRONTO.
@@ -95,17 +82,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //LEMBRAR DE VERSIONAR O BANCO PARA O onUpgrade Funcionar
     @Override
     public void onUpgrade(SQLiteDatabase db, int versaoAntiga, int novaVersao) {
-        db.execSQL("DROP TABLE IF EXISTS PRODUTO; ");
-        db.execSQL("DROP TABLE IF EXISTS FABRICANTE; ");
-        db.execSQL("DROP TABLE IF EXISTS CATEGORIA; ");
+        db.execSQL("DROP TABLE IF EXISTS "+Produto.TABELA +"; ");
+        db.execSQL("DROP TABLE IF EXISTS "+Fabricante.TABELA +"; ");
+        db.execSQL("DROP TABLE IF EXISTS "+Categoria.TABELA +"; ");
         onCreate(db);
     }
 
+    private void criarTabelas(SQLiteDatabase db) {
+        db.execSQL(SQL_CREATE_FABRICANTE);
+        db.execSQL(SQL_CREATE_CATEGORIA);
+        db.execSQL(SQL_CREATE_PRODUTO);
+        db.execSQL(carregarInicialCategoria());
+    }
+
+    // TODO AVELINO REFATORAR PARA UMA CONSTANTE
     private String carregarInicialCategoria(){
 
         StringBuilder sql = new StringBuilder();
 
-        sql.append("INSERT INTO categoria (id, idPai, nome) VALUES ");
+        sql.append("INSERT INTO CATEGORIA (_id, id_pai, nome) VALUES ");
         sql.append("(1, null, null),");
         sql.append("(2, 1, 'Higiene e Saúde'),");
         sql.append("(3, 2, 'Fraldas'),");
@@ -126,5 +121,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sql.append("(18, 17, 'OUTROS');");
 
         return sql.toString();
+    }
+
+    //TODO. AVELINO: VERIFICAR SE A QUERY DEVE TER FOREIGN KEY
+    //TODO. VERIFICAR SE DEVE SER REAL OU DOUBLE
+    @Deprecated
+    private void criarTabelaProdutoOld(SQLiteDatabase db) {
+
+        String sql = "CREATE TABLE PRODUTO " +
+                "(_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "CATEGORIA_id INTEGER references CATEGORIA(_id), " +
+                "FABRICANTE_id INTEGER references FABRICANTE(_id), " +
+                "titulo TEXT NOT NULL, " +
+                "descricao TEXT, " +
+                "preco REAL );";
+        db.execSQL(sql);
+    }
+
+    @Deprecated
+    private void criarTabelaFabricante(SQLiteDatabase db) {
+        String sql = "CREATE TABLE FABRICANTE " +
+                "(_id INTEGER PRIMARY KEY AUTOINCREMENT, "+
+                "nome TEXT NOT NULL);";
+        db.execSQL(sql);
+    }
+
+    @Deprecated
+    private void criarTabelaCategoria(SQLiteDatabase db) {
+        String sql = "CREATE TABLE CATEGORIA "   +
+                " (_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                " id_Pai INTEGER, " +
+                " nome TEXT);";
+        db.execSQL(sql);
+        db.execSQL(carregarInicialCategoria());
     }
 }
