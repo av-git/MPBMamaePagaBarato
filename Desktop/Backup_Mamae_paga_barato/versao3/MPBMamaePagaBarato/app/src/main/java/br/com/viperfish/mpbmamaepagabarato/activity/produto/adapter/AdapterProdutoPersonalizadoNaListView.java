@@ -101,7 +101,7 @@ public class AdapterProdutoPersonalizadoNaListView extends BaseAdapter {
         } else if (produto.getId() == 4) {
             produtoHolder.imagem.setImageResource(R.drawable.ninho_fase1);
         } else if (produto.getId() == 6) {
-            produtoHolder.imagem.setImageResource(R.drawable.mamadeira);
+            //produtoHolder.imagem.setImageResource(R.drawable.mamadeira);
         } else {
             produtoHolder.imagem.setImageResource(R.drawable.foto);
         }

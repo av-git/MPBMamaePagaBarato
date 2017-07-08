@@ -122,7 +122,11 @@ public class ProdutoDao {
 
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
 
-        return db.insert(DatabaseHelper.Produto.TABELA, null, values);
+        long resultado = db.insert(DatabaseHelper.Produto.TABELA, null, values);
+
+        close();
+
+        return resultado;
     }
 
     public long atualizar(Produto produto) {
@@ -146,9 +150,13 @@ public class ProdutoDao {
 
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
 
-        return db.update(DatabaseHelper.Produto.TABELA,
+        int resultado = db.update(DatabaseHelper.Produto.TABELA,
                 values, DatabaseHelper.Produto._ID + " = ?",
                 new String[]{produto.getId().toString()});
+
+        close();
+
+        return resultado;
     }
 
     /**

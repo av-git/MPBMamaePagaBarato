@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">"MPB Mamae Paga Barato "</string>
+    <string name="app_name">"MPB Mamae Paga Barato"</string>
     <string name="titulo_produto">Título</string>
+    <string name="titulo_tipo_anuncio">Tipo de Anúncio</string>
     <string name="titulo_produto_obrigatorio">Campo Título Obrigatório!</string>
     <string name="descricao_produto">Descrição</string>
     <string name="categoria_produto">Categoria</string>

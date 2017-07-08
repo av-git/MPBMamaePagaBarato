@@ -37,7 +37,7 @@ public class ListaProdutosActivity extends AppCompatActivity {
 
         configurarAcaoOnClickLista();
 
-        //carregarListaProdutos(); // carrega a lista no OnResume Boa pratica pois a Activity poderia estar Em Pause
+        //carregarListaProdutos(); // carrega a lista no OnResume. Boa pratica pois a Activity poderia estar Em Pause
         configurarBotaoFlutuanteNovo();
     }
 
@@ -132,8 +132,11 @@ public class ListaProdutosActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Navegacao para uma nova activity Formulario
-                Intent irParaFormularioProduto = new Intent(ListaProdutosActivity.this, FormularioProdutoActivity.class);
-                startActivity(irParaFormularioProduto);
+                //Intent irParaFormularioProduto = new Intent(ListaProdutosActivity.this, FormularioProdutoActivity.class);
+                //startActivity(irParaFormularioProduto);
+                //Navegacao para uma nova activity Formulario
+                Intent irParaFormularioCategoriaAnuncio = new Intent(ListaProdutosActivity.this, CategoriaAnuncioActivity.class);
+                startActivity(irParaFormularioCategoriaAnuncio);
             }
         });
     }
@@ -183,6 +186,7 @@ public class ListaProdutosActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         Log.i("Avelino", "ListaProdutosActivity OnDestroy");
+
         super.onDestroy();
     }
 }

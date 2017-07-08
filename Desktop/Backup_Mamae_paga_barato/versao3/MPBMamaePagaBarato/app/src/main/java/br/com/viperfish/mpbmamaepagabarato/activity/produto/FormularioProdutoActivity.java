@@ -74,9 +74,7 @@ public class FormularioProdutoActivity extends AppCompatActivity {
 
                     Log.i("Avelino", "Salvando o Produto: " +produto.toString());
                     salvar(produto);
-
-                    Toast.makeText(FormularioProdutoActivity.this, "Registrado com sucesso. Obrigado", Toast.LENGTH_LONG).show();
-                    finish();
+                    finish(); // Finaliza a Activity e volta para a quem chamou
                 }
                 break;
 
@@ -94,10 +92,29 @@ public class FormularioProdutoActivity extends AppCompatActivity {
 
         //NOVO REGISTRO
         if (produto.getId() == null ) {
-            produtoDao.inserir(produto);
+            inserir(produto, produtoDao);
         } else {
             //ALTERAR REGISTRO
-            produtoDao.atualizar(produto);
+            alterar(produto, produtoDao);
+        }
+    }
+
+    private void alterar(Produto produto, ProdutoDao produtoDao) {
+        long resultado = produtoDao.atualizar(produto);
+        if (resultado > 0 ) {
+            Toast.makeText(FormularioProdutoActivity.this, "Alterado com sucesso. Obrigado", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(FormularioProdutoActivity.this, "Ocorreu um erro ao salvar. Tente novamente", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void inserir(Produto produto, ProdutoDao produtoDao) {
+        long resultado = produtoDao.inserir(produto);
+
+        if (resultado != -1 ) {
+            Toast.makeText(FormularioProdutoActivity.this, "Registrado com sucesso. Obrigado", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(FormularioProdutoActivity.this, "Ocorreu um erro ao salvar. Tente novamente", Toast.LENGTH_LONG).show();
         }
     }
 
