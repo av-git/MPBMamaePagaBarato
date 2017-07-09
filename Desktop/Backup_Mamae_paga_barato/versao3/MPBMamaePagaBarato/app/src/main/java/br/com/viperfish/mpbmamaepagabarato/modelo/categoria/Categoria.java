@@ -1,10 +1,12 @@
 package br.com.viperfish.mpbmamaepagabarato.modelo.categoria;
 
+import java.io.Serializable;
+
 /**
  * Created by Av on 16/11/2016.
  */
 
-public class Categoria {
+public class Categoria implements Serializable {
 
     private Long id;
     private Long idPai;

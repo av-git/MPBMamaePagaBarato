@@ -1,9 +1,6 @@
 package br.com.viperfish.mpbmamaepagabarato.modelo.produto;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-
-import br.com.viperfish.mpbmamaepagabarato.activity.produto.FormularioProdutoActivity;
 
 /**
  * Created by av on 13/11/16.

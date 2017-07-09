@@ -1,9 +1,12 @@
-package br.com.viperfish.mpbmamaepagabarato.activity.produto;
+package br.com.viperfish.mpbmamaepagabarato.activity.produto.formularios;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -13,18 +16,15 @@ import java.util.List;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
 import br.com.viperfish.mpbmamaepagabarato.activity.produto.adapter.AdapterCategoriaPersonalizadoNaListView;
-import br.com.viperfish.mpbmamaepagabarato.activity.produto.adapter.AdapterProdutoPersonalizadoNaListView;
 import br.com.viperfish.mpbmamaepagabarato.dao.categoria.CategoriaDao;
-import br.com.viperfish.mpbmamaepagabarato.dao.produto.ProdutoDao;
 import br.com.viperfish.mpbmamaepagabarato.modelo.categoria.Categoria;
-import br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto;
 
 public class CategoriaAnuncioActivity extends AppCompatActivity {
 
     private List<Categoria> listaCategorias;
+    private ListView listViewCategoria;
+    //private static final String EXTRA_CATEGORIA_SELECIONADA = "CATEGORIA.EXTRA_CATEGORIA_SELECIONADA";
 
-    //Representa a lista de produtos.
-    ListView listViewCategoria;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +65,10 @@ public class CategoriaAnuncioActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> lista, View item, int posicao, long id) {
                 Categoria categoria = (Categoria) lista.getItemAtPosition(posicao);
                 Toast.makeText(CategoriaAnuncioActivity.this, "Produto selecionado: " + categoria.getNome(), Toast.LENGTH_LONG).show();
-                //navegarParaTelaMaisInformacoes(categoria);
+
+                Intent irParaFormularioSubCategoriaAnuncio = new Intent(CategoriaAnuncioActivity.this, SubCategoriaActivity.class);
+                irParaFormularioSubCategoriaAnuncio.putExtra(SubCategoriaActivity.EXTRA_CATEGORIA_SELECIONADA, categoria);
+                startActivity(irParaFormularioSubCategoriaAnuncio);
 
             }
         });
@@ -81,7 +84,8 @@ public class CategoriaAnuncioActivity extends AppCompatActivity {
     private void popularListViewComCategorias() {
 
         CategoriaDao categoriaDao = new CategoriaDao(CategoriaAnuncioActivity.this);
-        listaCategorias = categoriaDao.buscarPorIdPai();
+
+        listaCategorias = categoriaDao.buscarPorIdPai(new Long(1)); // obtem as categorias pai
 
         if (listaCategorias != null && !listaCategorias.isEmpty()) {
             //precisamos criar um adapter para colocar os dados no ListView
@@ -92,39 +96,50 @@ public class CategoriaAnuncioActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
-        Log.i("Avelino", "FormularioProdutoActivity OnStart");
+        Log.i("Avelino", "CategoriaAnuncioActivity OnStart");
     }
 
     @Override
     protected void onResume() {
-        Log.i("Avelino", "FormularioProdutoActivity OnResume");
+        Log.i("Avelino", "CategoriaAnuncioActivity OnResume");
         carregarListaCategorias();
         super.onResume();
     }
 
     @Override
     protected void onRestart() {
-        Log.i("Avelino", "FormularioProdutoActivity OnRestart");
+        Log.i("Avelino", "CategoriaAnuncioActivity OnRestart");
         super.onRestart();
     }
 
     @Override
     protected void onPause() {
-        Log.i("Avelino", "FormularioProdutoActivity OnPause");
+        Log.i("Avelino", "CategoriaAnuncioActivity OnPause");
         super.onPause();
     }
 
     @Override
     protected void onStop() {
-        Log.i("Avelino", "FormularioProdutoActivity OnStop");
+        Log.i("Avelino", "CategoriaAnuncioActivity OnStop");
         super.onStop();
     }
 
     @Override
     protected void onDestroy() {
-        Log.i("Avelino", "FormularioProdutoActivity OnDestroy");
+        Log.i("Avelino", "CategoriaAnuncioActivity OnDestroy");
         super.onDestroy();
     }
 }

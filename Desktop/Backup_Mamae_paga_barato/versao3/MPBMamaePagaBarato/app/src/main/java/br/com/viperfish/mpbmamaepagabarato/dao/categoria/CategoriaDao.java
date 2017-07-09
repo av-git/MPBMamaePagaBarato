@@ -3,13 +3,10 @@ package br.com.viperfish.mpbmamaepagabarato.dao.categoria;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.viperfish.mpbmamaepagabarato.ConexaoBancoDados;
 import br.com.viperfish.mpbmamaepagabarato.dao.DatabaseHelper;
 import br.com.viperfish.mpbmamaepagabarato.modelo.categoria.Categoria;
 
@@ -50,9 +47,7 @@ public class CategoriaDao {
         return categorias;
     }
 
-    public List<Categoria> buscarPorIdPai() {
-
-        Integer idPai = 1; //Filtra somente a categoria Pai
+    public List<Categoria> buscarPorIdPai(Long idPai) {
 
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
 

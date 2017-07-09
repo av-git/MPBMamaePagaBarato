@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/activity_categoria_anuncio"
+    android:id="@+id/activity_sub_categoria_anuncio"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -11,7 +11,7 @@
         android:textSize="20sp" />
 
     <ListView
-        android:id="@+id/lista_categoria"
+        android:id="@+id/lista_sub_categoria"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="50dp" />

@@ -1,15 +1,8 @@
 package br.com.viperfish.mpbmamaepagabarato.activity.produto.helper;
 
 import android.content.res.Resources;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.validation.Validator;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
 import br.com.viperfish.mpbmamaepagabarato.activity.produto.FormularioProdutoActivity;

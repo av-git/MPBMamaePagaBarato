@@ -10,9 +10,7 @@ import java.util.List;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
 import br.com.viperfish.mpbmamaepagabarato.activity.produto.holder.CategoriaViewHolder;
-import br.com.viperfish.mpbmamaepagabarato.activity.produto.holder.ProdutoViewHolder;
 import br.com.viperfish.mpbmamaepagabarato.modelo.categoria.Categoria;
-import br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto;
 
 /**
  * Classe de Apoio para Personalizar a exibicao dos dados do produto na ListView

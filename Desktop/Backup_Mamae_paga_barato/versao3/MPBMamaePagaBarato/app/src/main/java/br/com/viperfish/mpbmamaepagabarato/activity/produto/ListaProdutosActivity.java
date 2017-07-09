@@ -1,8 +1,8 @@
 package br.com.viperfish.mpbmamaepagabarato.activity.produto;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,9 +14,8 @@ import java.util.List;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
 import br.com.viperfish.mpbmamaepagabarato.activity.produto.adapter.AdapterProdutoPersonalizadoNaListView;
-import br.com.viperfish.mpbmamaepagabarato.dao.categoria.CategoriaDao;
+import br.com.viperfish.mpbmamaepagabarato.activity.produto.formularios.CategoriaAnuncioActivity;
 import br.com.viperfish.mpbmamaepagabarato.dao.produto.ProdutoDao;
-import br.com.viperfish.mpbmamaepagabarato.modelo.categoria.Categoria;
 import br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto;
 
 public class ListaProdutosActivity extends AppCompatActivity {

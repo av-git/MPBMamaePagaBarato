@@ -13,4 +13,10 @@
     <string name="usado">Usado</string>
     <string name="salvar">Salvar</string>
     <string name="Voltar">Voltar</string>
+    <string name="proximo">Próximo</string>
+    <string name="qualTituloDoSeuAnuncio">Qual Título do seu anúncio ?</string>
+    <string name="exemplo_preencher_titulo">Ex.: Fralda Pampers 34 unidades, Leite NAN 3 400g</string>
+    <string name="qualDescricaoSeuAnuncio">Qual a descrição do seu anúncio ?</string>
+    <string name="exemplo_preencher_descricao_anuncio">Ex.: Corram mães. Promoção das Fraldas Pamper com 80 unid. Até as 20hs de hoje no supermecado!! :)</string>
+    <string name="qualPrecoAnuncio">Qual o preço do anúncio ?</string>
 </resources>

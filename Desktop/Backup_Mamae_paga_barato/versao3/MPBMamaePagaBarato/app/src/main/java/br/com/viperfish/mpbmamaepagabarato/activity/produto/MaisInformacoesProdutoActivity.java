@@ -1,13 +1,12 @@
 package br.com.viperfish.mpbmamaepagabarato.activity.produto;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
-import br.com.viperfish.mpbmamaepagabarato.activity.produto.helper.FormularioProdutoHelper;
 import br.com.viperfish.mpbmamaepagabarato.activity.produto.helper.MaisInformacoesProdutoHelper;
 import br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto;
 
