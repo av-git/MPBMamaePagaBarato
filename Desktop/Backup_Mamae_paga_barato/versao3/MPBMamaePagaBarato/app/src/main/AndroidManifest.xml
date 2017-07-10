@@ -34,49 +34,22 @@
                 android:value="br.com.viperfish.mpbmamaepagabarato.activity.produto.ListaProdutosActivity" />
         </activity>
         <activity
-            android:name=".activity.produto.formularios.CategoriaAnuncioActivity"
-            android:parentActivityName=".activity.produto.ListaProdutosActivity">
+            android:name=".activity.produto.formularios.CategoriaAnuncioActivity" >
 
-            <!-- Configura a nevagacao do botao voltar para listagem de anuncios -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="br.com.viperfish.mpbmamaepagabarato.activity.produto.ListaProdutosActivity" />
+
         </activity>
         <activity
-            android:name=".activity.produto.formularios.SubCategoriaActivity"
-            android:parentActivityName=".activity.produto.formularios.CategoriaAnuncioActivity">
+            android:name=".activity.produto.formularios.SubCategoriaActivity">
 
-            <!-- Configura a nevagacao do botao voltar para categoria -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="br.com.viperfish.mpbmamaepagabarato.activity.produto.formularios.CategoriaAnuncioActivity" />
         </activity>
         <activity
-            android:name=".activity.produto.formularios.TituloAnuncioActivity"
-            android:parentActivityName=".activity.produto.formularios.SubCategoriaActivity">
-
-            <!-- Configura a nevagacao do botao voltar para listagem das sub categorias -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="br.com.viperfish.mpbmamaepagabarato.activity.produto.formularios.SubCategoriaActivity" />
-        </activity>
-        <activity android:name=".activity.produto.formularios.DescricaoAnuncioActivity"
-                  android:parentActivityName=".activity.produto.formularios.TituloAnuncioActivity">
-
-            <!-- Configura a nevagacao do botao voltar para formulario do titulo do anuncio -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="br.com.viperfish.mpbmamaepagabarato.activity.produto.formularios.TituloAnuncioActivity" />
+            android:name=".activity.produto.formularios.TituloAnuncioActivity">
 
         </activity>
-        <activity android:name=".activity.produto.formularios.QualPrecoActivity"
-                  android:parentActivityName=".activity.produto.formularios.DescricaoAnuncioActivity">
+        <activity android:name=".activity.produto.formularios.DescricaoAnuncioActivity">
 
-            <!-- Configura a nevagacao do botao voltar para formulario do descricao do anuncio -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="br.com.viperfish.mpbmamaepagabarato.activity.produto.formularios.DescricaoAnuncioActivity" />
-
+        </activity>
+        <activity android:name=".activity.produto.formularios.QualPrecoActivity">
 
         </activity>
 

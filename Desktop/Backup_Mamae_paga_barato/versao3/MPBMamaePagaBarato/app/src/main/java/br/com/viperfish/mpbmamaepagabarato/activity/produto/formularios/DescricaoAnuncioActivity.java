@@ -39,7 +39,7 @@ public class DescricaoAnuncioActivity extends AppCompatActivity {
     private void configurarBotaoVoltarParaTelaPrincipal() {
 
         final ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
 
@@ -58,8 +58,7 @@ public class DescricaoAnuncioActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
+                finish();
         }
         return super.onOptionsItemSelected(item);
     }
