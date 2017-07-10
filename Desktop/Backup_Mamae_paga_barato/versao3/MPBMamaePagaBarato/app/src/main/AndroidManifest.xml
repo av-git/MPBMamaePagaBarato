@@ -33,25 +33,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="br.com.viperfish.mpbmamaepagabarato.activity.produto.ListaProdutosActivity" />
         </activity>
-        <activity
-            android:name=".activity.produto.formularios.CategoriaAnuncioActivity" >
-
-
-        </activity>
-        <activity
-            android:name=".activity.produto.formularios.SubCategoriaActivity">
-
-        </activity>
-        <activity
-            android:name=".activity.produto.formularios.TituloAnuncioActivity">
-
-        </activity>
-        <activity android:name=".activity.produto.formularios.DescricaoAnuncioActivity">
-
-        </activity>
-        <activity android:name=".activity.produto.formularios.QualPrecoActivity">
-
-        </activity>
+        
+        <activity android:name=".activity.produto.formularios.CategoriaAnuncioActivity"></activity>
+        <activity android:name=".activity.produto.formularios.SubCategoriaActivity"></activity>
+        <activity android:name=".activity.produto.formularios.TituloAnuncioActivity"></activity>
+        <activity android:name=".activity.produto.formularios.DescricaoAnuncioActivity"></activity>
+        <activity android:name=".activity.produto.formularios.QualPrecoActivity"></activity>
+        <activity android:name=".activity.produto.formularios.ResumoAnuncioActivity"></activity>
 
     </application>
 
