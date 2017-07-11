@@ -18,13 +18,13 @@ import br.com.viperfish.mpbmamaepagabarato.R;
 import br.com.viperfish.mpbmamaepagabarato.activity.produto.adapter.AdapterCategoriaPersonalizadoNaListView;
 import br.com.viperfish.mpbmamaepagabarato.dao.categoria.CategoriaDao;
 import br.com.viperfish.mpbmamaepagabarato.modelo.categoria.Categoria;
+import br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto;
 
 public class CategoriaAnuncioActivity extends AppCompatActivity {
 
     private List<Categoria> listaCategorias;
     private ListView listViewCategoria;
-    //private static final String EXTRA_CATEGORIA_SELECIONADA = "CATEGORIA.EXTRA_CATEGORIA_SELECIONADA";
-
+    private Produto dadosAnuncio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,25 +34,17 @@ public class CategoriaAnuncioActivity extends AppCompatActivity {
         setTitle("Cadastrar Anúncio");
         configurarBotaoVoltarParaTelaPrincipal();
 
-        Log.i("Avelino", "FormularioProdutoActivity OnCreate");
+        Log.i("Avelino", "CategoriaAnuncioActivity OnCreate");
 
         //recupera componente ListView (Bynding)
         listViewCategoria = (ListView) findViewById(R.id.lista_categoria);
         configurarAcaoOnClickLista();
     }
 
-    /**
-     * adicionar um Up botão para uma atividade declarando o pai
-     * da atividade no manifesto, e permitindo que o de barra de aplicativos Up botão
-     *
-     * disponivel em: https://developer.android.com/training/appbar/up-action.html
-     */
-    private void configurarBotaoVoltarParaTelaPrincipal() {
-        // Set up action bar.
-        final ActionBar actionBar = getSupportActionBar();
 
-        // Specify that the Home button should show an "Up" caret, indicating that touching the
-        // button will take the user one step up in the application's hierarchy.
+    private void configurarBotaoVoltarParaTelaPrincipal() {
+
+        final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
@@ -63,11 +55,15 @@ public class CategoriaAnuncioActivity extends AppCompatActivity {
         listViewCategoria.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> lista, View item, int posicao, long id) {
+
                 Categoria categoria = (Categoria) lista.getItemAtPosition(posicao);
-                Toast.makeText(CategoriaAnuncioActivity.this, "Produto selecionado: " + categoria.getNome(), Toast.LENGTH_LONG).show();
+                Toast.makeText(CategoriaAnuncioActivity.this, "categoria selecionado: " + categoria.getNome(), Toast.LENGTH_LONG).show();
+
+                dadosAnuncio = new Produto();
+                dadosAnuncio.setCategoria(categoria);
 
                 Intent irParaFormularioSubCategoriaAnuncio = new Intent(CategoriaAnuncioActivity.this, SubCategoriaActivity.class);
-                irParaFormularioSubCategoriaAnuncio.putExtra(SubCategoriaActivity.EXTRA_CATEGORIA_SELECIONADA, categoria);
+                irParaFormularioSubCategoriaAnuncio.putExtra(SubCategoriaActivity.EXTRA_DADOS_ANUNCIO, dadosAnuncio);
                 startActivity(irParaFormularioSubCategoriaAnuncio);
 
             }

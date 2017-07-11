@@ -1,5 +1,6 @@
 package br.com.viperfish.mpbmamaepagabarato.activity.produto.formularios;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
@@ -12,8 +13,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
+import br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto;
 
 public class QualPrecoActivity extends AppCompatActivity {
+
+    public static final String EXTRA_DADOS_ANUNCIO = "EXTRA_DADOS_ANUNCIO";
+    private Produto dadosAnuncio;
 
     EditText precoAnuncioEditText;
 
@@ -27,6 +32,9 @@ public class QualPrecoActivity extends AppCompatActivity {
 
         Log.i("Avelino", "QualPrecoActivity OnCreate");
         this.precoAnuncioEditText = (EditText) findViewById(R.id.formulario_qual_preco_anuncio);
+
+        Intent intent = getIntent();
+        dadosAnuncio = (Produto) intent.getSerializableExtra(EXTRA_DADOS_ANUNCIO);
     }
 
     /**
@@ -47,9 +55,11 @@ public class QualPrecoActivity extends AppCompatActivity {
 
         Toast.makeText(QualPrecoActivity.this, text.toString()+ " Registrado com sucesso. Obrigado", Toast.LENGTH_LONG).show();
 
-        //Intent irParaFormularioSubCategoriaAnuncio = new Intent(DescricaoAnuncioActivity.this, SubCategoriaActivity.class);
-        //irParaFormularioSubCategoriaAnuncio.putExtra(SubCategoriaActivity.EXTRA_CATEGORIA_SELECIONADA, categoria);
-        //startActivity(irParaFormularioSubCategoriaAnuncio);
+        dadosAnuncio.setPreco(Double.valueOf(text.toString()));
+
+        Intent irParaFormularioResumoAnuncio = new Intent(QualPrecoActivity.this, ResumoAnuncioActivity.class);
+        irParaFormularioResumoAnuncio.putExtra(ResumoAnuncioActivity.EXTRA_DADOS_ANUNCIO, dadosAnuncio);
+        startActivity(irParaFormularioResumoAnuncio);
     }
 
     @Override

@@ -18,11 +18,13 @@ import br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto;
 
 public class TituloAnuncioActivity extends AppCompatActivity {
 
-    public static final String EXTRA_SUB_CATEGORIA_SELECIONADA = "EXTRA_SUB_CATEGORIA_SELECIONADA";
+    public static final String EXTRA_DADOS_ANUNCIO = "EXTRA_DADOS_ANUNCIO";
 
     Categoria categoriaSelecionada;
 
     EditText tituloAnuncioEditText;
+
+    private Produto dadosAnuncio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,9 @@ public class TituloAnuncioActivity extends AppCompatActivity {
 
         Log.i("Avelino", "TituloAnuncioActivity OnCreate");
         this.tituloAnuncioEditText = (EditText) findViewById(R.id.formulario_titulo_anuncio);
+
+        Intent intent = getIntent();
+        dadosAnuncio = (Produto) intent.getSerializableExtra(EXTRA_DADOS_ANUNCIO);
     }
 
     /**
@@ -60,7 +65,10 @@ public class TituloAnuncioActivity extends AppCompatActivity {
 
         Toast.makeText(TituloAnuncioActivity.this, text.toString()+ " Registrado com sucesso. Obrigado", Toast.LENGTH_LONG).show();
 
+        dadosAnuncio.setTitulo(text.toString());
+
         Intent irParaFormularioDescricaoAnuncio = new Intent(TituloAnuncioActivity.this, DescricaoAnuncioActivity.class);
+        irParaFormularioDescricaoAnuncio.putExtra(DescricaoAnuncioActivity.EXTRA_DADOS_ANUNCIO, dadosAnuncio);
         startActivity(irParaFormularioDescricaoAnuncio);
     }
 

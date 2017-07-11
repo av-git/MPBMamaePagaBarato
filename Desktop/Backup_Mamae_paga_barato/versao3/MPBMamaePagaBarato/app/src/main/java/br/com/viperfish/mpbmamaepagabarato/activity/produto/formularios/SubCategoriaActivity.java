@@ -18,6 +18,7 @@ import br.com.viperfish.mpbmamaepagabarato.R;
 import br.com.viperfish.mpbmamaepagabarato.activity.produto.adapter.AdapterCategoriaPersonalizadoNaListView;
 import br.com.viperfish.mpbmamaepagabarato.dao.categoria.CategoriaDao;
 import br.com.viperfish.mpbmamaepagabarato.modelo.categoria.Categoria;
+import br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto;
 
 public class SubCategoriaActivity extends AppCompatActivity {
 
@@ -27,9 +28,9 @@ public class SubCategoriaActivity extends AppCompatActivity {
     //Representa a lista de produtos.
     ListView listViewSubCategoria;
 
-    Categoria categoriaSelecionada;
+    private Produto dadosAnuncio;
 
-    public static final String EXTRA_CATEGORIA_SELECIONADA = "EXTRA_CATEGORIA_SELECIONADA";
+    public static final String EXTRA_DADOS_ANUNCIO = "EXTRA_DADOS_ANUNCIO";
 
 
     @Override
@@ -47,7 +48,7 @@ public class SubCategoriaActivity extends AppCompatActivity {
         configurarAcaoOnClickLista();
 
         Intent intent = getIntent();
-        categoriaSelecionada = (Categoria) intent.getSerializableExtra(EXTRA_CATEGORIA_SELECIONADA);
+        dadosAnuncio = (Produto) intent.getSerializableExtra(EXTRA_DADOS_ANUNCIO);
     }
 
     /**
@@ -76,8 +77,10 @@ public class SubCategoriaActivity extends AppCompatActivity {
                 Categoria subCategoria = (Categoria) lista.getItemAtPosition(posicao);
                 Toast.makeText(SubCategoriaActivity.this, "sub categoria selecionado: " + subCategoria.getNome(), Toast.LENGTH_LONG).show();
 
+                dadosAnuncio.setSubCategoria(subCategoria);
+
                 Intent irParaFormularioTituloAnuncio = new Intent(SubCategoriaActivity.this, TituloAnuncioActivity.class);
-                irParaFormularioTituloAnuncio.putExtra(TituloAnuncioActivity.EXTRA_SUB_CATEGORIA_SELECIONADA, subCategoria);
+                irParaFormularioTituloAnuncio.putExtra(TituloAnuncioActivity.EXTRA_DADOS_ANUNCIO, dadosAnuncio);
                 startActivity(irParaFormularioTituloAnuncio);
 
             }
@@ -94,7 +97,7 @@ public class SubCategoriaActivity extends AppCompatActivity {
     private void popularListViewComSubCategorias() {
 
         CategoriaDao categoriaDao = new CategoriaDao(SubCategoriaActivity.this);
-        listaSubCategorias = categoriaDao.buscarPorIdPai(categoriaSelecionada.getId());
+        listaSubCategorias = categoriaDao.buscarPorIdPai(dadosAnuncio.getCategoria().getId());
 
         if (listaSubCategorias != null && !listaSubCategorias.isEmpty()) {
             //precisamos criar um adapter para colocar os dados no ListView

@@ -116,7 +116,7 @@ public class ListaProdutosActivity extends AppCompatActivity {
         List<Produto> produtos = produtoDao.buscarTodos();
 
         for (Produto p : produtos){
-           Log.i("avelino: ", "Listando os produtos"+ String.valueOf(p.toString()));
+            Log.i("avelino: ", "Listando os produtos"+ String.valueOf(p.toString()));
         }
         //TODO AVELINO. REMOVER. ESTOU SO FORCANDO UMA ATUALIZACAO DA LISTA VIA BANCO DE DADOS
         listaProdutos.addAll(produtos);

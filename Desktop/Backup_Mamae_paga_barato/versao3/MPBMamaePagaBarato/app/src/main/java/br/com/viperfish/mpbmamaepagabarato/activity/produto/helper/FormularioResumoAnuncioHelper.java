@@ -6,6 +6,7 @@ import android.widget.EditText;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
 import br.com.viperfish.mpbmamaepagabarato.activity.produto.FormularioProdutoActivity;
+import br.com.viperfish.mpbmamaepagabarato.activity.produto.formularios.ResumoAnuncioActivity;
 import br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto;
 import util.Validador;
 
@@ -13,32 +14,31 @@ import util.Validador;
  * Created by ddark on 13/11/16.
  */
 
-public class FormularioProdutoHelper {
+public class FormularioResumoAnuncioHelper {
 
     private final EditText campoTitulo;
     private final EditText campoDescricao;
     private final EditText campoCategoria;
-    private final EditText campoTipo;
     private final EditText campoPreco;
-    private final FormularioProdutoActivity activity;
+    private final ResumoAnuncioActivity activity;
+
     private Produto produto;
     private Resources recursos;
 
     //private List<View> camposObrigatorios = new ArrayList<View>();
 
-    public FormularioProdutoHelper(FormularioProdutoActivity activity) {
+    public FormularioResumoAnuncioHelper(ResumoAnuncioActivity activity) {
 
         this.activity = activity;
         recursos = activity.getResources();
         //camposObrigatorios.add(campoTitulo);
 
-        campoTitulo = (EditText) obterViewById(R.id.formulario_produto_titulo);
-        campoDescricao = (EditText) obterViewById(R.id.formulario_produto_descricao);
-        campoCategoria = (EditText) obterViewById(R.id.formulario_produto_categoria);
-        campoTipo = (EditText) obterViewById(R.id.formulario_produto_tipo);
-        campoPreco = (EditText) obterViewById(R.id.formulario_produto_preco);
-        //Falta pegar o radio
-        //activity.findViewById(R.id.formulario_produto_preco);
+        campoTitulo = (EditText) obterViewById(R.id.resumo_anuncio_titulo);
+        campoDescricao = (EditText) obterViewById(R.id.resumo_anuncio_descricao);
+        campoCategoria = (EditText) obterViewById(R.id.resumo_anuncio_categoria);
+        //campoTipo = (EditText) obterViewById(R.id.formulario_produto_tipo);
+        campoPreco = (EditText) obterViewById(R.id.resumo_anuncio_preco);
+
         produto = new Produto();
     }
 
@@ -46,6 +46,7 @@ public class FormularioProdutoHelper {
         return this.activity.findViewById(idView);
     }
 
+    //TODO descomentar assim que for implementado
     public Produto obterProduto() {
 
         produto.setTitulo(campoTitulo.getText().toString());
@@ -64,6 +65,8 @@ public class FormularioProdutoHelper {
 
         campoTitulo.setText(produto.getTitulo());
         campoDescricao.setText(produto.getDescricao());
+        campoCategoria.setText(produto.getCategoria().toString());
+        campoPreco.setText(produto.getPreco().toString());
 
         this.produto = produto;
     }
@@ -71,8 +74,8 @@ public class FormularioProdutoHelper {
     public boolean isCamposObritagoriosPreenchidos(){
 
 
-        // if (TextUtils.isEmpty("")) {
-        //   campoTitulo.setError("adasda");
+       // if (TextUtils.isEmpty("")) {
+         //   campoTitulo.setError("adasda");
         //}
 
         return Validador.validarCamposObrigatorios(campoTitulo, recursos.getString(R.string.titulo_produto_obrigatorio))

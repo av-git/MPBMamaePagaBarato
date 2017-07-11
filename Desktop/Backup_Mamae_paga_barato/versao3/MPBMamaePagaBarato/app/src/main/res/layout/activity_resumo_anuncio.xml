@@ -5,7 +5,7 @@
 
     <LinearLayout
 
-        android:id="@+id/activity_mais_informacoes_produto"
+        android:id="@+id/activity_resumo_anuncio"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -16,9 +16,8 @@
             android:text="@string/titulo_produto" />
 
         <EditText
-            android:id="@+id/mais_informacoes_produto_titulo"
+            android:id="@+id/resumo_anuncio_titulo"
             android:layout_width="match_parent"
-            android:enabled="false"
             android:layout_height="wrap_content" />
 
         <TextView
@@ -27,8 +26,7 @@
             android:text="@string/descricao_produto" />
 
         <EditText
-            android:id="@+id/mais_informacoes_produto_descricao"
-            android:enabled="false"
+            android:id="@+id/resumo_anuncio_descricao"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="4" />
@@ -36,11 +34,20 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@string/categoria_produto" />
+
+        <EditText
+            android:id="@+id/resumo_anuncio_categoria"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/preco_produto" />
 
         <EditText
-            android:id="@+id/mais_informacoes_produto_preco"
-            android:enabled="false"
+            android:id="@+id/resumo_anuncio_preco"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"

@@ -13,8 +13,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
+import br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto;
 
 public class DescricaoAnuncioActivity extends AppCompatActivity {
+
+    public static final String EXTRA_DADOS_ANUNCIO = "EXTRA_DADOS_ANUNCIO";
+    private Produto dadosAnuncio;
 
     EditText descricaoAnuncioEditText;
 
@@ -28,6 +32,9 @@ public class DescricaoAnuncioActivity extends AppCompatActivity {
 
         Log.i("Avelino", "DescricaoAnuncioActivity OnCreate");
         this.descricaoAnuncioEditText = (EditText) findViewById(R.id.formulario_descricao_anuncio);
+
+        Intent intent = getIntent();
+        dadosAnuncio = (Produto) intent.getSerializableExtra(EXTRA_DADOS_ANUNCIO);
     }
 
     /**
@@ -48,8 +55,10 @@ public class DescricaoAnuncioActivity extends AppCompatActivity {
 
         Toast.makeText(DescricaoAnuncioActivity.this, text.toString()+ " Registrado com sucesso. Obrigado", Toast.LENGTH_LONG).show();
 
+        dadosAnuncio.setDescricao(text.toString());
+
         Intent irParaFormularioQualPrecoAnuncio = new Intent(DescricaoAnuncioActivity.this, QualPrecoActivity.class);
-        //irParaFormularioSubCategoriaAnuncio.putExtra(SubCategoriaActivity.EXTRA_CATEGORIA_SELECIONADA, categoria);
+        irParaFormularioQualPrecoAnuncio.putExtra(QualPrecoActivity.EXTRA_DADOS_ANUNCIO, dadosAnuncio);
         startActivity(irParaFormularioQualPrecoAnuncio);
     }
 
