@@ -1,8 +1,7 @@
-package br.com.viperfish.mpbmamaepagabarato.activity.produto.formularios;
+package br.com.viperfish.mpbmamaepagabarato.activity.anuncio.formularios;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -15,16 +14,16 @@ import android.widget.Toast;
 import java.util.List;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
-import br.com.viperfish.mpbmamaepagabarato.activity.produto.adapter.AdapterCategoriaPersonalizadoNaListView;
+import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.adapter.AdapterCategoriaPersonalizadoNaListView;
 import br.com.viperfish.mpbmamaepagabarato.dao.categoria.CategoriaDao;
 import br.com.viperfish.mpbmamaepagabarato.modelo.categoria.Categoria;
-import br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto;
+import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
 
 public class CategoriaAnuncioActivity extends AppCompatActivity {
 
     private List<Categoria> listaCategorias;
     private ListView listViewCategoria;
-    private Produto dadosAnuncio;
+    private Anuncio dadosAnuncio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +58,7 @@ public class CategoriaAnuncioActivity extends AppCompatActivity {
                 Categoria categoria = (Categoria) lista.getItemAtPosition(posicao);
                 Toast.makeText(CategoriaAnuncioActivity.this, "categoria selecionado: " + categoria.getNome(), Toast.LENGTH_LONG).show();
 
-                dadosAnuncio = new Produto();
+                dadosAnuncio = new Anuncio();
                 dadosAnuncio.setCategoria(categoria);
 
                 Intent irParaFormularioSubCategoriaAnuncio = new Intent(CategoriaAnuncioActivity.this, SubCategoriaActivity.class);

@@ -1,12 +1,12 @@
-package br.com.viperfish.mpbmamaepagabarato.activity.produto.helper;
+package br.com.viperfish.mpbmamaepagabarato.activity.anuncio.helper;
 
 import android.content.res.Resources;
 import android.view.View;
 import android.widget.EditText;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
-import br.com.viperfish.mpbmamaepagabarato.activity.produto.FormularioProdutoActivity;
-import br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto;
+import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.FormularioProdutoActivity;
+import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
 import util.Validador;
 
 /**
@@ -21,7 +21,7 @@ public class FormularioProdutoHelper {
     private final EditText campoTipo;
     private final EditText campoPreco;
     private final FormularioProdutoActivity activity;
-    private Produto produto;
+    private Anuncio produto;
     private Resources recursos;
 
     //private List<View> camposObrigatorios = new ArrayList<View>();
@@ -39,14 +39,14 @@ public class FormularioProdutoHelper {
         campoPreco = (EditText) obterViewById(R.id.formulario_produto_preco);
         //Falta pegar o radio
         //activity.findViewById(R.id.formulario_produto_preco);
-        produto = new Produto();
+        produto = new Anuncio();
     }
 
     private View obterViewById(int idView) {
         return this.activity.findViewById(idView);
     }
 
-    public Produto obterProduto() {
+    public Anuncio obterProduto() {
 
         produto.setTitulo(campoTitulo.getText().toString());
         produto.setDescricao(campoDescricao.getText().toString());
@@ -60,7 +60,7 @@ public class FormularioProdutoHelper {
         return produto;
     }
 
-    public void preencheFormulario(Produto produto) {
+    public void preencheFormulario(Anuncio produto) {
 
         campoTitulo.setText(produto.getTitulo());
         campoDescricao.setText(produto.getDescricao());

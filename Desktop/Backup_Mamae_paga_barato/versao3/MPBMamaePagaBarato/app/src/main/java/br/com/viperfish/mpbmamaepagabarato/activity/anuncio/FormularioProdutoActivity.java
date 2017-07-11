@@ -1,4 +1,4 @@
-package br.com.viperfish.mpbmamaepagabarato.activity.produto;
+package br.com.viperfish.mpbmamaepagabarato.activity.anuncio;
 
 
 import android.os.Bundle;
@@ -11,9 +11,9 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
-import br.com.viperfish.mpbmamaepagabarato.activity.produto.helper.FormularioProdutoHelper;
-import br.com.viperfish.mpbmamaepagabarato.dao.produto.ProdutoDao;
-import br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto;
+import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.helper.FormularioProdutoHelper;
+import br.com.viperfish.mpbmamaepagabarato.dao.anuncio.AnuncioDao;
+import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
 
 public class FormularioProdutoActivity extends AppCompatActivity {
 
@@ -70,9 +70,9 @@ public class FormularioProdutoActivity extends AppCompatActivity {
                 FormularioProdutoHelper helper = new FormularioProdutoHelper(FormularioProdutoActivity.this);
 
                 if (helper.isCamposObritagoriosPreenchidos() ){
-                    Produto produto = helper.obterProduto();
+                    Anuncio produto = helper.obterProduto();
 
-                    Log.i("Avelino", "Salvando o Produto: " +produto.toString());
+                    Log.i("Avelino", "Salvando o Anuncio: " +produto.toString());
                     salvar(produto);
                     finish(); // Finaliza a Activity e volta para a quem chamou
                 }
@@ -86,21 +86,21 @@ public class FormularioProdutoActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void salvar(Produto produto) {
+    private void salvar(Anuncio produto) {
 
-        ProdutoDao produtoDao = new ProdutoDao(FormularioProdutoActivity.this);
+        AnuncioDao anuncioDao = new AnuncioDao(FormularioProdutoActivity.this);
 
         //NOVO REGISTRO
         if (produto.getId() == null ) {
-            inserir(produto, produtoDao);
+            inserir(produto, anuncioDao);
         } else {
             //ALTERAR REGISTRO
-            alterar(produto, produtoDao);
+            alterar(produto, anuncioDao);
         }
     }
 
-    private void alterar(Produto produto, ProdutoDao produtoDao) {
-        long resultado = produtoDao.atualizar(produto);
+    private void alterar(Anuncio produto, AnuncioDao anuncioDao) {
+        long resultado = anuncioDao.atualizar(produto);
         if (resultado > 0 ) {
             Toast.makeText(FormularioProdutoActivity.this, "Alterado com sucesso. Obrigado", Toast.LENGTH_LONG).show();
         } else {
@@ -108,8 +108,8 @@ public class FormularioProdutoActivity extends AppCompatActivity {
         }
     }
 
-    private void inserir(Produto produto, ProdutoDao produtoDao) {
-        long resultado = produtoDao.inserir(produto);
+    private void inserir(Anuncio produto, AnuncioDao anuncioDao) {
+        long resultado = anuncioDao.inserir(produto);
 
         if (resultado != -1 ) {
             Toast.makeText(FormularioProdutoActivity.this, "Registrado com sucesso. Obrigado", Toast.LENGTH_LONG).show();

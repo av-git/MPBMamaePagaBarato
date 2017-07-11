@@ -1,8 +1,7 @@
-package br.com.viperfish.mpbmamaepagabarato.activity.produto.formularios;
+package br.com.viperfish.mpbmamaepagabarato.activity.anuncio.formularios;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -15,10 +14,10 @@ import android.widget.Toast;
 import java.util.List;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
-import br.com.viperfish.mpbmamaepagabarato.activity.produto.adapter.AdapterCategoriaPersonalizadoNaListView;
+import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.adapter.AdapterCategoriaPersonalizadoNaListView;
 import br.com.viperfish.mpbmamaepagabarato.dao.categoria.CategoriaDao;
 import br.com.viperfish.mpbmamaepagabarato.modelo.categoria.Categoria;
-import br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto;
+import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
 
 public class SubCategoriaActivity extends AppCompatActivity {
 
@@ -28,7 +27,7 @@ public class SubCategoriaActivity extends AppCompatActivity {
     //Representa a lista de produtos.
     ListView listViewSubCategoria;
 
-    private Produto dadosAnuncio;
+    private Anuncio dadosAnuncio;
 
     public static final String EXTRA_DADOS_ANUNCIO = "EXTRA_DADOS_ANUNCIO";
 
@@ -48,7 +47,7 @@ public class SubCategoriaActivity extends AppCompatActivity {
         configurarAcaoOnClickLista();
 
         Intent intent = getIntent();
-        dadosAnuncio = (Produto) intent.getSerializableExtra(EXTRA_DADOS_ANUNCIO);
+        dadosAnuncio = (Anuncio) intent.getSerializableExtra(EXTRA_DADOS_ANUNCIO);
     }
 
     /**

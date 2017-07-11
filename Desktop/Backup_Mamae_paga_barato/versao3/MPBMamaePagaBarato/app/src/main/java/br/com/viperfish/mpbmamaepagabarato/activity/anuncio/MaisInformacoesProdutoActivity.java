@@ -1,4 +1,4 @@
-package br.com.viperfish.mpbmamaepagabarato.activity.produto;
+package br.com.viperfish.mpbmamaepagabarato.activity.anuncio;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,8 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
-import br.com.viperfish.mpbmamaepagabarato.activity.produto.helper.MaisInformacoesProdutoHelper;
-import br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto;
+import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.helper.MaisInformacoesProdutoHelper;
+import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
 
 public class MaisInformacoesProdutoActivity extends AppCompatActivity {
 
@@ -28,18 +28,18 @@ public class MaisInformacoesProdutoActivity extends AppCompatActivity {
 
     private void carregarDadosNoFormulario() {
         helper = new MaisInformacoesProdutoHelper(this);
-        Produto produto = getProduto();
+        Anuncio produto = getProduto();
         helper.preencheFormulario(produto);
     }
 
     /**
      * Recupera o produto selecionado da tela anterior atravez
      * da {@link Intent}
-     * @return Produto
+     * @return Anuncio
      */
-    private Produto getProduto() {
+    private Anuncio getProduto() {
         Intent intent = getIntent();
-        return (Produto) intent.getSerializableExtra("produto");
+        return (Anuncio) intent.getSerializableExtra("produto");
     }
 
     /**

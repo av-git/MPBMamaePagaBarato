@@ -24,38 +24,41 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         };
     }
 
-    public static class Fabricante {
-        public static final String TABELA = "FABRICANTE";
-        public static final String _ID = "_id";
-        public static final String NOME =  "nome";
-
-        public static final String[] COLUNAS = new String[] {
-                _ID, NOME
-        };
-    }
-
     public static class Produto {
         public static final String TABELA = "PRODUTO";
         public static final String _ID = "_id";
-        public static final String TITULO =  "titulo";
-        public static final String DESCRICAO =  "descricao";
-        public static final String CATEGORIA_ID =  "categoria_id";
-        public static final String FABRICANTE_ID =  "fabricante_id";
-        public static final String PRECO =  "preco";
+        public static final String NOME =  "nome";
+        public static final String SUBCATEGORIA_ID =  "subCategoria_id";
 
         public static final String[] COLUNAS = new String[] {
-                _ID, TITULO, DESCRICAO, CATEGORIA_ID, FABRICANTE_ID, PRECO
+                _ID, NOME, SUBCATEGORIA_ID
         };
     }
 
-    private static final String SQL_CREATE_PRODUTO =
-            "CREATE TABLE " + Produto.TABELA + " (" +
-                    Produto._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    Produto.CATEGORIA_ID+ " INTEGER references "+Categoria.TABELA +Produto._ID+ ", " +
-                    Produto.FABRICANTE_ID+ " INTEGER references "+Fabricante.TABELA +Produto._ID+", " +
-                    Produto.TITULO+ " TEXT, " +
-                    Produto.DESCRICAO+ " TEXT, " +
-                    Produto.PRECO + " REAL)";
+    public static class Anuncio {
+        public static final String TABELA = "ANUNCIO";
+        public static final String _ID = "_id";
+        public static final String TITULO =  "titulo";
+        public static final String DESCRICAO =  "descricao";
+        //public static final String SUBCATEGORIA_ID =  "subCategoria_id";
+        public static final String PRODUTO_ID =  "produto_id";
+        public static final String PRECO =  "preco";
+        public static final String DATA_ANUNCIO = "data_anuncio";
+
+        public static final String[] COLUNAS = new String[] {
+                _ID, TITULO, DESCRICAO, PRODUTO_ID, PRECO, DATA_ANUNCIO
+        };
+    }
+
+    private static final String SQL_CREATE_ANUNCIO =
+            "CREATE TABLE " + Anuncio.TABELA + " (" +
+                    Anuncio._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    Anuncio.PRODUTO_ID + " INTEGER, " +
+                    Anuncio.TITULO+ " TEXT, " +
+                    Anuncio.DESCRICAO+ " TEXT, " +
+                    Anuncio.DATA_ANUNCIO+ " DATE, " +
+                    Anuncio.PRECO + " REAL, " +
+                    "FOREIGN KEY (" + Anuncio.PRODUTO_ID+ ") REFERENCES "+Produto.TABELA + "(" +Produto._ID+"));";
 
     private static final String SQL_CREATE_CATEGORIA =
             "CREATE TABLE " + Categoria.TABELA + " (" +
@@ -63,10 +66,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     Categoria.IDPAI+ " INTEGER, " +
                     Categoria.NOME+ " TEXT); ";
 
-    private static final String SQL_CREATE_FABRICANTE =
-            "CREATE TABLE " + Fabricante.TABELA + " (" +
-                    Fabricante._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    Fabricante.NOME+ " TEXT NOT NULL); ";
+    private static final String SQL_CREATE_PRODUTO =
+            "CREATE TABLE " + Produto.TABELA + " (" +
+                    Produto._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    Produto.NOME+ " TEXT NOT NULL, " +
+                    Produto.SUBCATEGORIA_ID + "INTEGER references" + Categoria.TABELA + Categoria._ID+ "); ";
 
     public DatabaseHelper(Context context) {
         super(context, NOME_BANCO, null, VERSAO);
@@ -82,16 +86,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //LEMBRAR DE VERSIONAR O BANCO PARA O onUpgrade Funcionar
     @Override
     public void onUpgrade(SQLiteDatabase db, int versaoAntiga, int novaVersao) {
-        db.execSQL("DROP TABLE IF EXISTS "+Produto.TABELA +"; ");
-        db.execSQL("DROP TABLE IF EXISTS "+Fabricante.TABELA +"; ");
+        db.execSQL("DROP TABLE IF EXISTS "+ Anuncio.TABELA +"; ");
+        db.execSQL("DROP TABLE IF EXISTS "+ Produto.TABELA +"; ");
         db.execSQL("DROP TABLE IF EXISTS "+Categoria.TABELA +"; ");
         onCreate(db);
     }
 
     private void criarTabelas(SQLiteDatabase db) {
-        db.execSQL(SQL_CREATE_FABRICANTE);
-        db.execSQL(SQL_CREATE_CATEGORIA);
         db.execSQL(SQL_CREATE_PRODUTO);
+        db.execSQL(SQL_CREATE_CATEGORIA);
+        db.execSQL(SQL_CREATE_ANUNCIO);
         db.execSQL(carregarInicialCategoria());
     }
 

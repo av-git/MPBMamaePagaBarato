@@ -1,13 +1,12 @@
-package br.com.viperfish.mpbmamaepagabarato.activity.produto.helper;
+package br.com.viperfish.mpbmamaepagabarato.activity.anuncio.helper;
 
 import android.content.res.Resources;
 import android.view.View;
 import android.widget.EditText;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
-import br.com.viperfish.mpbmamaepagabarato.activity.produto.FormularioProdutoActivity;
-import br.com.viperfish.mpbmamaepagabarato.activity.produto.formularios.ResumoAnuncioActivity;
-import br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto;
+import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.formularios.ResumoAnuncioActivity;
+import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
 import util.Validador;
 
 /**
@@ -22,7 +21,7 @@ public class FormularioResumoAnuncioHelper {
     private final EditText campoPreco;
     private final ResumoAnuncioActivity activity;
 
-    private Produto produto;
+    private Anuncio produto;
     private Resources recursos;
 
     //private List<View> camposObrigatorios = new ArrayList<View>();
@@ -39,7 +38,7 @@ public class FormularioResumoAnuncioHelper {
         //campoTipo = (EditText) obterViewById(R.id.formulario_produto_tipo);
         campoPreco = (EditText) obterViewById(R.id.resumo_anuncio_preco);
 
-        produto = new Produto();
+        produto = new Anuncio();
     }
 
     private View obterViewById(int idView) {
@@ -47,7 +46,7 @@ public class FormularioResumoAnuncioHelper {
     }
 
     //TODO descomentar assim que for implementado
-    public Produto obterProduto() {
+    public Anuncio obterProduto() {
 
         produto.setTitulo(campoTitulo.getText().toString());
         produto.setDescricao(campoDescricao.getText().toString());
@@ -61,7 +60,7 @@ public class FormularioResumoAnuncioHelper {
         return produto;
     }
 
-    public void preencheFormulario(Produto produto) {
+    public void preencheFormulario(Anuncio produto) {
 
         campoTitulo.setText(produto.getTitulo());
         campoDescricao.setText(produto.getDescricao());

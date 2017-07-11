@@ -1,4 +1,4 @@
-package br.com.viperfish.mpbmamaepagabarato.activity.produto.formularios;
+package br.com.viperfish.mpbmamaepagabarato.activity.anuncio.formularios;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
@@ -12,15 +12,15 @@ import android.view.View;
 import android.widget.Toast;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
-import br.com.viperfish.mpbmamaepagabarato.activity.produto.ListaProdutosActivity;
-import br.com.viperfish.mpbmamaepagabarato.activity.produto.helper.FormularioResumoAnuncioHelper;
-import br.com.viperfish.mpbmamaepagabarato.dao.produto.ProdutoDao;
-import br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto;
+import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.ListaAnunciosActivity;
+import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.helper.FormularioResumoAnuncioHelper;
+import br.com.viperfish.mpbmamaepagabarato.dao.anuncio.AnuncioDao;
+import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
 
 public class ResumoAnuncioActivity extends AppCompatActivity {
 
     public static final String EXTRA_DADOS_ANUNCIO = "EXTRA_DADOS_ANUNCIO";
-    private Produto dadosAnuncio;
+    private Anuncio dadosAnuncio;
 
     private FormularioResumoAnuncioHelper helper;
 
@@ -41,7 +41,7 @@ public class ResumoAnuncioActivity extends AppCompatActivity {
 
         helper = new FormularioResumoAnuncioHelper(this);
         Intent intent = getIntent();
-        dadosAnuncio = (Produto) intent.getSerializableExtra(EXTRA_DADOS_ANUNCIO);
+        dadosAnuncio = (Anuncio) intent.getSerializableExtra(EXTRA_DADOS_ANUNCIO);
 
         helper.preencheFormulario(dadosAnuncio);
     }
@@ -78,10 +78,10 @@ public class ResumoAnuncioActivity extends AppCompatActivity {
 
                 FormularioResumoAnuncioHelper helper = new FormularioResumoAnuncioHelper(ResumoAnuncioActivity.this);
 
-                Log.i("Avelino", "Salvando o Produto: " + dadosAnuncio.toString());
+                Log.i("Avelino", "Salvando o Anuncio: " + dadosAnuncio.toString());
                 salvar(dadosAnuncio);
 
-                Intent intent = new Intent(getApplicationContext(), ListaProdutosActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ListaAnunciosActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("EXIT", true);
                 startActivity(intent);
@@ -98,21 +98,21 @@ public class ResumoAnuncioActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void salvar(Produto produto) {
+    private void salvar(Anuncio produto) {
 
-        ProdutoDao produtoDao = new ProdutoDao(ResumoAnuncioActivity.this);
+        AnuncioDao anuncioDao = new AnuncioDao(ResumoAnuncioActivity.this);
 
         //NOVO REGISTRO
         if (produto.getId() == null) {
-            inserir(produto, produtoDao);
+            inserir(produto, anuncioDao);
         } else {
             //ALTERAR REGISTRO
-            alterar(produto, produtoDao);
+            alterar(produto, anuncioDao);
         }
     }
 
-    private void alterar(Produto produto, ProdutoDao produtoDao) {
-        long resultado = produtoDao.atualizar(produto);
+    private void alterar(Anuncio produto, AnuncioDao anuncioDao) {
+        long resultado = anuncioDao.atualizar(produto);
         if (resultado > 0) {
             Toast.makeText(ResumoAnuncioActivity.this, "Alterado com sucesso. Obrigado", Toast.LENGTH_LONG).show();
         } else {
@@ -120,8 +120,8 @@ public class ResumoAnuncioActivity extends AppCompatActivity {
         }
     }
 
-    private void inserir(Produto produto, ProdutoDao produtoDao) {
-        long resultado = produtoDao.inserir(produto);
+    private void inserir(Anuncio produto, AnuncioDao anuncioDao) {
+        long resultado = anuncioDao.inserir(produto);
 
         if (resultado != -1) {
             Toast.makeText(ResumoAnuncioActivity.this, "Registrado com sucesso. Obrigado", Toast.LENGTH_LONG).show();
@@ -130,4 +130,39 @@ public class ResumoAnuncioActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i("Avelino", "ResumoAnuncioActivity OnStart");
+    }
+
+    @Override
+    protected void onResume() {
+        Log.i("Avelino", "ResumoAnuncioActivity OnResume");
+        super.onResume();
+    }
+
+    @Override
+    protected void onRestart() {
+        Log.i("Avelino", "ResumoAnuncioActivity OnRestart");
+        super.onRestart();
+    }
+
+    @Override
+    protected void onPause() {
+        Log.i("Avelino", "ResumoAnuncioActivity OnPause");
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        Log.i("Avelino", "ResumoAnuncioActivity OnStop");
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.i("Avelino", "ResumoAnuncioActivity OnDestroy");
+        super.onDestroy();
+    }
 }

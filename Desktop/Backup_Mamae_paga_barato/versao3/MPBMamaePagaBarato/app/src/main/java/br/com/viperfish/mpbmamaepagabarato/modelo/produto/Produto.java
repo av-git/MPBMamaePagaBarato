@@ -1,33 +1,20 @@
 package br.com.viperfish.mpbmamaepagabarato.modelo.produto;
 
-import java.io.Serializable;
-
-import br.com.viperfish.mpbmamaepagabarato.modelo.categoria.Categoria;
-
 /**
- * Created by av on 13/11/16.
+ * Created by Av on 13/11/16.
  */
-public class Produto implements Serializable {
+public class Produto {
 
     private Long id;
-    private String titulo;
-    private String descricao;
-    private Categoria categoria;
-    private Categoria subCategoria;
-    private Long categoria_id;
-    private Long fabricante_id;
-    private Double preco;
+    private String nome;
+    private Long subCategoriaId;
 
-    public Produto() {
+    public Produto(Long id, String nome) {
+        this.id = id;
+        this.nome = nome;
     }
 
-    public Produto(Long id, String titulo, String descricao, Long categoria, Long fabricante, Double preco) {
-        this.id = id;
-        this.titulo = titulo;
-        this.descricao = descricao;
-        this.categoria_id = categoria;
-        this.fabricante_id = fabricante;
-        this.preco = preco;
+    public Produto() {
     }
 
     public Long getId() {
@@ -38,71 +25,27 @@ public class Produto implements Serializable {
         this.id = id;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public String getNome() {
+        return nome;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public Long getSubCategoriaId() {
+        return subCategoriaId;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public Long getCategoria_id() {
-        return categoria_id;
-    }
-
-    public void setCategoria_id(Long categoria_id) {
-        this.categoria_id = categoria_id;
-    }
-
-    public Long getFabricante_id() {
-        return fabricante_id;
-    }
-
-    public void setFabricante_id(Long fabricante_id) {
-        this.fabricante_id = fabricante_id;
-    }
-
-    public Double getPreco() {
-        return preco;
-    }
-
-    public void setPreco(Double preco) {
-        this.preco = preco;
-    }
-
-    public Categoria getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }
-
-    public Categoria getSubCategoria() {
-        return subCategoria;
-    }
-
-    public void setSubCategoria(Categoria subCategoria) {
-        this.subCategoria = subCategoria;
+    public void setSubCategoriaId(Long subCategoriaId) {
+        this.subCategoriaId = subCategoriaId;
     }
 
     @Override
     public String toString() {
         return "Produto{" +
                 "id=" + id +
-                ", titulo='" + titulo + '\'' +
-                ", descricao='" + descricao + '\'' +
-                ", categoria_id=" + categoria_id + '\'' +
-                ", fabricante_id=" + fabricante_id + '\'' +
-                ", preco=" + preco +
+                ", nome='" + nome + '\'' +
                 '}';
     }
 }

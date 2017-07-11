@@ -1,8 +1,7 @@
-package br.com.viperfish.mpbmamaepagabarato.activity.produto.formularios;
+package br.com.viperfish.mpbmamaepagabarato.activity.anuncio.formularios;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -14,7 +13,7 @@ import android.widget.Toast;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
 import br.com.viperfish.mpbmamaepagabarato.modelo.categoria.Categoria;
-import br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto;
+import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
 
 public class TituloAnuncioActivity extends AppCompatActivity {
 
@@ -24,7 +23,7 @@ public class TituloAnuncioActivity extends AppCompatActivity {
 
     EditText tituloAnuncioEditText;
 
-    private Produto dadosAnuncio;
+    private Anuncio dadosAnuncio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +37,7 @@ public class TituloAnuncioActivity extends AppCompatActivity {
         this.tituloAnuncioEditText = (EditText) findViewById(R.id.formulario_titulo_anuncio);
 
         Intent intent = getIntent();
-        dadosAnuncio = (Produto) intent.getSerializableExtra(EXTRA_DADOS_ANUNCIO);
+        dadosAnuncio = (Anuncio) intent.getSerializableExtra(EXTRA_DADOS_ANUNCIO);
     }
 
     /**
@@ -56,7 +55,7 @@ public class TituloAnuncioActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
-    private void salvar(Produto produto) {
+    private void salvar(Anuncio produto) {
         Toast.makeText(TituloAnuncioActivity.this, produto.getTitulo() +" Registrado com sucesso. Obrigado", Toast.LENGTH_LONG).show();
     }
 
@@ -79,5 +78,41 @@ public class TituloAnuncioActivity extends AppCompatActivity {
                 finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i("Avelino", "TituloAnuncioActivity OnStart");
+    }
+
+    @Override
+    protected void onResume() {
+        Log.i("Avelino", "TituloAnuncioActivity OnResume");
+        super.onResume();
+    }
+
+    @Override
+    protected void onRestart() {
+        Log.i("Avelino", "TituloAnuncioActivity OnRestart");
+        super.onRestart();
+    }
+
+    @Override
+    protected void onPause() {
+        Log.i("Avelino", "TituloAnuncioActivity OnPause");
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        Log.i("Avelino", "TituloAnuncioActivity OnStop");
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.i("Avelino", "TituloAnuncioActivity OnDestroy");
+        super.onDestroy();
     }
 }
