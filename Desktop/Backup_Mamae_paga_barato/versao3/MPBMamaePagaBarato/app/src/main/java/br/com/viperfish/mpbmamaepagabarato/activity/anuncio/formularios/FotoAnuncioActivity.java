@@ -3,6 +3,8 @@ package br.com.viperfish.mpbmamaepagabarato.activity.anuncio.formularios;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -16,6 +18,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -27,9 +30,9 @@ import static java.security.AccessController.getContext;
 public class FotoAnuncioActivity extends AppCompatActivity {
 
     private Button botaoFoto;
-
     private static final int CAPTURAR_IMAGEM = 1;
     private Uri uri;
+    private String caminhoFoto;
 
 
     @Override
@@ -64,7 +67,7 @@ public class FotoAnuncioActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
 
                                 Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                String caminhoFoto = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpg";
+                                caminhoFoto = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpg";
                                 File arquivoFoto = new File(caminhoFoto);
                                 Uri fotoURI = FileProvider.getUriForFile(FotoAnuncioActivity.this,
                                         "br.com.viperfish.mpbmamaepagabarato.fileprovider",
@@ -107,8 +110,14 @@ public class FotoAnuncioActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == CAPTURAR_IMAGEM) {
-            if (resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == CAPTURAR_IMAGEM) {
+                ImageView foto = (ImageView) findViewById(R.id.formulario_foto_anuncio_foto);
+                Bitmap bitmap = BitmapFactory.decodeFile(caminhoFoto);
+                Bitmap bitmaReduzido = Bitmap.createScaledBitmap(bitmap, 300, 300, true);
+                foto.setImageBitmap(bitmaReduzido);
+                foto.setScaleType(ImageView.ScaleType.FIT_XY);
+
                 mostrarMensagem("Imagem capturada!");
                 adicionarNaGaleria();
             } else {
