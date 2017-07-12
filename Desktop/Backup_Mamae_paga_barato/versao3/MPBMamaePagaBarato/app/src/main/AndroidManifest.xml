@@ -2,8 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.com.viperfish.mpbmamaepagabarato">
 
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -11,7 +10,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="br.com.viperfish.mpbmamaepagabarato.fileprovider"
@@ -19,25 +17,15 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".activity.anuncio.ListaAnunciosActivity">
+
+        <activity android:name=".activity.anuncio.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".activity.anuncio.FormularioProdutoActivity"
-            android:parentActivityName=".activity.anuncio.ListaAnunciosActivity">
-
-            <!-- Configura a nevagacao do botao voltar. Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="br.com.viperfish.mpbmamaepagabarato.activity.anuncio.ListaAnunciosActivity" />
         </activity>
 
         <activity
@@ -49,13 +37,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="br.com.viperfish.mpbmamaepagabarato.activity.anuncio.ListaAnunciosActivity" />
         </activity>
+        <activity android:name=".activity.anuncio.ListaAnunciosActivity" />
         <activity android:name=".activity.anuncio.formularios.CategoriaAnuncioActivity" />
         <activity android:name=".activity.anuncio.formularios.SubCategoriaActivity" />
         <activity android:name=".activity.anuncio.formularios.TituloAnuncioActivity" />
         <activity android:name=".activity.anuncio.formularios.DescricaoAnuncioActivity" />
         <activity android:name=".activity.anuncio.formularios.QualPrecoActivity" />
         <activity android:name=".activity.anuncio.formularios.ResumoAnuncioActivity" />
-        <activity android:name=".activity.anuncio.formularios.FotoAnuncioActivity"></activity>
+        <activity android:name=".activity.anuncio.formularios.FotoAnuncioActivity" />
+
     </application>
 
 </manifest>
