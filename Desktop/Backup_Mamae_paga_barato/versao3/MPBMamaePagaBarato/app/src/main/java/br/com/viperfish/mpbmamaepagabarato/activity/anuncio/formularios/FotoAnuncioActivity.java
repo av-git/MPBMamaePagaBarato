@@ -21,7 +21,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
 
@@ -31,6 +33,7 @@ public class FotoAnuncioActivity extends AppCompatActivity {
 
     private Button botaoFoto;
     private static final int CAPTURAR_IMAGEM = 1;
+    private static final int GALERIA = 2;
     private Uri uri;
     private String caminhoFoto;
 
@@ -59,7 +62,8 @@ public class FotoAnuncioActivity extends AppCompatActivity {
                         .setPositiveButton("Galeria", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(FotoAnuncioActivity.this, " Galeria com sucesso. Obrigado", Toast.LENGTH_LONG).show();
+                                Intent intentAbrirGaleriaFotos = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                startActivityForResult(intentAbrirGaleriaFotos, GALERIA);
                             }
 
                         }).setNegativeButton("Câmera", new DialogInterface.OnClickListener() {
@@ -77,7 +81,6 @@ public class FotoAnuncioActivity extends AppCompatActivity {
                                     startActivityForResult(intentCamera, CAPTURAR_IMAGEM);
                                 }
                             }
-
                         });
 
                 AlertDialog alert = builder.create();
@@ -110,7 +113,8 @@ public class FotoAnuncioActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK && data != null) {
+
             if (requestCode == CAPTURAR_IMAGEM) {
                 ImageView foto = (ImageView) findViewById(R.id.formulario_foto_anuncio_foto);
                 Bitmap bitmap = BitmapFactory.decodeFile(caminhoFoto);
@@ -120,6 +124,23 @@ public class FotoAnuncioActivity extends AppCompatActivity {
 
                 mostrarMensagem("Imagem capturada!");
                 adicionarNaGaleria();
+
+            } else if (requestCode == GALERIA) {
+
+                ImageView foto = (ImageView) findViewById(R.id.formulario_foto_anuncio_foto);
+
+                Uri caminhoImagem = data.getData();
+
+                try {
+                    Bitmap imagem = MediaStore.Images.Media.getBitmap(getContentResolver(), caminhoImagem);
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    imagem.compress(Bitmap.CompressFormat.PNG, 75, stream);
+                    foto.setImageBitmap(imagem);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             } else {
                 mostrarMensagem("Imagem não capturada!");
             }
