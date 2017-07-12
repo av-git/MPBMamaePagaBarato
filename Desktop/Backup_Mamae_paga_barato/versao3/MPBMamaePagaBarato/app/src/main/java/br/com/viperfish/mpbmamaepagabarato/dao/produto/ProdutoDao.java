@@ -8,10 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.viperfish.mpbmamaepagabarato.dao.DatabaseHelper;
+import br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto;
 
 /**
  * Created by Av on 16/11/2016.
- *
+ * <p>
  * Seguindo a recomendacao: https://developer.android.com/training/basics/data-storage/databases.html
  */
 
@@ -24,7 +25,7 @@ public class ProdutoDao {
         databaseHelper = new DatabaseHelper(context);
     }
 
-    public void close(){
+    public void close() {
         databaseHelper.close();
     }
 
@@ -36,9 +37,9 @@ public class ProdutoDao {
                 DatabaseHelper.Produto.COLUNAS,
                 null, null, null, null, null);
 
-        List<br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto> produtos = new ArrayList<br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto>();
+        List<Produto> produtos = new ArrayList<Produto>();
 
-        while(cursor.moveToNext()){
+        while (cursor.moveToNext()) {
             br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto produto = criarFabricante(cursor);
             produtos.add(produto);
         }
@@ -57,10 +58,10 @@ public class ProdutoDao {
         Cursor cursor = db.query(DatabaseHelper.Produto.TABELA,
                 DatabaseHelper.Produto.COLUNAS,
                 DatabaseHelper.Produto._ID + " = ?",
-                new String[]{ id.toString() },
+                new String[]{id.toString()},
                 null, null, null);
 
-        if(cursor.moveToNext()) {
+        if (cursor.moveToNext()) {
             produto = criarFabricante(cursor);
         }
 

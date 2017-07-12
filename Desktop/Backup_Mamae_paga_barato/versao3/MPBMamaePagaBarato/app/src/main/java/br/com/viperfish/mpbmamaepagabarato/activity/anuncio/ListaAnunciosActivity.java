@@ -15,6 +15,7 @@ import java.util.List;
 import br.com.viperfish.mpbmamaepagabarato.R;
 import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.adapter.AdapterProdutoPersonalizadoNaListView;
 import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.formularios.CategoriaAnuncioActivity;
+import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.formularios.FotoAnuncioActivity;
 import br.com.viperfish.mpbmamaepagabarato.dao.anuncio.AnuncioDao;
 import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
 
@@ -121,8 +122,12 @@ public class ListaAnunciosActivity extends AppCompatActivity {
                 //Intent irParaFormularioProduto = new Intent(ListaAnunciosActivity.this, FormularioProdutoActivity.class);
                 //startActivity(irParaFormularioProduto);
                 //Navegacao para uma nova activity Formulario
-                Intent irParaFormularioCategoriaAnuncio = new Intent(ListaAnunciosActivity.this, CategoriaAnuncioActivity.class);
-                startActivity(irParaFormularioCategoriaAnuncio);
+
+                //Intent irParaFormularioCategoriaAnuncio = new Intent(ListaAnunciosActivity.this, CategoriaAnuncioActivity.class);
+                //startActivity(irParaFormularioCategoriaAnuncio);
+
+                Intent irParaFormularioFotoAnuncio = new Intent(ListaAnunciosActivity.this, FotoAnuncioActivity.class);
+                startActivity(irParaFormularioFotoAnuncio);
             }
         });
     }

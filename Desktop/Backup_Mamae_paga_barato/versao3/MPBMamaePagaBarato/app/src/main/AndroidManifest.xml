@@ -2,12 +2,26 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.com.viperfish.mpbmamaepagabarato">
 
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/baby_icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="br.com.viperfish.mpbmamaepagabarato.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"></meta-data>
+        </provider>
+
         <activity android:name=".activity.anuncio.ListaAnunciosActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -15,6 +29,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activity.anuncio.FormularioProdutoActivity"
             android:parentActivityName=".activity.anuncio.ListaAnunciosActivity">
@@ -24,6 +39,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="br.com.viperfish.mpbmamaepagabarato.activity.anuncio.ListaAnunciosActivity" />
         </activity>
+
         <activity
             android:name=".activity.anuncio.MaisInformacoesProdutoActivity"
             android:parentActivityName=".activity.anuncio.ListaAnunciosActivity">
@@ -33,14 +49,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="br.com.viperfish.mpbmamaepagabarato.activity.anuncio.ListaAnunciosActivity" />
         </activity>
-        
-        <activity android:name=".activity.anuncio.formularios.CategoriaAnuncioActivity"></activity>
-        <activity android:name=".activity.anuncio.formularios.SubCategoriaActivity"></activity>
-        <activity android:name=".activity.anuncio.formularios.TituloAnuncioActivity"></activity>
-        <activity android:name=".activity.anuncio.formularios.DescricaoAnuncioActivity"></activity>
-        <activity android:name=".activity.anuncio.formularios.QualPrecoActivity"></activity>
-        <activity android:name=".activity.anuncio.formularios.ResumoAnuncioActivity"></activity>
-
+        <activity android:name=".activity.anuncio.formularios.CategoriaAnuncioActivity" />
+        <activity android:name=".activity.anuncio.formularios.SubCategoriaActivity" />
+        <activity android:name=".activity.anuncio.formularios.TituloAnuncioActivity" />
+        <activity android:name=".activity.anuncio.formularios.DescricaoAnuncioActivity" />
+        <activity android:name=".activity.anuncio.formularios.QualPrecoActivity" />
+        <activity android:name=".activity.anuncio.formularios.ResumoAnuncioActivity" />
+        <activity android:name=".activity.anuncio.formularios.FotoAnuncioActivity"></activity>
     </application>
 
 </manifest>
