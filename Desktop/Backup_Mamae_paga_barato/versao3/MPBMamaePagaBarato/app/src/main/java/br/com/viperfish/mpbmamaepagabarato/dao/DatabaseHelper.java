@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String NOME_BANCO = "mpb.db";
-    private static final int VERSAO = 1;
+    private static final int VERSAO = 2;
 
     public static class Categoria {
         public static final String TABELA = "CATEGORIA";

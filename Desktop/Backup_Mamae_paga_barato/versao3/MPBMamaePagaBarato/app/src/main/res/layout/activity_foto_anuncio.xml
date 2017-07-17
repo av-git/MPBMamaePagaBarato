@@ -15,8 +15,9 @@
             android:layout_height="225dp">
 
             <ImageView
+                android:id="@+id/formulario_foto_anuncio_foto"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="400dp"
                 android:src="@drawable/foto"
                 android:background="#00A8EC" />
 
@@ -32,26 +33,6 @@
 
         </RelativeLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/titulo_produto" />
-
-        <EditText
-            android:id="@+id/formulario_produto_titulo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/descricao_produto" />
-
-        <EditText
-            android:id="@+id/formulario_produto_descricao"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="4" />
 
         <Button
             android:id="@+id/idbotaoProximoDescricaoAnuncio"
