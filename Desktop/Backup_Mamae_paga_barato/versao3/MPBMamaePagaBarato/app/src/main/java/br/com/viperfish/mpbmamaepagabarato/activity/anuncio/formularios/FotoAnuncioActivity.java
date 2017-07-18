@@ -160,7 +160,8 @@ public class FotoAnuncioActivity extends AppCompatActivity {
             }
 
             foto.setImageBitmap(bitmapFinal);
-
+             //AV TODO NOVIDADE - VERIFICAR SE NAO QUEBRA EM OUTRAS RESOLUCOES
+            foto.setScaleType(ImageView.ScaleType.FIT_XY);
             adicionarImagemNaGaleria();
         }
     }
