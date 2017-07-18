@@ -145,24 +145,28 @@ public class FotoAnuncioActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
 
-            ImageView foto = (ImageView) findViewById(R.id.formulario_foto_anuncio_foto);
+            if (requestCode == REQUEST_IMAGE_CAPTURE) {
 
-            //AV TODO ESSA FORMA ABAIXO FUNCIONA. COMENTADO PARA OUTROS TESTES
-            //Bitmap bitmapOrientado = CarregadorDeFoto.rotateImage(bitmap, orientation);
+                ImageView foto = (ImageView) findViewById(R.id.formulario_foto_anuncio_foto);
 
-            Bitmap bitmapFinal = null;
-            try {
-                 bitmapFinal = CarregadorDeFoto.handleSamplingAndRotationBitmap(FotoAnuncioActivity.this, Uri.fromFile(new File(caminhoDaFoto)));
-            } catch (IOException e) {
-                e.printStackTrace();
+                //AV TODO ESSA FORMA ABAIXO FUNCIONA. COMENTADO PARA OUTROS TESTES
+                //Bitmap bitmapOrientado = CarregadorDeFoto.rotateImage(bitmap, orientation);
+
+                Bitmap bitmapFinal = null;
+                try {
+                    bitmapFinal = CarregadorDeFoto.handleSamplingAndRotationBitmap(FotoAnuncioActivity.this, Uri.fromFile(new File(caminhoDaFoto)));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                foto.setImageBitmap(bitmapFinal);
+                //AV TODO NOVIDADE - VERIFICAR SE NAO QUEBRA EM OUTRAS RESOLUCOES
+                foto.setScaleType(ImageView.ScaleType.FIT_XY);
+
+                adicionarImagemNaGaleria();
             }
-
-            foto.setImageBitmap(bitmapFinal);
-             //AV TODO NOVIDADE - VERIFICAR SE NAO QUEBRA EM OUTRAS RESOLUCOES
-            foto.setScaleType(ImageView.ScaleType.FIT_XY);
-            adicionarImagemNaGaleria();
         }
     }
 
