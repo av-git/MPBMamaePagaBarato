@@ -47,13 +47,16 @@ public class AnuncioDao {
                         DatabaseHelper.Anuncio.PRODUTO_ID)),
 
                 cursor.getDouble(cursor.getColumnIndex(
-                        DatabaseHelper.Anuncio.PRECO))
+                        DatabaseHelper.Anuncio.PRECO)),
+
+                cursor.getString(cursor.getColumnIndex(
+                        DatabaseHelper.Anuncio.CAMINHO_IMAGEM))
         );
 
         return anuncio;
     }
 
-    public List<br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio> buscarTodos() {
+    public List<Anuncio> buscarTodos() {
 
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
 
@@ -61,10 +64,10 @@ public class AnuncioDao {
                 DatabaseHelper.Anuncio.COLUNAS,
                 null, null, null, null, null);
 
-        List<br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio> anuncios = new ArrayList<br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio>();
+        List<Anuncio> anuncios = new ArrayList<Anuncio>();
 
         while(cursor.moveToNext()){
-            br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio anuncio = criarAnuncio(cursor);
+            Anuncio anuncio = criarAnuncio(cursor);
             anuncios.add(anuncio);
         }
 
@@ -74,9 +77,9 @@ public class AnuncioDao {
         return anuncios;
     }
 
-    public br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio buscarPorId(Integer id) {
+    public Anuncio buscarPorId(Integer id) {
 
-        br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio anuncio = null;
+        Anuncio anuncio = null;
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
 
         Cursor cursor = db.query(DatabaseHelper.Anuncio.TABELA,
@@ -95,7 +98,7 @@ public class AnuncioDao {
         return anuncio;
     }
 
-    public long inserir(br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio anuncio) {
+    public long inserir(Anuncio anuncio) {
 
         ContentValues values = new ContentValues();
 
@@ -114,6 +117,9 @@ public class AnuncioDao {
         values.put(DatabaseHelper.Anuncio.PRECO,
                 anuncio.getPreco());
 
+        values.put(DatabaseHelper.Anuncio.CAMINHO_IMAGEM,
+                anuncio.getCaminhoDaImagem());
+
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
 
         long resultado = db.insert(DatabaseHelper.Anuncio.TABELA, null, values);
@@ -123,7 +129,7 @@ public class AnuncioDao {
         return resultado;
     }
 
-    public long atualizar(br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio anuncio) {
+    public long atualizar(Anuncio anuncio) {
 
         ContentValues values = new ContentValues();
 
@@ -138,6 +144,9 @@ public class AnuncioDao {
 
         values.put(DatabaseHelper.Anuncio.PRECO,
                 anuncio.getPreco());
+
+        values.put(DatabaseHelper.Anuncio.CAMINHO_IMAGEM,
+                anuncio.getCaminhoDaImagem());
 
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
 
