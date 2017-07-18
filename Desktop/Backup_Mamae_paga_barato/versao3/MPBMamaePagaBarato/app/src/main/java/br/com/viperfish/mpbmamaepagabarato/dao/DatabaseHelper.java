@@ -44,6 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         public static final String PRODUTO_ID =  "produto_id";
         public static final String PRECO =  "preco";
         public static final String DATA_ANUNCIO = "data_anuncio";
+        public static final String CAMINHO_IMAGEM = "caminho_imagem";
 
         public static final String[] COLUNAS = new String[] {
                 _ID, TITULO, DESCRICAO, PRODUTO_ID, PRECO, DATA_ANUNCIO
@@ -58,6 +59,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     Anuncio.DESCRICAO+ " TEXT, " +
                     Anuncio.DATA_ANUNCIO+ " DATE, " +
                     Anuncio.PRECO + " REAL, " +
+                    Anuncio.CAMINHO_IMAGEM+ " TEXT, " +
                     "FOREIGN KEY (" + Anuncio.PRODUTO_ID+ ") REFERENCES "+Produto.TABELA + "(" +Produto._ID+"));";
 
     private static final String SQL_CREATE_CATEGORIA =
