@@ -18,6 +18,7 @@ public class Anuncio implements Serializable {
     private Long produtoId;
     private Double preco;
     private Date dataAnuncio;
+    private String caminhoDaImagem;
 
     //atributos transients
     private Categoria categoria;
@@ -27,13 +28,14 @@ public class Anuncio implements Serializable {
     public Anuncio() {
     }
 
-    public Anuncio(Long id, String titulo, String descricao, Long produtoId, Double preco) {
+    public Anuncio(Long id, String titulo, String descricao, Long produtoId, Double preco, String caminhoDaImagem) {
         this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
         this.produtoId = produtoId;
         //this.fabricante_id = fabricante;
         this.preco = preco;
+        this.caminhoDaImagem = caminhoDaImagem;
     }
 
     public Long getId() {
@@ -106,6 +108,14 @@ public class Anuncio implements Serializable {
 
     public void setProduto(Produto produto) {
         this.produto = produto;
+    }
+
+    public String getCaminhoDaImagem() {
+        return caminhoDaImagem;
+    }
+
+    public void setCaminhoDaImagem(String caminhoDaImagem) {
+        this.caminhoDaImagem = caminhoDaImagem;
     }
 
     @Override
