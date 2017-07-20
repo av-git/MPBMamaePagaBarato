@@ -72,7 +72,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "CREATE TABLE " + Produto.TABELA + " (" +
                     Produto._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     Produto.NOME+ " TEXT NOT NULL, " +
-                    Produto.SUBCATEGORIA_ID + "INTEGER references" + Categoria.TABELA + Categoria._ID+ "); ";
+                    Produto.SUBCATEGORIA_ID + " INTEGER references " + Categoria.TABELA + Categoria._ID+ "); ";
 
     public DatabaseHelper(Context context) {
         super(context, NOME_BANCO, null, VERSAO);
