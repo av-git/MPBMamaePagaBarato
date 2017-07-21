@@ -1,8 +1,17 @@
 package br.com.viperfish.mpbmamaepagabarato.dao;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+import br.com.viperfish.mpbmamaepagabarato.modelo.Marca;
 
 /**
  * Created by ddark on 04/07/17.
@@ -11,7 +20,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String NOME_BANCO = "mpb.db";
-    private static final int VERSAO = 2;
+    private static final int VERSAO = 1;
+    private final Context context;
 
     public static class Categoria {
         public static final String TABELA = "CATEGORIA";
@@ -24,14 +34,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         };
     }
 
+    public static class Marca {
+        public static final String TABELA = "MARCA";
+        public static final String _ID = "_id";
+        public static final String NOME =  "nome";
+
+        public static final String[] COLUNAS = new String[] {
+                _ID, NOME
+        };
+    }
+
     public static class Produto {
         public static final String TABELA = "PRODUTO";
         public static final String _ID = "_id";
         public static final String NOME =  "nome";
+        public static final String SITE =  "site";
         public static final String SUBCATEGORIA_ID =  "subCategoria_id";
+        public static final String MARCA_ID =  "marca_id";
+        public static final String FOTO =  "foto";
 
         public static final String[] COLUNAS = new String[] {
-                _ID, NOME, SUBCATEGORIA_ID
+                _ID, NOME, SITE , FOTO , SUBCATEGORIA_ID, MARCA_ID
         };
     }
 
@@ -68,14 +91,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     Categoria.IDPAI+ " INTEGER, " +
                     Categoria.NOME+ " TEXT); ";
 
+    private static final String SQL_CREATE_MARCA =
+            "CREATE TABLE " + Marca.TABELA + " (" +
+                    Marca._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    Marca.NOME+ " TEXT); ";
+
     private static final String SQL_CREATE_PRODUTO =
+
             "CREATE TABLE " + Produto.TABELA + " (" +
                     Produto._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     Produto.NOME+ " TEXT NOT NULL, " +
-                    Produto.SUBCATEGORIA_ID + " INTEGER references " + Categoria.TABELA + Categoria._ID+ "); ";
+                    Produto.SITE+ " TEXT, " +
+                    Produto.FOTO+ " BLOB, " +
+                    Produto.MARCA_ID+ " INTEGER REFERENCES " +Marca.TABELA +" ("+Marca._ID+"), " +
+                    Produto.SUBCATEGORIA_ID + " INTEGER REFERENCES " + Categoria.TABELA + " ("+Categoria._ID+")); ";
 
     public DatabaseHelper(Context context) {
         super(context, NOME_BANCO, null, VERSAO);
+        this.context = context;
     }
 
     @Override
@@ -90,15 +123,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int versaoAntiga, int novaVersao) {
         db.execSQL("DROP TABLE IF EXISTS "+ Anuncio.TABELA +"; ");
         db.execSQL("DROP TABLE IF EXISTS "+ Produto.TABELA +"; ");
-        db.execSQL("DROP TABLE IF EXISTS "+Categoria.TABELA +"; ");
+        db.execSQL("DROP TABLE IF EXISTS "+ Categoria.TABELA +"; ");
+        db.execSQL("DROP TABLE IF EXISTS "+ Marca.TABELA +"; ");
         onCreate(db);
     }
 
     private void criarTabelas(SQLiteDatabase db) {
-        db.execSQL(SQL_CREATE_PRODUTO);
         db.execSQL(SQL_CREATE_CATEGORIA);
+        db.execSQL(SQL_CREATE_MARCA);
+        db.execSQL(SQL_CREATE_PRODUTO);
         db.execSQL(SQL_CREATE_ANUNCIO);
+
         db.execSQL(carregarInicialCategoria());
+        cargaInicialMarcas(db);
+        //cargaInicialProdutos(db);
     }
 
     // TODO AVELINO REFATORAR PARA UMA CONSTANTE
@@ -106,7 +144,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         StringBuilder sql = new StringBuilder();
 
-        sql.append("INSERT INTO CATEGORIA (_id, id_pai, nome) VALUES ");
+        sql.append("INSERT INTO "+ Categoria.TABELA +" ( "+Categoria._ID+" , "+Categoria.IDPAI+" , "+Categoria.NOME+") VALUES ");
         sql.append("(1, null, null), ");
         sql.append("(2, 1, 'Alimentação p/ Bebê'), ");
         sql.append("(3, 2, 'Acessórios p/ Amamentação'), ");
@@ -142,6 +180,92 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sql.append("(33, 1, 'Outros');");
 
         return sql.toString();
+    }
+
+    // TODO AVELINO REFATORAR PARA UMA CONSTANTE
+    private void cargaInicialMarcas(SQLiteDatabase db){
+
+        try
+        {
+
+            AssetManager assetManager=  context.getAssets();
+            InputStreamReader is  = new InputStreamReader(assetManager.open("carga-marcas.csv"), "UTF-8");
+            BufferedReader reader = new BufferedReader(is);
+            String linha;
+            String id, nome;
+
+            while ((linha=reader.readLine()) != null)
+            {
+                String[] dadosDaLinha=linha.split(",");
+                br.com.viperfish.mpbmamaepagabarato.modelo.Marca marca = new br.com.viperfish.mpbmamaepagabarato.modelo.Marca();
+
+                marca.setId(Long.parseLong(dadosDaLinha[0]));
+                marca.setNome(dadosDaLinha[1]);
+
+                ContentValues values = new ContentValues();
+
+                values.put(DatabaseHelper.Marca._ID,
+                        marca.getId());
+
+                values.put(DatabaseHelper.Marca.NOME,
+                        marca.getNome());
+
+                long resultado = db.insert(DatabaseHelper.Marca.TABELA, null, values);
+
+            }
+            is.close();
+        }
+        catch (IOException ex)
+        {
+            Log.i("debug", "erro" + ex.getMessage() );
+        }
+    }
+
+    // TODO AVELINO REFATORAR PARA UMA CONSTANTE
+    private void cargaInicialProdutos(SQLiteDatabase db){
+
+        ContentValues values = new ContentValues();
+
+        values.put(Produto._ID, 1);
+        values.put(Produto.NOME, "Pampers Recém-Nascido - RN");
+        values.put(Produto.SUBCATEGORIA_ID, 17);
+        values.put(Produto.MARCA_ID, 1);
+        db.insert(Produto.TABELA, null, values);
+
+        values.put(Produto._ID, 2);
+        values.put(Produto.NOME, "Pampers Confort Sec");
+        values.put(Produto.SUBCATEGORIA_ID, 17);
+        values.put(Produto.MARCA_ID, 1);
+        db.insert(Produto.TABELA, null, values);
+
+        values.put(Produto._ID, 3);
+        values.put(Produto.NOME, "Pampers Pants");
+        values.put(Produto.SUBCATEGORIA_ID, 17);
+        values.put(Produto.MARCA_ID, 1);
+        db.insert(Produto.TABELA, null, values);
+        /*
+        StringBuffer  sql = new StringBuffer();
+        sql.append("INSERT INTO PRODUTO (_id, nome, subCategoria_id, marca_id, site, foto) VALUES (1, 'Pampers Recém-Nascido - RN', 17, 1, 'https://www.pampers.com.br', NULL);");
+        sql.append("INSERT INTO PRODUTO (_id, nome, subCategoria_id, marca_id, site, foto) VALUES (2, 'Pampers Confort Sec', 17, 1, 'https://www.pampers.com.br', NULL);");
+        sql.append("INSERT INTO PRODUTO (_id, nome, subCategoria_id, marca_id, site, foto) VALUES (3, 'Pampers Pants', 17, 1, 'https://www.pampers.com.br', NULL);");
+        sql.append("INSERT INTO PRODUTO (_id, nome, subCategoria_id, marca_id, site, foto) VALUES (4, 'Pampers Premium Care', 17, 1, 'https://www.pampers.com.br', NULL);");
+        sql.append("INSERT INTO PRODUTO (_id, nome, subCategoria_id, marca_id, site, foto) VALUES (5, 'Pampers Supersec', 17, 1, 'https://www.pampers.com.br', NULL);");
+        sql.append("INSERT INTO PRODUTO (_id, nome, subCategoria_id, marca_id, site, foto) VALUES (6, 'Pampers Total Confort', 17, 1, 'https://www.pampers.com.br', NULL);");
+        sql.append("INSERT INTO PRODUTO (_id, nome, subCategoria_id, marca_id, site, foto) VALUES (7, 'Huggies Supreme Care', 17, 2, 'https://www.huggies.com.br', NULL);");
+        sql.append("INSERT INTO PRODUTO (_id, nome, subCategoria_id, marca_id, site, foto) VALUES (8, 'Huggies Soft Touch Primeiros 100 Dias - RN', 17, 2, 'https://www.huggies.com.br', NULL);");
+        sql.append("INSERT INTO PRODUTO (_id, nome, subCategoria_id, marca_id, site, foto) VALUES (9, 'Huggies Soft Touch Fralda Roupinha', 17, 2, 'https://www.huggies.com.br', NULL);");
+        sql.append("INSERT INTO PRODUTO (_id, nome, subCategoria_id, marca_id, site, foto) VALUES (10, 'Huggies Tripla Proteção ', 17, 2, 'https://www.huggies.com.br', NULL);");
+        sql.append("INSERT INTO PRODUTO (_id, nome, subCategoria_id, marca_id, site, foto) VALUES (11, 'Huggies Tripla Proteção Fralda Roupinha ', 17, 2, 'https://www.huggies.com.br', NULL);");
+        sql.append("INSERT INTO PRODUTO (_id, nome, subCategoria_id, marca_id, site, foto) VALUES (12, 'Huggies Little Swimmers - piscina', 17, 2, 'https://www.huggies.com.br', NULL);");
+        sql.append("INSERT INTO PRODUTO (_id, nome, subCategoria_id, marca_id, site, foto) VALUES (13, 'MamyPoko Tamanho RN', 17, 6, 'http://www.mamypoko.com/br', NULL);");
+        sql.append("INSERT INTO PRODUTO (_id, nome, subCategoria_id, marca_id, site, foto) VALUES (14, 'MamyPoko Fralda-Fita', 17, 6, 'http://www.mamypoko.com/br', NULL);");
+        sql.append("INSERT INTO PRODUTO (_id, nome, subCategoria_id, marca_id, site, foto) VALUES (15, 'MamyPoko Fralda-Calça', 17, 6, 'http://www.mamypoko.com/br', NULL);");
+        sql.append("INSERT INTO PRODUTO (_id, nome, subCategoria_id, marca_id, site, foto) VALUES (16, 'Pom Pom Colo de Mãe', 17, 5, 'http://www.pompom.com.br', NULL);");
+        sql.append("INSERT INTO PRODUTO (_id, nome, subCategoria_id, marca_id, site, foto) VALUES (17, 'Pom Pom Protek Proteção de Mãe', 17, 5, 'http://www.pompom.com.br', NULL);");
+        sql.append("INSERT INTO PRODUTO (_id, nome, subCategoria_id, marca_id, site, foto) VALUES (18, 'Pom Pom Amor de Mãe Recém Nascido  RN', 17, 5, 'http://www.pompom.com.br', NULL);");
+
+        return sql.toString();
+        */
     }
 
     //TODO. AVELINO: VERIFICAR SE A QUERY DEVE TER FOREIGN KEY

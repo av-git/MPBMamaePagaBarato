@@ -1,7 +1,6 @@
 package br.com.viperfish.mpbmamaepagabarato.activity.anuncio.formularios;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -146,28 +145,23 @@ public class FotoAnuncioActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (resultCode == Activity.RESULT_OK) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
 
-            if (requestCode == REQUEST_IMAGE_CAPTURE) {
+            ImageView foto = (ImageView) findViewById(R.id.formulario_foto_anuncio_foto);
 
-                ImageView foto = (ImageView) findViewById(R.id.formulario_foto_anuncio_foto);
+            //AV TODO ESSA FORMA ABAIXO FUNCIONA. COMENTADO PARA OUTROS TESTES
+            //Bitmap bitmapOrientado = CarregadorDeFoto.rotateImage(bitmap, orientation);
 
-                //AV TODO ESSA FORMA ABAIXO FUNCIONA. COMENTADO PARA OUTROS TESTES
-                //Bitmap bitmapOrientado = CarregadorDeFoto.rotateImage(bitmap, orientation);
-
-                Bitmap bitmapFinal = null;
-                try {
-                    bitmapFinal = CarregadorDeFoto.handleSamplingAndRotationBitmap(FotoAnuncioActivity.this, Uri.fromFile(new File(caminhoDaFoto)));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                foto.setImageBitmap(bitmapFinal);
-                //AV TODO NOVIDADE - VERIFICAR SE NAO QUEBRA EM OUTRAS RESOLUCOES
-                foto.setScaleType(ImageView.ScaleType.FIT_XY);
-
-                adicionarImagemNaGaleria();
+            Bitmap bitmapFinal = null;
+            try {
+                 bitmapFinal = CarregadorDeFoto.handleSamplingAndRotationBitmap(FotoAnuncioActivity.this, Uri.fromFile(new File(caminhoDaFoto)));
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+
+            foto.setImageBitmap(bitmapFinal);
+
+            adicionarImagemNaGaleria();
         }
     }
 

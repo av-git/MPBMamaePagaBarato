@@ -14,10 +14,12 @@ import java.util.List;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
 import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.adapter.AdapterProdutoPersonalizadoNaListView;
-import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.formularios.CategoriaAnuncioActivity;
 import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.formularios.FotoAnuncioActivity;
+import br.com.viperfish.mpbmamaepagabarato.dao.MarcaDao;
 import br.com.viperfish.mpbmamaepagabarato.dao.anuncio.AnuncioDao;
+import br.com.viperfish.mpbmamaepagabarato.modelo.Marca;
 import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
+import br.com.viperfish.mpbmamaepagabarato.modelo.categoria.Categoria;
 
 public class ListaAnunciosActivity extends AppCompatActivity {
 
@@ -107,6 +109,13 @@ public class ListaAnunciosActivity extends AppCompatActivity {
         }
         //TODO AVELINO. REMOVER. ESTOU SO FORCANDO UMA ATUALIZACAO DA LISTA VIA BANCO DE DADOS
         listaAnuncios.addAll(produtos);
+
+        MarcaDao MarcaDao = new MarcaDao(ListaAnunciosActivity.this);
+        List<Marca> marcas = MarcaDao.buscarTodos();
+
+        for (Marca p : marcas) {
+            Log.i("avelino: ", "Listando os Marcas" + String.valueOf(p.toString()));
+        }
     }
 
     /**
