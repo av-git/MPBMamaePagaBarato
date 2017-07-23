@@ -28,6 +28,7 @@ public class CarregadorDeFoto {
      * @param newWeight
      * @return
      */
+    @Deprecated
     public static Bitmap redimensionarImagem(Context context, Bitmap bmpOriginal,
                                              float newWidth, float newWeight) {
         Bitmap novoBmp = null;
