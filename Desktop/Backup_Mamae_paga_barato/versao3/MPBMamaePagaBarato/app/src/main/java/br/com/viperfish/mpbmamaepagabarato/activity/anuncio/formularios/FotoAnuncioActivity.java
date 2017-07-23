@@ -159,6 +159,9 @@ public class FotoAnuncioActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+            //AV TODO NOVIDADE - VERIFICAR SE NAO QUEBRA EM OUTRAS RESOLUCOES
+            foto.setScaleType(ImageView.ScaleType.FIT_XY);
+
             foto.setImageBitmap(bitmapFinal);
 
             adicionarImagemNaGaleria();
