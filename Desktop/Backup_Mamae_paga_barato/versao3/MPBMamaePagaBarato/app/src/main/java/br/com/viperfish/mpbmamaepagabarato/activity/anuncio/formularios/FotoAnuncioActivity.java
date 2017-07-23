@@ -149,9 +149,6 @@ public class FotoAnuncioActivity extends AppCompatActivity {
 
             ImageView foto = (ImageView) findViewById(R.id.formulario_foto_anuncio_foto);
 
-            //AV TODO ESSA FORMA ABAIXO FUNCIONA. COMENTADO PARA OUTROS TESTES
-            //Bitmap bitmapOrientado = CarregadorDeFoto.rotateImage(bitmap, orientation);
-
             Bitmap bitmapFinal = null;
             try {
                  bitmapFinal = CarregadorDeFoto.handleSamplingAndRotationBitmap(FotoAnuncioActivity.this, Uri.fromFile(new File(caminhoDaFoto)));
