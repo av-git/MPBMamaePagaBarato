@@ -14,9 +14,11 @@ import java.io.InputStreamReader;
 import br.com.viperfish.mpbmamaepagabarato.modelo.Marca;
 
 /**
+ * Essa classe sera substituida pela {@link DatabaseOpenHelper}. Ela ira prove toda a estrutura de Bando dados
+ *
  * Created by ddark on 04/07/17.
  */
-
+@Deprecated
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String NOME_BANCO = "mpb.db";

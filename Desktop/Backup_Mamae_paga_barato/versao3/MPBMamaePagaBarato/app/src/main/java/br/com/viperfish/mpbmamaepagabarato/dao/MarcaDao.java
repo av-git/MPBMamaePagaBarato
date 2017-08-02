@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,114 +15,144 @@ import br.com.viperfish.mpbmamaepagabarato.modelo.Marca;
  * Created by AV on 22/11/2016.
  */
 
-public class MarcaDao {
+public class MarcaDao extends DaoBase {
 
-    private DatabaseHelper databaseHelper;
+    private static MarcaDao instance;
+    private static String TAG = "MarcaDao"; // LogCat
 
-    public MarcaDao(Context context) {
-        databaseHelper = new DatabaseHelper(context);
+
+    /**
+     * Private constructor to aboid object creation from outside classes.
+     *
+     * @param context
+     */
+    private MarcaDao(Context context) {
+        super(context);
     }
 
-    public void close(){
-        databaseHelper.close();
+    /**
+     * Return a singleton instance of DatabaseAccess.
+     *
+     * @param context the Context
+     * @return the instance of DabaseAccess
+     */
+    public static MarcaDao getInstance(Context context) {
+        if (instance == null) {
+            instance = new MarcaDao(context);
+        }
+        return instance;
+    }
+
+    /**
+     * Insert a contact into the database.
+     *
+     */
+    public void insert(Marca marca) {
+
+        ContentValues values = new ContentValues();
+
+        values.put(DatabaseOpenHelper.Marca.NOME,
+                marca.getNome());
+
+        long resultado = inserir(DatabaseOpenHelper.Marca.TABELA, values);
+
+        if (resultado == -1) {
+            Log.i(TAG, "ERRO Inserindo Marca" + String.valueOf(marca.toString()));
+        }
     }
 
     public List<Marca> buscarTodos() {
 
-        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+        abrirConexaoEmModoLeitura();
 
-        Cursor cursor = db.query(DatabaseHelper.Categoria.TABELA,
-                DatabaseHelper.Categoria.COLUNAS,
+        Cursor cursor = getDatabase().query(DatabaseOpenHelper.Marca.TABELA,
+                DatabaseOpenHelper.Marca.COLUNAS,
                 null, null, null, null, null);
 
         List<Marca> marcas = new ArrayList<Marca>();
 
         while(cursor.moveToNext()){
-            Marca categoria = criarCategoria(cursor);
-            marcas.add(categoria);
+            Marca marca = criarMarca(cursor);
+            marcas.add(marca);
         }
 
         cursor.close();
-        close();
+        fecharConexao();
 
         return marcas;
     }
 
-    public List<Marca> buscarPorIdPai(Long idPai) {
+    /**
+     *
+     * Forma alternativa
+     * Read all contacts from the database.
+     *
+     * @return a List of Contacts
+     */
+    public List<Marca> getContacts() {
 
-        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+        List<Marca> list = new ArrayList<>();
+        Cursor cursor = getDatabase().rawQuery("SELECT * FROM Marca", null);
+        cursor.moveToFirst();
 
-        Cursor cursor = db.query(DatabaseHelper.Categoria.TABELA,
-                DatabaseHelper.Marca.COLUNAS,
-                DatabaseHelper.Marca._ID + " = ?",
-                new String[]{ idPai.toString() },
-                null, null, null);
+        while (!cursor.isAfterLast()) {
+            Marca contact = new Marca();
+            contact.setId(cursor.getLong(0));
+            contact.setNome(cursor.getString(1));
 
-        List<Marca> marcas = new ArrayList<Marca>();
-
-        while(cursor.moveToNext()){
-            Marca categoria = criarCategoria(cursor);
-            marcas.add(categoria);
+            list.add(contact);
+            cursor.moveToNext();
         }
-
         cursor.close();
-        close();
-
-        return marcas;
+        return list;
     }
 
-    public Marca buscarPorId(Integer id) {
+    /**
+     * Update the contact details.
+     *
+     */
+    public void update(Marca marca) {
 
-        Marca marca = null;
-        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+        ContentValues values = new ContentValues();
 
-        Cursor cursor = db.query(DatabaseHelper.Categoria.TABELA,
-                DatabaseHelper.Marca.COLUNAS,
-                DatabaseHelper.Marca._ID + " = ?",
-                new String[]{ id.toString() },
-                null, null, null);
+        values.put(DatabaseOpenHelper.Marca.NOME,
+                marca.getNome());
 
-        if(cursor.moveToNext()) {
-            marca = criarCategoria(cursor);
-        }
+        abriConexaoEmModoEscrita();
 
-        cursor.close();
-        close();
+        int resultado = atualizar(DatabaseOpenHelper.Marca.TABELA,
+                values, DatabaseOpenHelper.Marca._ID + " = ?",
+                new String[]{marca.getId().toString()});
 
-        return marca;
+        fecharConexao();
     }
 
+    /**
+     * Delete the provided contact.
+     *
+     * @param marca the contact to delete
+     */
+    public void delete(Marca marca) {
+        try {
+            deletar(DatabaseOpenHelper.Marca.TABELA, DatabaseOpenHelper.Marca._ID+ " = ?", new String[]{marca.getId().toString()});
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-    private Marca criarCategoria(Cursor cursor) {
+    private Marca criarMarca(Cursor cursor) {
 
         Marca marca = new Marca(
+
                 cursor.getLong(cursor.getColumnIndex(
-                        DatabaseHelper.Marca._ID)),
+                        DatabaseOpenHelper.Marca._ID)),
 
                 cursor.getString(cursor.getColumnIndex(
-                        DatabaseHelper.Marca.NOME))
+                        DatabaseOpenHelper.Marca.NOME))
         );
 
         return marca;
     }
 
-    public long inserir(Marca marca) {
-
-        ContentValues values = new ContentValues();
-
-        values.put(DatabaseHelper.Marca._ID,
-                marca.getId());
-
-        values.put(DatabaseHelper.Marca.NOME,
-                marca.getNome());
-
-
-        SQLiteDatabase db = databaseHelper.getWritableDatabase();
-
-        long resultado = db.insert(DatabaseHelper.Marca.TABELA, null, values);
-
-        close();
-
-        return resultado;
-    }
 }
