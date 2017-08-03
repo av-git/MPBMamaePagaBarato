@@ -17,14 +17,21 @@ import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
 
 public class FormularioProdutoActivity extends AppCompatActivity {
 
+    public static final String EXTRA_DADOS_PRODUTO = "EXTRA_DADOS_PRODUTO";
+    private Button btnEscolherCategoria;
+    private TextInputLayout tilCategoria;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_formulario_produto);
+        setContentView(R.layout.activity_formulario_anuncio);
         setTitle("Inserir Anúncio");
         configurarBotaoVoltarParaTelaPrincipal();
 
-        Log.i("Avelino", "FormularioProdutoActivity OnCreate");
+       btnEscolherCategoria = (Button) findViewById(R.id.formulario_anuncio_btn_categoria);
+       tilCategoria = (TextInputLayout) findViewById(R.id.formulario_anuncio_til_categoria);
+
+       Log.i("Avelino", "FormularioAnuncioActivity OnCreate");
     }
 
     /**
@@ -67,7 +74,7 @@ public class FormularioProdutoActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.formulario_produto_item_salvar :
 
-                FormularioProdutoHelper helper = new FormularioProdutoHelper(FormularioProdutoActivity.this);
+                FormularioAnuncioHelper helper = new FormularioAnuncioHelper(FormularioAnuncioActivity.this);
 
                 if (helper.isCamposObritagoriosPreenchidos() ){
                     Anuncio anuncio = helper.obterProduto();
@@ -88,7 +95,7 @@ public class FormularioProdutoActivity extends AppCompatActivity {
 
     private void salvar(Anuncio anuncio) {
 
-        AnuncioDao anuncioDao = AnuncioDao.getInstance(FormularioProdutoActivity.this);
+        AnuncioDao anuncioDao = AnuncioDao.getInstance(FormularioAnuncioActivity.this);
 
         //NOVO REGISTRO
         if (anuncio.getId() == null ) {
@@ -101,26 +108,41 @@ public class FormularioProdutoActivity extends AppCompatActivity {
 
     private void alterar(Anuncio anuncio) {
 
-        AnuncioDao anuncioDao = AnuncioDao.getInstance(FormularioProdutoActivity.this);
+        AnuncioDao anuncioDao = AnuncioDao.getInstance(FormularioAnuncioActivity.this);
 
         anuncioDao.atualizar(anuncio);
         if ( anuncioDao.atualizar(anuncio) ) {
-            Toast.makeText(FormularioProdutoActivity.this, "Alterado com sucesso. Obrigado", Toast.LENGTH_LONG).show();
+            Toast.makeText(FormularioAnuncioActivity.this, "Alterado com sucesso. Obrigado", Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(FormularioProdutoActivity.this, "Ocorreu um erro ao salvar. Tente novamente", Toast.LENGTH_LONG).show();
+            Toast.makeText(FormularioAnuncioActivity.this, "Ocorreu um erro ao salvar. Tente novamente", Toast.LENGTH_LONG).show();
         }
     }
 
     private void inserir(Anuncio produto) {
 
-        AnuncioDao anuncioDao = AnuncioDao.getInstance(FormularioProdutoActivity.this);
+        AnuncioDao anuncioDao = AnuncioDao.getInstance(FormularioAnuncioActivity.this);
         anuncioDao.inserir(produto);
 
         if (anuncioDao.inserir(produto) ) {
-            Toast.makeText(FormularioProdutoActivity.this, "Registrado com sucesso. Obrigado", Toast.LENGTH_LONG).show();
+            Toast.makeText(FormularioAnuncioActivity.this, "Registrado com sucesso. Obrigado", Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(FormularioProdutoActivity.this, "Ocorreu um erro ao salvar. Tente novamente", Toast.LENGTH_LONG).show();
+            Toast.makeText(FormularioAnuncioActivity.this, "Ocorreu um erro ao salvar. Tente novamente", Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void irParaListagemDasCategorias(View v) {
+
+        btnEscolherCategoria.setText("Higine --> Fralda");
+
+        tilCategoria.getEditText().setText("Higine --> Fralda");
+        tilCategoria.getEditText().setEnabled(false);
+
+
+        Toast.makeText(FormularioAnuncioActivity.this, "troquei o nome do botao"+ " Registrado com sucesso. Obrigado", Toast.LENGTH_LONG).show();
+
+        Intent irParaFormularioResumoAnuncio = new Intent(FormularioAnuncioActivity.this, CategoriaAnuncioActivity.class);
+        //irParaFormularioResumoAnuncio.putExtra(ResumoAnuncioActivity.EXTRA_DADOS_ANUNCIO, dadosAnuncio);
+        startActivity(irParaFormularioResumoAnuncio);
     }
 
     @Override
@@ -158,4 +180,6 @@ public class FormularioProdutoActivity extends AppCompatActivity {
         Log.i("Avelino", "FormularioProdutoActivity OnDestroy");
         super.onDestroy();
     }
+
+   
 }
