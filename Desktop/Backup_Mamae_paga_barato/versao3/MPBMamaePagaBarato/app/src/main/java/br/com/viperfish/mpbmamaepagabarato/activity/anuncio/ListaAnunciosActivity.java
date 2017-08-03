@@ -13,13 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
-import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.adapter.AdapterProdutoPersonalizadoNaListView;
-import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.formularios.FotoAnuncioActivity;
-import br.com.viperfish.mpbmamaepagabarato.dao.MarcaDao;
+import br.com.viperfish.mpbmamaepagabarato.activity.adapter.AdapterProdutoPersonalizadoNaListView;
 import br.com.viperfish.mpbmamaepagabarato.dao.anuncio.AnuncioDao;
+import br.com.viperfish.mpbmamaepagabarato.dao.marca.MarcaDao;
+import br.com.viperfish.mpbmamaepagabarato.formularios.FotoAnuncioActivity;
 import br.com.viperfish.mpbmamaepagabarato.modelo.Marca;
 import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
-import br.com.viperfish.mpbmamaepagabarato.modelo.categoria.Categoria;
 
 public class ListaAnunciosActivity extends AppCompatActivity {
 
@@ -77,22 +76,22 @@ public class ListaAnunciosActivity extends AppCompatActivity {
     private void criarMockAnuncios() {
         listaAnuncios = new ArrayList<Anuncio>();
 
-        Anuncio produto1 = new Anuncio(new Long(1), "Aptamil 1 Premuim", "Corram Mamães!!! Promoção BigBen Da Doca", new Long(1), new Double(23.3));
+        Anuncio produto1 = new Anuncio(new Long(1), new Long(1), "Aptamil 1 Premuim", "Corram Mamães!!! Promoção BigBen Da Doca", new Long(1), new Double(23.3));
         listaAnuncios.add(produto1);
 
-        Anuncio fralda = new Anuncio(new Long(2), "Pacote de Fraldas com 86 Unidades Confort sec M Pampers", "Achei no Walmart da Curuzu", new Long(1), new Double(23.3));
+        Anuncio fralda = new Anuncio(new Long(2), new Long(1), "Pacote de Fraldas com 86 Unidades Confort sec M Pampers", "Achei no Walmart da Curuzu", new Long(1), new Double(23.3));
         listaAnuncios.add(fralda);
 
-        Anuncio produto2 = new Anuncio(new Long(3), "Nan Pro 2", "Melhor Preço da Cidade djkasdlaskjiwuhjsdajskhdkjashdjsahjdkhsaj sjkahduaj jka jkash jkash jey hqwkjhq qwhkejh qwjk ehqkwjehqwkj ", new Long(1), new Double(23.3));
+        Anuncio produto2 = new Anuncio(new Long(3), new Long(1), "Nan Pro 2", "Melhor Preço da Cidade djkasdlaskjiwuhjsdajskhdkjashdjsahjdkhsaj sjkahduaj jka jkash jkash jey hqwkjhq qwhkejh qwjk ehqkwjehqwkj ", new Long(1), new Double(23.3));
         listaAnuncios.add(produto2);
 
-        Anuncio produto3 = new Anuncio(new Long(4), "Ninho Fase +1", "Lojas Americanas Patio Belem. Fraldas com desconto", new Long(1), new Double(23.3));
+        Anuncio produto3 = new Anuncio(new Long(4), new Long(1), "Ninho Fase +1", "Lojas Americanas Patio Belem. Fraldas com desconto", new Long(1), new Double(23.3));
         listaAnuncios.add(produto3);
 
-        Anuncio produto4 = new Anuncio(new Long(5), "Nestogeno 1", "Corram Mamães!!! Promoção BigBen Da Doca", new Long(1), new Double(23.3));
+        Anuncio produto4 = new Anuncio(new Long(5), new Long(1), "Nestogeno 1", "Corram Mamães!!! Promoção BigBen Da Doca", new Long(1), new Double(23.3));
         listaAnuncios.add(produto4);
 
-        Anuncio produto6 = new Anuncio(new Long(6), "Mamaderas Avent", "Promoção na Casa do Paulo ", new Long(1), new Double(23.3));
+        Anuncio produto6 = new Anuncio(new Long(6), new Long(1), "Mamaderas Avent", "Promoção na Casa do Paulo ", new Long(1), new Double(23.3));
         listaAnuncios.add(produto6);
 
         listarAnuncios();
@@ -101,7 +100,7 @@ public class ListaAnunciosActivity extends AppCompatActivity {
     // TODO AVELINO SOMENTE PARA TESTES. VERIFICAR SE ESTA CARREGANDO DO BANCO DADOS
     private void listarAnuncios() {
 
-        AnuncioDao anuncioDao = new AnuncioDao(ListaAnunciosActivity.this);
+        AnuncioDao anuncioDao = AnuncioDao.getInstance(ListaAnunciosActivity.this);
         List<Anuncio> produtos = anuncioDao.buscarTodos();
 
         for (Anuncio p : produtos) {
@@ -110,8 +109,8 @@ public class ListaAnunciosActivity extends AppCompatActivity {
         //TODO AVELINO. REMOVER. ESTOU SO FORCANDO UMA ATUALIZACAO DA LISTA VIA BANCO DE DADOS
         listaAnuncios.addAll(produtos);
 
-        MarcaDao MarcaDao = new MarcaDao(ListaAnunciosActivity.this);
-        List<Marca> marcas = MarcaDao.buscarTodos();
+        MarcaDao marcaDao = MarcaDao.getInstance(ListaAnunciosActivity.this);
+        List<Marca> marcas = marcaDao.buscarTodos();
 
         for (Marca p : marcas) {
             Log.i("avelino: ", "Listando os Marcas" + String.valueOf(p.toString()));

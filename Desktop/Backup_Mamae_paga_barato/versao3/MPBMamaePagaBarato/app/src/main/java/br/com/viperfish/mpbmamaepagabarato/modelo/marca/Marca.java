@@ -1,22 +1,20 @@
-package br.com.viperfish.mpbmamaepagabarato.modelo.produto;
+package br.com.viperfish.mpbmamaepagabarato.modelo.marca;
 
 /**
- * Created by Av on 13/11/16.
+ * Created by ddark on 20/07/17.
  */
-public class Produto {
+
+public class Marca {
 
     private Long id;
     private String nome;
-    private Long subCategoriaId;
 
-
-    public Produto(Long id, Long subCategoriaId, String nome) {
-        this.id = id;
-        this.nome = nome;
-        this.subCategoriaId = subCategoriaId;
+    public Marca() {
     }
 
-    public Produto() {
+    public Marca(Long id, String nome) {
+        this.id = id;
+        this.nome = nome;
     }
 
     public Long getId() {
@@ -35,17 +33,9 @@ public class Produto {
         this.nome = nome;
     }
 
-    public Long getSubCategoriaId() {
-        return subCategoriaId;
-    }
-
-    public void setSubCategoriaId(Long subCategoriaId) {
-        this.subCategoriaId = subCategoriaId;
-    }
-
     @Override
     public String toString() {
-        return "Produto{" +
+        return "Marca{" +
                 "id=" + id +
                 ", nome='" + nome + '\'' +
                 '}';

@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
-import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.helper.MaisInformacoesProdutoHelper;
+import br.com.viperfish.mpbmamaepagabarato.activity.helper.MaisInformacoesProdutoHelper;
 import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
 
 public class MaisInformacoesProdutoActivity extends AppCompatActivity {

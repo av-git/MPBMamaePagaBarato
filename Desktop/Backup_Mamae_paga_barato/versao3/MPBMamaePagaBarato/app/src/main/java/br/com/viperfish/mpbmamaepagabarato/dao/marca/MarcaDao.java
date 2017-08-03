@@ -1,15 +1,16 @@
-package br.com.viperfish.mpbmamaepagabarato.dao;
+package br.com.viperfish.mpbmamaepagabarato.dao.marca;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.viperfish.mpbmamaepagabarato.dao.DaoBase;
 import br.com.viperfish.mpbmamaepagabarato.modelo.Marca;
+
 
 /**
  * Created by AV on 22/11/2016.
@@ -19,7 +20,6 @@ public class MarcaDao extends DaoBase {
 
     private static MarcaDao instance;
     private static String TAG = "MarcaDao"; // LogCat
-
 
     /**
      * Private constructor to aboid object creation from outside classes.
@@ -45,45 +45,48 @@ public class MarcaDao extends DaoBase {
 
     /**
      * Insert a contact into the database.
-     *
      */
-    public void insert(Marca marca) {
+    public boolean inserir(Marca marca) {
 
         ContentValues values = new ContentValues();
 
-        values.put(DatabaseOpenHelper.Marca.NOME,
+        values.put(IMarcaSchema.COLUNA_NOME,
                 marca.getNome());
 
-        long resultado = inserir(DatabaseOpenHelper.Marca.TABELA, values);
-
-        if (resultado == -1) {
-            Log.i(TAG, "ERRO Inserindo Marca" + String.valueOf(marca.toString()));
-        }
+        return super.inserir(IMarcaSchema.TABELA, values);
     }
 
     public List<Marca> buscarTodos() {
 
-        abrirConexaoEmModoLeitura();
-
-        Cursor cursor = getDatabase().query(DatabaseOpenHelper.Marca.TABELA,
-                DatabaseOpenHelper.Marca.COLUNAS,
-                null, null, null, null, null);
-
+        Cursor cursor = null;
         List<Marca> marcas = new ArrayList<Marca>();
 
-        while(cursor.moveToNext()){
-            Marca marca = criarMarca(cursor);
-            marcas.add(marca);
-        }
+        try {
 
-        cursor.close();
-        fecharConexao();
+            abrirConexaoEmModoLeitura();
+
+            cursor = getDatabase().query(IMarcaSchema.TABELA,
+                    IMarcaSchema.COLUNAS,
+                    null, null, null, null, null);
+
+            while (cursor.moveToNext()) {
+                Marca marca = transformaCursorEmEntidade(cursor);
+                marcas.add(marca);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.i(TAG, "ERRO Buscar Marca");
+
+        } finally {
+            cursor.close();
+            fecharConexao();
+        }
 
         return marcas;
     }
 
     /**
-     *
      * Forma alternativa
      * Read all contacts from the database.
      *
@@ -109,22 +112,19 @@ public class MarcaDao extends DaoBase {
 
     /**
      * Update the contact details.
-     *
      */
-    public void update(Marca marca) {
+    public boolean atualizar(Marca marca) {
 
         ContentValues values = new ContentValues();
 
-        values.put(DatabaseOpenHelper.Marca.NOME,
+        values.put(IMarcaSchema.COLUNA_NOME,
                 marca.getNome());
 
-        abriConexaoEmModoEscrita();
-
-        int resultado = atualizar(DatabaseOpenHelper.Marca.TABELA,
-                values, DatabaseOpenHelper.Marca._ID + " = ?",
+        boolean atualizou = super.atualizar(IMarcaSchema.TABELA,
+                values, IMarcaSchema.COLUNA_ID + " = ?",
                 new String[]{marca.getId().toString()});
 
-        fecharConexao();
+        return atualizou;
     }
 
     /**
@@ -132,27 +132,54 @@ public class MarcaDao extends DaoBase {
      *
      * @param marca the contact to delete
      */
-    public void delete(Marca marca) {
-        try {
-            deletar(DatabaseOpenHelper.Marca.TABELA, DatabaseOpenHelper.Marca._ID+ " = ?", new String[]{marca.getId().toString()});
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+    public boolean deletar(Marca marca) {
+
+        return super.deletar(IMarcaSchema.TABELA, IMarcaSchema.COLUNA_ID + " = ?", new String[]{marca.getId().toString()});
+
     }
 
-    private Marca criarMarca(Cursor cursor) {
+    protected Marca transformaCursorEmEntidade(Cursor cursor) {
 
         Marca marca = new Marca(
 
                 cursor.getLong(cursor.getColumnIndex(
-                        DatabaseOpenHelper.Marca._ID)),
+                        IMarcaSchema.COLUNA_ID)),
 
                 cursor.getString(cursor.getColumnIndex(
-                        DatabaseOpenHelper.Marca.NOME))
+                        IMarcaSchema.COLUNA_NOME))
         );
 
         return marca;
     }
 
+    public Marca buscarPorId(Integer id) {
+
+        Marca marca = null;
+        Cursor cursor = null;
+
+        try {
+
+            abrirConexaoEmModoLeitura();
+
+            cursor = getDatabase().query(IMarcaSchema.TABELA,
+                    IMarcaSchema.COLUNAS,
+                    IMarcaSchema.COLUNA_ID + " = ?",
+                    new String[]{id.toString()},
+                    null, null, null);
+
+            if (cursor.moveToNext()) {
+                marca = transformaCursorEmEntidade(cursor);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.i(TAG, "ERRO Buscar Marca");
+
+        } finally {
+            cursor.close();
+            fecharConexao();
+        }
+
+        return marca;
+    }
 }

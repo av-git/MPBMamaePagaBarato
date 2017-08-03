@@ -11,8 +11,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
-import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.helper.FormularioProdutoHelper;
 import br.com.viperfish.mpbmamaepagabarato.dao.anuncio.AnuncioDao;
+import br.com.viperfish.mpbmamaepagabarato.activity.helper.FormularioProdutoHelper;
 import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
 
 public class FormularioProdutoActivity extends AppCompatActivity {
@@ -70,10 +70,10 @@ public class FormularioProdutoActivity extends AppCompatActivity {
                 FormularioProdutoHelper helper = new FormularioProdutoHelper(FormularioProdutoActivity.this);
 
                 if (helper.isCamposObritagoriosPreenchidos() ){
-                    Anuncio produto = helper.obterProduto();
+                    Anuncio anuncio = helper.obterProduto();
 
-                    Log.i("Avelino", "Salvando o Anuncio: " +produto.toString());
-                    salvar(produto);
+                    Log.i("Avelino", "Salvando o Anuncio: " +anuncio.toString());
+                    salvar(anuncio);
                     finish(); // Finaliza a Activity e volta para a quem chamou
                 }
                 break;
@@ -86,32 +86,37 @@ public class FormularioProdutoActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void salvar(Anuncio produto) {
+    private void salvar(Anuncio anuncio) {
 
-        AnuncioDao anuncioDao = new AnuncioDao(FormularioProdutoActivity.this);
+        AnuncioDao anuncioDao = AnuncioDao.getInstance(FormularioProdutoActivity.this);
 
         //NOVO REGISTRO
-        if (produto.getId() == null ) {
-            inserir(produto, anuncioDao);
+        if (anuncio.getId() == null ) {
+            inserir(anuncio);
         } else {
             //ALTERAR REGISTRO
-            alterar(produto, anuncioDao);
+            alterar(anuncio);
         }
     }
 
-    private void alterar(Anuncio produto, AnuncioDao anuncioDao) {
-        long resultado = anuncioDao.atualizar(produto);
-        if (resultado > 0 ) {
+    private void alterar(Anuncio anuncio) {
+
+        AnuncioDao anuncioDao = AnuncioDao.getInstance(FormularioProdutoActivity.this);
+
+        anuncioDao.atualizar(anuncio);
+        if ( anuncioDao.atualizar(anuncio) ) {
             Toast.makeText(FormularioProdutoActivity.this, "Alterado com sucesso. Obrigado", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(FormularioProdutoActivity.this, "Ocorreu um erro ao salvar. Tente novamente", Toast.LENGTH_LONG).show();
         }
     }
 
-    private void inserir(Anuncio produto, AnuncioDao anuncioDao) {
-        long resultado = anuncioDao.inserir(produto);
+    private void inserir(Anuncio produto) {
 
-        if (resultado != -1 ) {
+        AnuncioDao anuncioDao = AnuncioDao.getInstance(FormularioProdutoActivity.this);
+        anuncioDao.inserir(produto);
+
+        if (anuncioDao.inserir(produto) ) {
             Toast.makeText(FormularioProdutoActivity.this, "Registrado com sucesso. Obrigado", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(FormularioProdutoActivity.this, "Ocorreu um erro ao salvar. Tente novamente", Toast.LENGTH_LONG).show();

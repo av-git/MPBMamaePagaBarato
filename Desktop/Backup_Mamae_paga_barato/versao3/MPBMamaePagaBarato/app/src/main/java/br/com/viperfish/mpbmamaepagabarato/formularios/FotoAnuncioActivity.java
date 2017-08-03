@@ -1,4 +1,4 @@
-package br.com.viperfish.mpbmamaepagabarato.activity.anuncio.formularios;
+package br.com.viperfish.mpbmamaepagabarato.formularios;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -28,6 +28,7 @@ import java.util.List;
 
 import br.com.viperfish.mpbmamaepagabarato.BuildConfig;
 import br.com.viperfish.mpbmamaepagabarato.R;
+import br.com.viperfish.mpbmamaepagabarato.activity.categoria.CategoriaAnuncioActivity;
 import util.CarregadorDeFoto;
 
 public class FotoAnuncioActivity extends AppCompatActivity {

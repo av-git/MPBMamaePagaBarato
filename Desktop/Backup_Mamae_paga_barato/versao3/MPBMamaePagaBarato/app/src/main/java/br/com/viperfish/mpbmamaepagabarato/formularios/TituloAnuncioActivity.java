@@ -1,4 +1,4 @@
-package br.com.viperfish.mpbmamaepagabarato.activity.anuncio.formularios;
+package br.com.viperfish.mpbmamaepagabarato.formularios;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,8 +12,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
-import br.com.viperfish.mpbmamaepagabarato.modelo.categoria.Categoria;
 import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
+import br.com.viperfish.mpbmamaepagabarato.modelo.categoria.Categoria;
 
 public class TituloAnuncioActivity extends AppCompatActivity {
 
@@ -23,7 +23,7 @@ public class TituloAnuncioActivity extends AppCompatActivity {
 
     EditText tituloAnuncioEditText;
 
-    private Anuncio dadosAnuncio;
+    private Categoria subCategoria;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class TituloAnuncioActivity extends AppCompatActivity {
         this.tituloAnuncioEditText = (EditText) findViewById(R.id.formulario_titulo_anuncio);
 
         Intent intent = getIntent();
-        dadosAnuncio = (Anuncio) intent.getSerializableExtra(EXTRA_DADOS_ANUNCIO);
+        subCategoria = (Categoria) intent.getSerializableExtra(EXTRA_DADOS_ANUNCIO);
     }
 
     /**
@@ -64,10 +64,11 @@ public class TituloAnuncioActivity extends AppCompatActivity {
 
         Toast.makeText(TituloAnuncioActivity.this, text.toString()+ " Registrado com sucesso. Obrigado", Toast.LENGTH_LONG).show();
 
-        dadosAnuncio.setTitulo(text.toString());
+        //dadosAnuncio.setTitulo(text.toString());
 
         Intent irParaFormularioDescricaoAnuncio = new Intent(TituloAnuncioActivity.this, DescricaoAnuncioActivity.class);
-        irParaFormularioDescricaoAnuncio.putExtra(DescricaoAnuncioActivity.EXTRA_DADOS_ANUNCIO, dadosAnuncio);
+        //irParaFormularioDescricaoAnuncio.putExtra(DescricaoAnuncioActivity.EXTRA_DADOS_ANUNCIO, dadosAnuncio);
+        irParaFormularioDescricaoAnuncio.putExtra(DescricaoAnuncioActivity.EXTRA_DADOS_ANUNCIO, "AV FALTA FAZER" );
         startActivity(irParaFormularioDescricaoAnuncio);
     }
 

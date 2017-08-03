@@ -1,4 +1,4 @@
-package br.com.viperfish.mpbmamaepagabarato.activity.anuncio.formularios;
+package br.com.viperfish.mpbmamaepagabarato.activity.categoria;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,10 +14,10 @@ import android.widget.Toast;
 import java.util.List;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
-import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.adapter.AdapterCategoriaPersonalizadoNaListView;
+import br.com.viperfish.mpbmamaepagabarato.activity.adapter.AdapterCategoriaPersonalizadoNaListView;
 import br.com.viperfish.mpbmamaepagabarato.dao.categoria.CategoriaDao;
+import br.com.viperfish.mpbmamaepagabarato.formularios.TituloAnuncioActivity;
 import br.com.viperfish.mpbmamaepagabarato.modelo.categoria.Categoria;
-import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
 
 public class SubCategoriaActivity extends AppCompatActivity {
 
@@ -27,7 +27,7 @@ public class SubCategoriaActivity extends AppCompatActivity {
     //Representa a lista de produtos.
     ListView listViewSubCategoria;
 
-    private Anuncio dadosAnuncio;
+    private Categoria categoria;
 
     public static final String EXTRA_DADOS_ANUNCIO = "EXTRA_DADOS_ANUNCIO";
 
@@ -47,7 +47,7 @@ public class SubCategoriaActivity extends AppCompatActivity {
         configurarAcaoOnClickLista();
 
         Intent intent = getIntent();
-        dadosAnuncio = (Anuncio) intent.getSerializableExtra(EXTRA_DADOS_ANUNCIO);
+        categoria = (Categoria) intent.getSerializableExtra(EXTRA_DADOS_ANUNCIO);
     }
 
     /**
@@ -76,10 +76,11 @@ public class SubCategoriaActivity extends AppCompatActivity {
                 Categoria subCategoria = (Categoria) lista.getItemAtPosition(posicao);
                 Toast.makeText(SubCategoriaActivity.this, "sub categoria selecionado: " + subCategoria.getNome(), Toast.LENGTH_LONG).show();
 
-                dadosAnuncio.setSubCategoria(subCategoria);
+                // TODO AVELINO DEFINIR O PRODUTO ESCOLHIDO
+                //dadosAnuncio.setSubCategoria(subCategoria);
 
                 Intent irParaFormularioTituloAnuncio = new Intent(SubCategoriaActivity.this, TituloAnuncioActivity.class);
-                irParaFormularioTituloAnuncio.putExtra(TituloAnuncioActivity.EXTRA_DADOS_ANUNCIO, dadosAnuncio);
+                irParaFormularioTituloAnuncio.putExtra(TituloAnuncioActivity.EXTRA_DADOS_ANUNCIO, subCategoria);
                 startActivity(irParaFormularioTituloAnuncio);
 
             }
@@ -95,8 +96,8 @@ public class SubCategoriaActivity extends AppCompatActivity {
      */
     private void popularListViewComSubCategorias() {
 
-        CategoriaDao categoriaDao = new CategoriaDao(SubCategoriaActivity.this);
-        listaSubCategorias = categoriaDao.buscarPorIdPai(dadosAnuncio.getCategoria().getId());
+        CategoriaDao categoriaDao = CategoriaDao.getInstance(SubCategoriaActivity.this);
+        listaSubCategorias = categoriaDao.buscarPorIdPai(categoria.getId());
 
         if (listaSubCategorias != null && !listaSubCategorias.isEmpty()) {
             //precisamos criar um adapter para colocar os dados no ListView

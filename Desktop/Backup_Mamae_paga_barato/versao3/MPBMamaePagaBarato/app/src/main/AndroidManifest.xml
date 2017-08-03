@@ -24,7 +24,7 @@
 
 
         <activity
-            android:name=".activity.anuncio.SplashScreenActivity"
+            android:name=".SplashScreenActivity"
             android:theme="@style/AppCompat.TelaCheia">
 
             <intent-filter>
@@ -37,19 +37,20 @@
             android:name=".activity.anuncio.MaisInformacoesProdutoActivity"
             android:parentActivityName=".activity.anuncio.ListaAnunciosActivity">
 
-            <!-- Configura a nevagacao do botao voltar. Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="br.com.viperfish.mpbmamaepagabarato.activity.anuncio.ListaAnunciosActivity" />
+        <!-- Configura a nevagacao do botao voltar. Parent activity meta-data to support 4.0 and lower -->
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="br.com.viperfish.mpbmamaepagabarato.activity.anuncio.ListaAnunciosActivity" />
         </activity>
+
         <activity android:name=".activity.anuncio.ListaAnunciosActivity" />
-        <activity android:name=".activity.anuncio.formularios.CategoriaAnuncioActivity" />
-        <activity android:name=".activity.anuncio.formularios.SubCategoriaActivity" />
-        <activity android:name=".activity.anuncio.formularios.TituloAnuncioActivity" />
-        <activity android:name=".activity.anuncio.formularios.DescricaoAnuncioActivity" />
-        <activity android:name=".activity.anuncio.formularios.QualPrecoActivity" />
-        <activity android:name=".activity.anuncio.formularios.ResumoAnuncioActivity" />
-        <activity android:name=".activity.anuncio.formularios.FotoAnuncioActivity"
+        <activity android:name=".activity.categoria.CategoriaAnuncioActivity" />
+        <activity android:name=".activity.categoria.SubCategoriaActivity" />
+        <activity android:name=".formularios.TituloAnuncioActivity" />
+        <activity android:name=".formularios.DescricaoAnuncioActivity" />
+        <activity android:name=".formularios.QualPrecoActivity" />
+        <activity android:name=".formularios.ResumoAnuncioActivity" />
+        <activity android:name=".formularios.FotoAnuncioActivity"
             android:configChanges="orientation|keyboard|keyboardHidden|screenLayout|uiMode|screenSize|smallestScreenSize" android:screenOrientation="portrait"/>
 
     </application>

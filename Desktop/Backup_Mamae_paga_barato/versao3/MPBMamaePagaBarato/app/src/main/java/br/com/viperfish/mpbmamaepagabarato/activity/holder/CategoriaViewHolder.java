@@ -1,4 +1,4 @@
-package br.com.viperfish.mpbmamaepagabarato.activity.anuncio.holder;
+package br.com.viperfish.mpbmamaepagabarato.activity.holder;
 
 import android.view.View;
 import android.widget.ImageView;

@@ -1,11 +1,11 @@
-package br.com.viperfish.mpbmamaepagabarato.activity.anuncio.helper;
+package br.com.viperfish.mpbmamaepagabarato.activity.helper;
 
 import android.content.res.Resources;
 import android.view.View;
 import android.widget.EditText;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
-import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.formularios.ResumoAnuncioActivity;
+import br.com.viperfish.mpbmamaepagabarato.formularios.ResumoAnuncioActivity;
 import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
 import util.Validador;
 
@@ -60,12 +60,12 @@ public class FormularioResumoAnuncioHelper {
         return produto;
     }
 
-    public void preencheFormulario(Anuncio produto) {
+    public void preencheFormulario(Anuncio anuncio) {
 
-        campoTitulo.setText(produto.getTitulo());
-        campoDescricao.setText(produto.getDescricao());
-        campoCategoria.setText(produto.getCategoria().toString());
-        campoPreco.setText(produto.getPreco().toString());
+        campoTitulo.setText(anuncio.getTitulo());
+        campoDescricao.setText(anuncio.getDescricao());
+        campoCategoria.setText(anuncio.getProdutoId().toString());
+        campoPreco.setText(anuncio.getPreco().toString());
 
         this.produto = produto;
     }

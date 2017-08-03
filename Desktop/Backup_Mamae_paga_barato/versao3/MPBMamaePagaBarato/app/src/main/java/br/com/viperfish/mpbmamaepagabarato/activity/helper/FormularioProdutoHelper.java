@@ -1,4 +1,4 @@
-package br.com.viperfish.mpbmamaepagabarato.activity.anuncio.helper;
+package br.com.viperfish.mpbmamaepagabarato.activity.helper;
 
 import android.content.res.Resources;
 import android.view.View;

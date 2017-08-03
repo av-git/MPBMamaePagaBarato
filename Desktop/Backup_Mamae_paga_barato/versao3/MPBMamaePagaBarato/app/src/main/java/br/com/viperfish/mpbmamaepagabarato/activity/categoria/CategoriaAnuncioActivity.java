@@ -1,4 +1,4 @@
-package br.com.viperfish.mpbmamaepagabarato.activity.anuncio.formularios;
+package br.com.viperfish.mpbmamaepagabarato.activity.categoria;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,10 +14,10 @@ import android.widget.Toast;
 import java.util.List;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
-import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.adapter.AdapterCategoriaPersonalizadoNaListView;
+import br.com.viperfish.mpbmamaepagabarato.activity.adapter.AdapterCategoriaPersonalizadoNaListView;
 import br.com.viperfish.mpbmamaepagabarato.dao.categoria.CategoriaDao;
-import br.com.viperfish.mpbmamaepagabarato.modelo.categoria.Categoria;
 import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
+import br.com.viperfish.mpbmamaepagabarato.modelo.categoria.Categoria;
 
 public class CategoriaAnuncioActivity extends AppCompatActivity {
 
@@ -58,11 +58,11 @@ public class CategoriaAnuncioActivity extends AppCompatActivity {
                 Categoria categoria = (Categoria) lista.getItemAtPosition(posicao);
                 Toast.makeText(CategoriaAnuncioActivity.this, "categoria selecionado: " + categoria.getNome(), Toast.LENGTH_LONG).show();
 
-                dadosAnuncio = new Anuncio();
-                dadosAnuncio.setCategoria(categoria);
+                //dadosAnuncio = new Anuncio();
+                //dadosAnuncio.setCategoria(categoria);
 
                 Intent irParaFormularioSubCategoriaAnuncio = new Intent(CategoriaAnuncioActivity.this, SubCategoriaActivity.class);
-                irParaFormularioSubCategoriaAnuncio.putExtra(SubCategoriaActivity.EXTRA_DADOS_ANUNCIO, dadosAnuncio);
+                irParaFormularioSubCategoriaAnuncio.putExtra(SubCategoriaActivity.EXTRA_DADOS_ANUNCIO, categoria);
                 startActivity(irParaFormularioSubCategoriaAnuncio);
 
             }
@@ -78,7 +78,7 @@ public class CategoriaAnuncioActivity extends AppCompatActivity {
      */
     private void popularListViewComCategorias() {
 
-        CategoriaDao categoriaDao = new CategoriaDao(CategoriaAnuncioActivity.this);
+        CategoriaDao categoriaDao = CategoriaDao.getInstance(CategoriaAnuncioActivity.this);
 
         listaCategorias = categoriaDao.buscarPorIdPai(new Long(1)); // obtem as categorias pai
 

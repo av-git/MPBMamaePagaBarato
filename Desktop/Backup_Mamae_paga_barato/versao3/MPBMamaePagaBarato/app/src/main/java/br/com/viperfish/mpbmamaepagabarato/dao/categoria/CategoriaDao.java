@@ -2,125 +2,171 @@ package br.com.viperfish.mpbmamaepagabarato.dao.categoria;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.viperfish.mpbmamaepagabarato.dao.DatabaseHelper;
+import br.com.viperfish.mpbmamaepagabarato.dao.DaoBase;
 import br.com.viperfish.mpbmamaepagabarato.modelo.categoria.Categoria;
+
 
 /**
  * Created by AV on 22/11/2016.
  */
 
-public class CategoriaDao {
+public class CategoriaDao extends DaoBase {
 
-    private DatabaseHelper databaseHelper;
+    private static CategoriaDao instance;
+    private static String TAG = "CategoriaDao"; // LogCat
 
-    public CategoriaDao(Context context) {
-        databaseHelper = new DatabaseHelper(context);
+    /**
+     * Private constructor to aboid object creation from outside classes.
+     *
+     * @param context
+     */
+    private CategoriaDao(Context context) {
+        super(context);
     }
 
-    public void close(){
-        databaseHelper.close();
+    /**
+     * Return a singleton instance of DatabaseAccess.
+     *
+     * @param context the Context
+     * @return the instance of DabaseAccess
+     */
+    public static CategoriaDao getInstance(Context context) {
+        if (instance == null) {
+            instance = new CategoriaDao(context);
+        }
+        return instance;
     }
 
     public List<Categoria> buscarTodos() {
 
-        SQLiteDatabase db = databaseHelper.getReadableDatabase();
-
-        Cursor cursor = db.query(DatabaseHelper.Categoria.TABELA,
-                DatabaseHelper.Categoria.COLUNAS,
-                null, null, null, null, null);
-
+        Cursor cursor = null;
         List<Categoria> categorias = new ArrayList<Categoria>();
 
-        while(cursor.moveToNext()){
-            Categoria categoria = criarCategoria(cursor);
-            categorias.add(categoria);
-        }
+        try {
 
-        cursor.close();
-        close();
+            abrirConexaoEmModoLeitura();
+
+            cursor = getDatabase().query(ICategoriaSchema.TABELA,
+                    ICategoriaSchema.COLUNAS,
+                    null, null, null, null, null);
+
+            while (cursor.moveToNext()) {
+                Categoria categoria = transformaCursorEmEntidade(cursor);
+                categorias.add(categoria);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.i(TAG, "ERRO Buscar Categoria");
+
+        } finally {
+            cursor.close();
+            fecharConexao();
+        }
 
         return categorias;
     }
 
-    public List<Categoria> buscarPorIdPai(Long idPai) {
+    /**
+     * Update the contact details.
+     */
+    public boolean atualizar(Categoria categoria) {
+        //TODO NAO IMPLEMENTADO
+        return false;
+    }
 
-        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+    /**
+     * Delete the provided contact.
+     *
+     * @param categoria the contact to delete
+     */
+    public boolean deletar(Categoria categoria) {
+        //TODO NAO IMPLEMENTADO
+        return false;
+    }
 
-        Cursor cursor = db.query(DatabaseHelper.Categoria.TABELA,
-                DatabaseHelper.Categoria.COLUNAS,
-                DatabaseHelper.Categoria.IDPAI + " = ?",
-                new String[]{ idPai.toString() },
-                null, null, null);
+    protected Categoria transformaCursorEmEntidade(Cursor cursor) {
 
-        List<Categoria> categorias = new ArrayList<Categoria>();
+        Categoria categoria = new Categoria(
 
-        while(cursor.moveToNext()){
-            Categoria categoria = criarCategoria(cursor);
-            categorias.add(categoria);
-        }
+                cursor.getLong(cursor.getColumnIndex(
+                        ICategoriaSchema._ID)),
 
-        cursor.close();
-        close();
+                cursor.getLong(cursor.getColumnIndex(
+                        ICategoriaSchema.IDPAI)),
 
-        return categorias;
+                cursor.getString(cursor.getColumnIndex(
+                        ICategoriaSchema.NOME))
+        );
+
+        return categoria;
     }
 
     public Categoria buscarPorId(Integer id) {
 
         Categoria categoria = null;
-        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+        Cursor cursor = null;
 
-        Cursor cursor = db.query(DatabaseHelper.Categoria.TABELA,
-                DatabaseHelper.Categoria.COLUNAS,
-                DatabaseHelper.Categoria._ID + " = ?",
-                new String[]{ id.toString() },
-                null, null, null);
+        try {
 
-        if(cursor.moveToNext()) {
-            categoria = criarCategoria(cursor);
+            abrirConexaoEmModoLeitura();
+
+            cursor = getDatabase().query(ICategoriaSchema.TABELA,
+                    ICategoriaSchema.COLUNAS,
+                    ICategoriaSchema._ID + " = ?",
+                    new String[]{id.toString()},
+                    null, null, null);
+
+            if (cursor.moveToNext()) {
+                categoria = transformaCursorEmEntidade(cursor);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.i(TAG, "ERRO Buscar categoria");
+
+        } finally {
+            cursor.close();
+            fecharConexao();
         }
 
-        cursor.close();
-        close();
-
         return categoria;
     }
 
-    /**
-     * TODO AVELINO. VERIFICAR A NECESSIDADE
-     * @return
-     */
-    public List<Categoria> buscarCategoriasOrganizadas() {
-        StringBuffer  varname1 = new StringBuffer();
-        varname1.append("WITH LINK(ID, NOME, LEVEL) AS ( ");
-        varname1.append("SELECT ID, NOME, 0 FROM CATEGORIA WHERE ID_PAI IS NULL ");
-        varname1.append("UNION ALL ");
-        varname1.append("SELECT CATEGORIA.ID, IFNULL(LINK.NOME || '-->', '') || CATEGORIA.NOME, LEVEL + 1 ");
-        varname1.append("FROM LINK INNER JOIN CATEGORIA ON LINK.ID = CATEGORIA.ID_PAI ");
-        varname1.append(") ");
-        varname1.append("SELECT NOME FROM LINK WHERE NOME IS NOT NULL ORDER BY ID;");
+    public List<Categoria> buscarPorIdPai(Long idPai) {
 
-        return null;
-    }
+        Cursor cursor = null;
+        List<Categoria> categorias = new ArrayList<Categoria>();
 
-    private Categoria criarCategoria(Cursor cursor) {
+        try {
 
-        Categoria categoria = new Categoria(
-                cursor.getLong(cursor.getColumnIndex(
-                        DatabaseHelper.Categoria._ID)),
+            abrirConexaoEmModoLeitura();
 
-                cursor.getLong(cursor.getColumnIndex(
-                        DatabaseHelper.Categoria.IDPAI)),
+            cursor = getDatabase().query(ICategoriaSchema.TABELA,
+                    ICategoriaSchema.COLUNAS,
+                    ICategoriaSchema.IDPAI + " = ?",
+                    new String[]{idPai.toString()},
+                    null, null, null);
 
-                cursor.getString(cursor.getColumnIndex(
-                        DatabaseHelper.Categoria.NOME))
-        );
+            while (cursor.moveToNext()) {
+                Categoria categoria = transformaCursorEmEntidade(cursor);
+                categorias.add(categoria);
+            }
 
-        return categoria;
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.i(TAG, "ERRO Buscar Categoria");
+
+        } finally {
+            cursor.close();
+            fecharConexao();
+        }
+
+        return categorias;
     }
 }

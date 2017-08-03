@@ -1,4 +1,4 @@
-package br.com.viperfish.mpbmamaepagabarato.activity.anuncio.adapter;
+package br.com.viperfish.mpbmamaepagabarato.activity.adapter;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -9,7 +9,7 @@ import android.widget.BaseAdapter;
 import java.util.List;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
-import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.holder.ProdutoViewHolder;
+import br.com.viperfish.mpbmamaepagabarato.activity.holder.ProdutoViewHolder;
 import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
 
 /**

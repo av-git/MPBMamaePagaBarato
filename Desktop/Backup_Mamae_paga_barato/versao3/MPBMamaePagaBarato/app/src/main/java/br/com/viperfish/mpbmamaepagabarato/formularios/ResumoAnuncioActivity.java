@@ -1,4 +1,4 @@
-package br.com.viperfish.mpbmamaepagabarato.activity.anuncio.formularios;
+package br.com.viperfish.mpbmamaepagabarato.formularios;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
@@ -13,8 +13,7 @@ import android.widget.Toast;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
 import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.ListaAnunciosActivity;
-import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.helper.FormularioResumoAnuncioHelper;
-import br.com.viperfish.mpbmamaepagabarato.dao.anuncio.AnuncioDao;
+import br.com.viperfish.mpbmamaepagabarato.activity.helper.FormularioResumoAnuncioHelper;
 import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
 
 public class ResumoAnuncioActivity extends AppCompatActivity {
@@ -79,7 +78,7 @@ public class ResumoAnuncioActivity extends AppCompatActivity {
                 FormularioResumoAnuncioHelper helper = new FormularioResumoAnuncioHelper(ResumoAnuncioActivity.this);
 
                 Log.i("Avelino", "Salvando o Anuncio: " + dadosAnuncio.toString());
-                salvar(dadosAnuncio);
+                //salvar(dadosAnuncio);
 
                 Intent intent = new Intent(getApplicationContext(), ListaAnunciosActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -96,38 +95,6 @@ public class ResumoAnuncioActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private void salvar(Anuncio produto) {
-
-        AnuncioDao anuncioDao = new AnuncioDao(ResumoAnuncioActivity.this);
-
-        //NOVO REGISTRO
-        if (produto.getId() == null) {
-            inserir(produto, anuncioDao);
-        } else {
-            //ALTERAR REGISTRO
-            alterar(produto, anuncioDao);
-        }
-    }
-
-    private void alterar(Anuncio produto, AnuncioDao anuncioDao) {
-        long resultado = anuncioDao.atualizar(produto);
-        if (resultado > 0) {
-            Toast.makeText(ResumoAnuncioActivity.this, "Alterado com sucesso. Obrigado", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(ResumoAnuncioActivity.this, "Ocorreu um erro ao salvar. Tente novamente", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    private void inserir(Anuncio produto, AnuncioDao anuncioDao) {
-        long resultado = anuncioDao.inserir(produto);
-
-        if (resultado != -1) {
-            Toast.makeText(ResumoAnuncioActivity.this, "Registrado com sucesso. Obrigado", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(ResumoAnuncioActivity.this, "Ocorreu um erro ao salvar. Tente novamente", Toast.LENGTH_LONG).show();
-        }
     }
 
     @Override
