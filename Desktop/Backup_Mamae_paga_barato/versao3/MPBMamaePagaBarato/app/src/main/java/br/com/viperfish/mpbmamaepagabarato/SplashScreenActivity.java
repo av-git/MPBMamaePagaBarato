@@ -1,10 +1,11 @@
 package br.com.viperfish.mpbmamaepagabarato;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
+import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.FormularioAnuncioActivity;
 import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.ListaAnunciosActivity;
 
 public class SplashScreenActivity extends AppCompatActivity {
@@ -20,7 +21,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             public void run() {
                 mostrarTelaPrincipal();
             }
-        }, 2000);
+        }, 1000);
     }
 
     private void mostrarTelaPrincipal() {

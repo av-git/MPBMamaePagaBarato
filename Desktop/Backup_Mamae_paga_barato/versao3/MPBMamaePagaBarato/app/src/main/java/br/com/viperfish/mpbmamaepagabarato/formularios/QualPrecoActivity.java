@@ -13,16 +13,17 @@ import android.widget.Toast;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
 import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
+import br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto;
 
 public class QualPrecoActivity extends AppCompatActivity {
 
     public static final String EXTRA_DADOS_ANUNCIO = "EXTRA_DADOS_ANUNCIO";
-    private Anuncio dadosAnuncio;
-
-    EditText precoAnuncioEditText;
+    private Anuncio anuncio;
+    private EditText precoAnuncioEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qual_preco);
 
@@ -30,10 +31,10 @@ public class QualPrecoActivity extends AppCompatActivity {
         configurarBotaoVoltarParaTelaPrincipal();
 
         Log.i("Avelino", "QualPrecoActivity OnCreate");
-        this.precoAnuncioEditText = (EditText) findViewById(R.id.formulario_qual_preco_anuncio);
+        this.precoAnuncioEditText = (EditText) findViewById(R.id.formulario_qual_preco_produto);
 
         Intent intent = getIntent();
-        dadosAnuncio = (Anuncio) intent.getSerializableExtra(EXTRA_DADOS_ANUNCIO);
+        anuncio = (Anuncio) intent.getSerializableExtra(EXTRA_DADOS_ANUNCIO);
     }
 
     /**
@@ -50,14 +51,14 @@ public class QualPrecoActivity extends AppCompatActivity {
 
 
     public void irParaFormularioEnderecoAnuncio(View v) {
-        Editable text = this.precoAnuncioEditText.getText();
 
-        Toast.makeText(QualPrecoActivity.this, text.toString()+ " Registrado com sucesso. Obrigado", Toast.LENGTH_LONG).show();
+        Editable preco = this.precoAnuncioEditText.getText();
+        anuncio.setPreco(Double.parseDouble(preco.toString()));
 
-        dadosAnuncio.setPreco(Double.valueOf(text.toString()));
+        Toast.makeText(QualPrecoActivity.this, preco.toString()+ " Registrado com sucesso. Obrigado", Toast.LENGTH_LONG).show();
 
         Intent irParaFormularioResumoAnuncio = new Intent(QualPrecoActivity.this, ResumoAnuncioActivity.class);
-        irParaFormularioResumoAnuncio.putExtra(ResumoAnuncioActivity.EXTRA_DADOS_ANUNCIO, dadosAnuncio);
+        irParaFormularioResumoAnuncio.putExtra(ResumoAnuncioActivity.EXTRA_DADOS_ANUNCIO, anuncio);
         startActivity(irParaFormularioResumoAnuncio);
     }
 

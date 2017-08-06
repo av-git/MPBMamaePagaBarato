@@ -14,30 +14,30 @@ import android.widget.Toast;
 import br.com.viperfish.mpbmamaepagabarato.R;
 import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
 import br.com.viperfish.mpbmamaepagabarato.modelo.categoria.Categoria;
+import br.com.viperfish.mpbmamaepagabarato.modelo.marca.Marca;
 
 public class TituloAnuncioActivity extends AppCompatActivity {
 
-    public static final String EXTRA_DADOS_ANUNCIO = "EXTRA_DADOS_ANUNCIO";
+    public static final String EXTRA_DADOS_MARCA_SELECIONADA = "EXTRA_DADOS_MARCA_SELECIONADA";
+    private EditText tituloAnuncioEditText;
+    private Anuncio anuncio;
 
-    Categoria categoriaSelecionada;
-
-    EditText tituloAnuncioEditText;
-
-    private Categoria subCategoria;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_titulo_anuncio);
 
-        setTitle("Inserir Anúncio");
+        setTitle("Informe o produto");
         configurarBotaoVoltarParaTelaPrincipal();
 
-        Log.i("Avelino", "TituloAnuncioActivity OnCreate");
         this.tituloAnuncioEditText = (EditText) findViewById(R.id.formulario_titulo_anuncio);
 
         Intent intent = getIntent();
-        subCategoria = (Categoria) intent.getSerializableExtra(EXTRA_DADOS_ANUNCIO);
+        anuncio = (Anuncio) intent.getSerializableExtra(EXTRA_DADOS_MARCA_SELECIONADA);
+
+        Log.i("Avelino", "TituloAnuncioActivity OnCreate");
     }
 
     /**
@@ -59,17 +59,16 @@ public class TituloAnuncioActivity extends AppCompatActivity {
         Toast.makeText(TituloAnuncioActivity.this, produto.getTitulo() +" Registrado com sucesso. Obrigado", Toast.LENGTH_LONG).show();
     }
 
-    public void irParaFormularioDescricaoAnuncio(View v) {
-        Editable text = this.tituloAnuncioEditText.getText();
+    public void irParaFormularioPrecoProduto(View v) {
 
-        Toast.makeText(TituloAnuncioActivity.this, text.toString()+ " Registrado com sucesso. Obrigado", Toast.LENGTH_LONG).show();
+        anuncio.setTitulo(tituloAnuncioEditText.getText().toString());
+        //TODO AVELINO DEFINIR UNIDADE MEDIDA
+        //anuncio.setTitulo(tituloAnuncioEditText.getText().toString());
 
-        //dadosAnuncio.setTitulo(text.toString());
-
-        Intent irParaFormularioDescricaoAnuncio = new Intent(TituloAnuncioActivity.this, DescricaoAnuncioActivity.class);
-        //irParaFormularioDescricaoAnuncio.putExtra(DescricaoAnuncioActivity.EXTRA_DADOS_ANUNCIO, dadosAnuncio);
-        irParaFormularioDescricaoAnuncio.putExtra(DescricaoAnuncioActivity.EXTRA_DADOS_ANUNCIO, "AV FALTA FAZER" );
-        startActivity(irParaFormularioDescricaoAnuncio);
+        Intent irParaFormularioPrecoProduto = new Intent(TituloAnuncioActivity.this, QualPrecoActivity.class);
+        irParaFormularioPrecoProduto.putExtra(QualPrecoActivity.EXTRA_DADOS_ANUNCIO, anuncio);
+        //irParaFormularioPrecoProduto.putExtra(QualPrecoActivity.EXTRA_DADOS_ANUNCIO, "AV FALTA FAZER" );
+        startActivity(irParaFormularioPrecoProduto);
     }
 
     @Override

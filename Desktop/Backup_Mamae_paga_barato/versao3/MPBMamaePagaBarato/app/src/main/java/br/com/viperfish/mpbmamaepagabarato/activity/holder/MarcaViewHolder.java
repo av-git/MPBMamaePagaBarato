@@ -15,16 +15,16 @@ import br.com.viperfish.mpbmamaepagabarato.R;
  *
  */
 
-public class CategoriaViewHolder {
+public class MarcaViewHolder {
 
     public final TextView nome;
     //public final ImageView imagem;
 
 
-    public CategoriaViewHolder(View view) {
+    public MarcaViewHolder(View view) {
 
         //pegando as referências das Views
-        nome = (TextView) view.findViewById(R.id.lista_categoria_personalizada_nome);
-        //imagem = (ImageView) view.findViewById(R.id.lista_categoria_personalizada_imagem);
+        nome = (TextView) view.findViewById(R.id.lista_marca_personalizada_nome );
+        //imagem = (ImageView) view.findViewById(R.id.lista_marca_personalizada_imagem);
     }
 }

@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
-import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.FormularioProdutoActivity;
+import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.FormularioAnuncioActivity;
 import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
 import util.Validador;
 
@@ -20,13 +20,13 @@ public class FormularioProdutoHelper {
     private final EditText campoCategoria;
     private final EditText campoTipo;
     private final EditText campoPreco;
-    private final FormularioProdutoActivity activity;
+    private final FormularioAnuncioActivity activity;
     private Anuncio produto;
     private Resources recursos;
 
     //private List<View> camposObrigatorios = new ArrayList<View>();
 
-    public FormularioProdutoHelper(FormularioProdutoActivity activity) {
+    public FormularioProdutoHelper(FormularioAnuncioActivity activity) {
 
         this.activity = activity;
         recursos = activity.getResources();

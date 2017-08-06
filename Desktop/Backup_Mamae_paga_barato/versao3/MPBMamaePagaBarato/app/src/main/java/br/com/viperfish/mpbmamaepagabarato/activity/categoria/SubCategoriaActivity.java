@@ -15,21 +15,18 @@ import java.util.List;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
 import br.com.viperfish.mpbmamaepagabarato.activity.adapter.AdapterCategoriaPersonalizadoNaListView;
+import br.com.viperfish.mpbmamaepagabarato.activity.marca.ListaMarcaActivity;
+import br.com.viperfish.mpbmamaepagabarato.activity.produto.ListaProdutosActivity;
 import br.com.viperfish.mpbmamaepagabarato.dao.categoria.CategoriaDao;
-import br.com.viperfish.mpbmamaepagabarato.formularios.TituloAnuncioActivity;
+import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
 import br.com.viperfish.mpbmamaepagabarato.modelo.categoria.Categoria;
 
 public class SubCategoriaActivity extends AppCompatActivity {
 
-
     private List<Categoria> listaSubCategorias;
-
-    //Representa a lista de produtos.
-    ListView listViewSubCategoria;
-
-    private Categoria categoria;
-
-    public static final String EXTRA_DADOS_ANUNCIO = "EXTRA_DADOS_ANUNCIO";
+    private ListView listViewSubCategoria;
+    private Anuncio anuncio;
+    public static final String EXTRA_DADOS_CATEGORIA_SELECIONADA = "EXTRA_DADOS_CATEGORIA_SELECIONADA";
 
 
     @Override
@@ -37,17 +34,17 @@ public class SubCategoriaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub_categoria);
 
-        setTitle("Cadastrar Anúncio");
-        configurarBotaoVoltarParaTelaPrincipal();
+        Intent intent = getIntent();
+        anuncio = (Anuncio) intent.getSerializableExtra(EXTRA_DADOS_CATEGORIA_SELECIONADA);
 
-        Log.i("Avelino", "SubCategoriaActivity OnCreate");
+        setTitle(anuncio.getCategoria().getNome());
+        configurarBotaoVoltarParaTelaPrincipal();
 
         //recupera componente ListView (Bynding)
         listViewSubCategoria = (ListView) findViewById(R.id.lista_sub_categoria);
         configurarAcaoOnClickLista();
 
-        Intent intent = getIntent();
-        categoria = (Categoria) intent.getSerializableExtra(EXTRA_DADOS_ANUNCIO);
+        Log.i("Avelino", "SubCategoriaActivity OnCreate");
     }
 
     /**
@@ -69,19 +66,19 @@ public class SubCategoriaActivity extends AppCompatActivity {
      * Define a acao de onlick no item da lista de produtos
      */
     private void configurarAcaoOnClickLista() {
+
         listViewSubCategoria.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> lista, View item, int posicao, long id) {
 
                 Categoria subCategoria = (Categoria) lista.getItemAtPosition(posicao);
+                anuncio.setSubCategoria(subCategoria);
+
                 Toast.makeText(SubCategoriaActivity.this, "sub categoria selecionado: " + subCategoria.getNome(), Toast.LENGTH_LONG).show();
 
-                // TODO AVELINO DEFINIR O PRODUTO ESCOLHIDO
-                //dadosAnuncio.setSubCategoria(subCategoria);
-
-                Intent irParaFormularioTituloAnuncio = new Intent(SubCategoriaActivity.this, TituloAnuncioActivity.class);
-                irParaFormularioTituloAnuncio.putExtra(TituloAnuncioActivity.EXTRA_DADOS_ANUNCIO, subCategoria);
-                startActivity(irParaFormularioTituloAnuncio);
+                Intent irParaListaMarcas = new Intent(SubCategoriaActivity.this, ListaMarcaActivity.class);
+                irParaListaMarcas.putExtra(ListaMarcaActivity.EXTRA_DADOS_SUB_CATEGORIA_SELECIONADA, anuncio);
+                startActivity(irParaListaMarcas);
 
             }
         });
@@ -97,7 +94,7 @@ public class SubCategoriaActivity extends AppCompatActivity {
     private void popularListViewComSubCategorias() {
 
         CategoriaDao categoriaDao = CategoriaDao.getInstance(SubCategoriaActivity.this);
-        listaSubCategorias = categoriaDao.buscarPorIdPai(categoria.getId());
+        listaSubCategorias = categoriaDao.buscarPorIdPai(anuncio.getCategoria().getId());
 
         if (listaSubCategorias != null && !listaSubCategorias.isEmpty()) {
             //precisamos criar um adapter para colocar os dados no ListView

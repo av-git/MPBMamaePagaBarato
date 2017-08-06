@@ -3,6 +3,10 @@ package br.com.viperfish.mpbmamaepagabarato.modelo.anuncio;
 import java.io.Serializable;
 import java.util.Date;
 
+import br.com.viperfish.mpbmamaepagabarato.modelo.categoria.Categoria;
+import br.com.viperfish.mpbmamaepagabarato.modelo.marca.Marca;
+import br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto;
+
 /**
  * Created by av on 13/11/16.
  */
@@ -15,6 +19,11 @@ public class Anuncio implements Serializable {
     private Date dataAnuncio;
     private Double preco;
 
+    //Campos Transients
+    private Produto produto;
+    private Categoria categoria;
+    private Categoria subCategoria;
+    private Marca marca;
 
     public Anuncio(long id, long codigoProduto, String titulo, String descricao, long dataAnuncio, Double preco) {
 
@@ -76,6 +85,38 @@ public class Anuncio implements Serializable {
 
     public void setPreco(Double preco) {
         this.preco = preco;
+    }
+
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
+    public Categoria getSubCategoria() {
+        return subCategoria;
+    }
+
+    public void setSubCategoria(Categoria subCategoria) {
+        this.subCategoria = subCategoria;
+    }
+
+    public Marca getMarca() {
+        return marca;
+    }
+
+    public void setMarca(Marca marca) {
+        this.marca = marca;
     }
 
     @Override

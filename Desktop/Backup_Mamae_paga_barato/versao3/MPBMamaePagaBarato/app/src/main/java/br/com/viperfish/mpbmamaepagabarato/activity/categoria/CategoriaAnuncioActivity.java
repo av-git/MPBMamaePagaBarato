@@ -23,14 +23,14 @@ public class CategoriaAnuncioActivity extends AppCompatActivity {
 
     private List<Categoria> listaCategorias;
     private ListView listViewCategoria;
-    private Anuncio dadosAnuncio;
+    private Anuncio anuncio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categoria_anuncio);
 
-        setTitle("Cadastrar Anúncio");
+        setTitle("Informe categoria");
         configurarBotaoVoltarParaTelaPrincipal();
 
         Log.i("Avelino", "CategoriaAnuncioActivity OnCreate");
@@ -51,18 +51,20 @@ public class CategoriaAnuncioActivity extends AppCompatActivity {
      * Define a acao de onlick no item da lista de produtos
      */
     private void configurarAcaoOnClickLista() {
+
         listViewCategoria.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
             public void onItemClick(AdapterView<?> lista, View item, int posicao, long id) {
 
-                Categoria categoria = (Categoria) lista.getItemAtPosition(posicao);
-                Toast.makeText(CategoriaAnuncioActivity.this, "categoria selecionado: " + categoria.getNome(), Toast.LENGTH_LONG).show();
+                Categoria categoriaSelecionada = (Categoria) lista.getItemAtPosition(posicao);
+                anuncio = new Anuncio();
+                anuncio.setCategoria(categoriaSelecionada);
 
-                //dadosAnuncio = new Anuncio();
-                //dadosAnuncio.setCategoria(categoria);
+                Toast.makeText(CategoriaAnuncioActivity.this, "categoria selecionado: " + categoriaSelecionada.getNome(), Toast.LENGTH_LONG).show();
 
                 Intent irParaFormularioSubCategoriaAnuncio = new Intent(CategoriaAnuncioActivity.this, SubCategoriaActivity.class);
-                irParaFormularioSubCategoriaAnuncio.putExtra(SubCategoriaActivity.EXTRA_DADOS_ANUNCIO, categoria);
+                irParaFormularioSubCategoriaAnuncio.putExtra(SubCategoriaActivity.EXTRA_DADOS_CATEGORIA_SELECIONADA, anuncio);
                 startActivity(irParaFormularioSubCategoriaAnuncio);
 
             }

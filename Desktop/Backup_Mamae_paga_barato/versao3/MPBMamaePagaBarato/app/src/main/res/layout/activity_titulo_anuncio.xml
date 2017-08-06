@@ -11,9 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="30dp"
-        android:text="@string/qualTituloDoSeuAnuncio"
-        android:textSize="20sp"
+        android:text="@string/qual_nome_produto"
+        android:textSize="16sp"
         android:textStyle="bold" />
+
 
     <EditText
         android:id="@+id/formulario_titulo_anuncio"
@@ -21,14 +22,31 @@
         android:layout_height="wrap_content"
         android:focusable="true"
         android:hint="@string/exemplo_preencher_titulo"
-        android:textSize="20sp" />
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="30dp"
+        android:text="Qual unidade medida ?"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+
+    <EditText
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:hint="Qtd, Peso , Volume"
+        android:textSize="16sp" />
 
     <Button
-        android:id="@+id/idbotaoProximoTituloAnuncio"
+        android:id="@+id/botaoProximoIrParaFormularioPrecoProduto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:onClick="irParaFormularioDescricaoAnuncio"
+        android:onClick="irParaFormularioPrecoProduto"
         android:text="@string/proximo" />
 
 </LinearLayout>

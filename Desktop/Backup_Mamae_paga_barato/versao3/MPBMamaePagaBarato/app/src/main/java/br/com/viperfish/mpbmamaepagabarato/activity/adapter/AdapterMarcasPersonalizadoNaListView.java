@@ -9,8 +9,10 @@ import android.widget.BaseAdapter;
 import java.util.List;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
+import br.com.viperfish.mpbmamaepagabarato.activity.holder.MarcaViewHolder;
 import br.com.viperfish.mpbmamaepagabarato.activity.holder.ProdutoViewHolder;
-import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
+import br.com.viperfish.mpbmamaepagabarato.modelo.marca.Marca;
+import br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto;
 
 /**
  * Classe de Apoio para Personalizar a exibicao dos dados do produto na ListView
@@ -19,29 +21,29 @@ import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
  * Dica: foi utilizado dica de Otimizacao do site: Dica Otimizacao disponiel em: http://blog.alura.com.br/utilizando-o-padrao-viewholder
  */
 
-public class AdapterProdutoPersonalizadoNaListView extends BaseAdapter {
+public class AdapterMarcasPersonalizadoNaListView extends BaseAdapter {
 
-    private final List<Anuncio> produtos;
+    private final List<Marca> marcas;
     private final Activity activity;
 
-    public AdapterProdutoPersonalizadoNaListView(List<Anuncio> produtos, Activity activity) {
-        this.produtos = produtos;
+    public AdapterMarcasPersonalizadoNaListView(List<Marca> marcas, Activity activity) {
+        this.marcas = marcas;
         this.activity = activity;
     }
 
     @Override
     public int getCount() {
-        return produtos.size();
+        return marcas.size();
     }
 
     @Override
     public Object getItem(int posicao) {
-        return produtos.get(posicao);
+        return marcas.get(posicao);
     }
 
     @Override
     public long getItemId(int posicao) {
-        return produtos.get(posicao).getId();
+        return marcas.get(posicao).getId();
     }
 
     /**
@@ -63,46 +65,30 @@ public class AdapterProdutoPersonalizadoNaListView extends BaseAdapter {
 
         //* Nova implementacao para Otimizar Reuso do Uso da view */
         View view;
-        ProdutoViewHolder produtoHolder;
+        MarcaViewHolder marcaViewHolder;
 
         if (convertView == null) {
             //Log.i("Avelino", "Cirei uma nova View");
-            view = LayoutInflater.from(activity).inflate(R.layout.lista_produto_personalizado, layoutPai, false);
-            produtoHolder = new ProdutoViewHolder(view);
+            view = LayoutInflater.from(activity).inflate(R.layout.lista_marca_personalizado, layoutPai, false);
+            marcaViewHolder = new MarcaViewHolder(view);
 
             //DICA!!! Isso faz o Holder ficar 'Pendurado' na view que ele pertence para posterior reuso
-            view.setTag(produtoHolder);
+            view.setTag(marcaViewHolder);
 
         } else {
             view = convertView;
 
             ////DICA!!! recupera o Holder da view para reaproveiar reuso
-            produtoHolder = (ProdutoViewHolder) view.getTag();
+            marcaViewHolder = (MarcaViewHolder) view.getTag();
             //Log.i("Avelino", "Reuso da View");
         }
 
-        Anuncio produto = produtos.get(posicao);
+        Marca marca = marcas.get(posicao);
 
         //populando as Views
-        produtoHolder.titulo.setText(produto.getTitulo());
-        produtoHolder.descricao.setText(produto.getDescricao());
-        //produtoHolder.preco.setText("R$ "+produto.getPreco().toString());
-        produtoHolder.preco.setText("R$ " + new Double("23.4"));
+        marcaViewHolder.nome.setText(marca.getNome());
 
-        if (produto.getId() == 2) {
-            produtoHolder.imagem.setImageResource(R.drawable.pamper);
-        } else if (produto.getId() == 1) {
-            produtoHolder.imagem.setImageResource(R.drawable.aptamil);
-        } else if (produto.getId() == 3) {
-            produtoHolder.imagem.setImageResource(R.drawable.nan_pro);
-        } else if (produto.getId() == 4) {
-            produtoHolder.imagem.setImageResource(R.drawable.ninho_fase1);
-        } else if (produto.getId() == 6) {
-            //produtoHolder.imagem.setImageResource(R.drawable.mamadeira);
-        } else {
-            produtoHolder.imagem.setImageResource(R.drawable.foto);
-        }
-
+        //marcaViewHolder.imagem.setImageResource(R.drawable.foto);
 
         return view;
     }

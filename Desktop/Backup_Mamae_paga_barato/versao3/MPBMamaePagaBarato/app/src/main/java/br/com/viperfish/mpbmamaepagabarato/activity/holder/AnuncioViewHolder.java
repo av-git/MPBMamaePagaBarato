@@ -15,20 +15,20 @@ import br.com.viperfish.mpbmamaepagabarato.R;
  *
  */
 
-public class ProdutoViewHolder {
+public class AnuncioViewHolder {
 
     public final TextView titulo;
     public final TextView descricao;
-    //public final TextView preco;
+    public final TextView preco;
     public final ImageView imagem;
 
 
-    public ProdutoViewHolder(View view) {
+    public AnuncioViewHolder(View view) {
 
         //pegando as referências das Views
-        titulo = (TextView) view.findViewById(R.id.lista_produto_personalizada_titulo);
-        descricao = (TextView) view.findViewById(R.id.lista_produto_personalizada_descricao);
-        //preco = (TextView) view.findViewById(R.id.lista_produto_personalizada_preco);
-        imagem = (ImageView) view.findViewById(R.id.lista_produto_personalizada_imagem);
+        titulo = (TextView) view.findViewById(R.id.lista_anuncio_personalizada_nome_produto);
+        descricao = (TextView) view.findViewById(R.id.lista_anuncio_personalizada_descricao_produto);
+        preco = (TextView) view.findViewById(R.id.lista_anuncio_personalizada_preco_produto);
+        imagem = (ImageView) view.findViewById(R.id.lista_anuncio_personalizada_imagem_produto);
     }
 }

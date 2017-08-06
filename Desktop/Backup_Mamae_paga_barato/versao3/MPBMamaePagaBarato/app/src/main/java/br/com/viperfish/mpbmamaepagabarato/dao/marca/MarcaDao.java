@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.viperfish.mpbmamaepagabarato.dao.DaoBase;
-import br.com.viperfish.mpbmamaepagabarato.modelo.Marca;
+import br.com.viperfish.mpbmamaepagabarato.modelo.marca.Marca;
 
 
 /**
@@ -181,5 +181,75 @@ public class MarcaDao extends DaoBase {
         }
 
         return marca;
+    }
+
+    public List<Marca> buscarPorIdPai(Long idPai) {
+
+        Cursor cursor = null;
+        List<Marca> marcas = new ArrayList<>();
+
+        try {
+
+            abrirConexaoEmModoLeitura();
+
+            cursor = getDatabase().query(IMarcaSchema.TABELA,
+                    IMarcaSchema.COLUNAS,
+                    IMarcaSchema.COLUNA_ID + " = ?",
+                    new String[]{idPai.toString()},
+                    null, null, null);
+
+            while (cursor.moveToNext()) {
+                Marca marca = transformaCursorEmEntidade(cursor);
+                marcas.add(marca);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.i(TAG, "ERRO Buscar Marcas");
+
+        } finally {
+            cursor.close();
+            fecharConexao();
+        }
+
+        return marcas;
+    }
+
+    public List<Marca> buscarMarcasDosProdutosPor(Long subCategoria) {
+
+        Cursor cursor = null;
+        List<Marca> marcas = new ArrayList<>();
+
+        try {
+
+            abrirConexaoEmModoLeitura();
+
+            StringBuffer  sql = new StringBuffer();
+            sql.append("SELECT DISTINCT marca_id as _id, m.nome as nome from PRODUTO p inner join MARCA m ");
+            sql.append("on p.marca_id = m._id ");
+            sql.append("WHERE subCategoria_id = ? ");
+            sql.append(" ");
+            sql.append("UNION ");
+            sql.append(" ");
+            sql.append("SELECT 99, 'Outros' ");
+            sql.append("order by _id;");
+
+            cursor = getDatabase().rawQuery( sql.toString() , new String[]{subCategoria.toString()});
+
+            while (cursor.moveToNext()) {
+                Marca marca = transformaCursorEmEntidade(cursor);
+                marcas.add(marca);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.i(TAG, "ERRO Buscar Marcas");
+
+        } finally {
+            cursor.close();
+            fecharConexao();
+        }
+
+        return marcas;
     }
 }

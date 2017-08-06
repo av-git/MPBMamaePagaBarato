@@ -60,12 +60,20 @@ public class FormularioResumoAnuncioHelper {
         return produto;
     }
 
+    //TODO AVELINO VERIFICAR
     public void preencheFormulario(Anuncio anuncio) {
 
-        campoTitulo.setText(anuncio.getTitulo());
+        campoTitulo.setText(anuncio.getProduto() != null ? anuncio.getProduto().getNome() : anuncio.getTitulo());
+        campoTitulo.setEnabled(false);
+
         campoDescricao.setText(anuncio.getDescricao());
-        campoCategoria.setText(anuncio.getProdutoId().toString());
+        campoDescricao.setEnabled(false);
+
+        campoCategoria.setText(anuncio.getCategoria().getNome());
+        campoCategoria.setEnabled(false);
+
         campoPreco.setText(anuncio.getPreco().toString());
+        campoPreco.setEnabled(false);
 
         this.produto = produto;
     }

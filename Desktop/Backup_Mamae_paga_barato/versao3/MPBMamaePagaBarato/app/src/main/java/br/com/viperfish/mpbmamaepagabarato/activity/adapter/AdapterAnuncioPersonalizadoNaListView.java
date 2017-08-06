@@ -9,8 +9,8 @@ import android.widget.BaseAdapter;
 import java.util.List;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
-import br.com.viperfish.mpbmamaepagabarato.activity.holder.CategoriaViewHolder;
-import br.com.viperfish.mpbmamaepagabarato.modelo.categoria.Categoria;
+import br.com.viperfish.mpbmamaepagabarato.activity.holder.AnuncioViewHolder;
+import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
 
 /**
  * Classe de Apoio para Personalizar a exibicao dos dados do produto na ListView
@@ -19,29 +19,29 @@ import br.com.viperfish.mpbmamaepagabarato.modelo.categoria.Categoria;
  * Dica: foi utilizado dica de Otimizacao do site: Dica Otimizacao disponiel em: http://blog.alura.com.br/utilizando-o-padrao-viewholder
  */
 
-public class AdapterCategoriaPersonalizadoNaListView extends BaseAdapter {
+public class AdapterAnuncioPersonalizadoNaListView extends BaseAdapter {
 
-    private final List<Categoria> categorias;
+    private final List<Anuncio> anuncios;
     private final Activity activity;
 
-    public AdapterCategoriaPersonalizadoNaListView(List<Categoria> categorias, Activity activity) {
-        this.categorias = categorias;
+    public AdapterAnuncioPersonalizadoNaListView(List<Anuncio> produtos, Activity activity) {
+        this.anuncios = produtos;
         this.activity = activity;
     }
 
     @Override
     public int getCount() {
-        return categorias.size();
+        return anuncios.size();
     }
 
     @Override
     public Object getItem(int posicao) {
-        return categorias.get(posicao);
+        return anuncios.get(posicao);
     }
 
     @Override
     public long getItemId(int posicao) {
-        return categorias.get(posicao).getId();
+        return anuncios.get(posicao).getId();
     }
 
     /**
@@ -63,31 +63,46 @@ public class AdapterCategoriaPersonalizadoNaListView extends BaseAdapter {
 
         //* Nova implementacao para Otimizar Reuso do Uso da view */
         View view;
-        CategoriaViewHolder categoriaHolder;
+        AnuncioViewHolder anuncioViewHolder;
 
         if (convertView == null) {
             //Log.i("Avelino", "Cirei uma nova View");
-            view = LayoutInflater.from(activity).inflate(R.layout.lista_categoria_personalizado, layoutPai, false);
-            categoriaHolder = new CategoriaViewHolder(view);
+            view = LayoutInflater.from(activity).inflate(R.layout.lista_anuncio_personalizado, layoutPai, false);
+            anuncioViewHolder = new AnuncioViewHolder(view);
 
             //DICA!!! Isso faz o Holder ficar 'Pendurado' na view que ele pertence para posterior reuso
-            view.setTag(categoriaHolder);
+            view.setTag(anuncioViewHolder);
 
         } else {
             view = convertView;
 
             ////DICA!!! recupera o Holder da view para reaproveiar reuso
-            categoriaHolder = (CategoriaViewHolder) view.getTag();
+            anuncioViewHolder = (AnuncioViewHolder) view.getTag();
             //Log.i("Avelino", "Reuso da View");
         }
 
-        Categoria categoria = categorias.get(posicao);
+        Anuncio anuncio = anuncios.get(posicao);
 
         //populando as Views
-        categoriaHolder.nome.setText(categoria.getNome());
-        if (categoria.getId() == 2) {
-            //categoriaHolder.imagem.setImageResource(R.drawable.ic_mamadeira);
+        anuncioViewHolder.titulo.setText(anuncio.getTitulo());
+        anuncioViewHolder.descricao.setText(anuncio.getDescricao());
+        //produtoHolder.preco.setText("R$ "+produto.getPreco().toString());
+        anuncioViewHolder.preco.setText("R$ " + new Double("23.4"));
+
+        if (anuncio.getId() == 2) {
+            anuncioViewHolder.imagem.setImageResource(R.drawable.pamper);
+        } else if (anuncio.getId() == 1) {
+            anuncioViewHolder.imagem.setImageResource(R.drawable.aptamil);
+        } else if (anuncio.getId() == 3) {
+            anuncioViewHolder.imagem.setImageResource(R.drawable.nan_pro);
+        } else if (anuncio.getId() == 4) {
+            anuncioViewHolder.imagem.setImageResource(R.drawable.ninho_fase1);
+        } else if (anuncio.getId() == 6) {
+            //produtoHolder.imagem.setImageResource(R.drawable.mamadeira);
+        } else {
+            anuncioViewHolder.imagem.setImageResource(R.drawable.foto);
         }
+
 
         return view;
     }

@@ -4,7 +4,9 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="18" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
 
     <application
         android:allowBackup="true"
@@ -22,11 +24,9 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-
         <activity
             android:name=".SplashScreenActivity"
             android:theme="@style/AppCompat.TelaCheia">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -37,21 +37,26 @@
             android:name=".activity.anuncio.MaisInformacoesProdutoActivity"
             android:parentActivityName=".activity.anuncio.ListaAnunciosActivity">
 
-        <!-- Configura a nevagacao do botao voltar. Parent activity meta-data to support 4.0 and lower -->
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="br.com.viperfish.mpbmamaepagabarato.activity.anuncio.ListaAnunciosActivity" />
+            <!-- Configura a nevagacao do botao voltar. Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="br.com.viperfish.mpbmamaepagabarato.activity.anuncio.ListaAnunciosActivity" />
         </activity>
 
+        <activity android:name=".activity.anuncio.FormularioAnuncioActivity" />
         <activity android:name=".activity.anuncio.ListaAnunciosActivity" />
         <activity android:name=".activity.categoria.CategoriaAnuncioActivity" />
         <activity android:name=".activity.categoria.SubCategoriaActivity" />
+        <activity android:name=".activity.produto.ListaProdutosActivity" />
+        <activity android:name=".activity.marca.ListaMarcaActivity"/>
         <activity android:name=".formularios.TituloAnuncioActivity" />
-        <activity android:name=".formularios.DescricaoAnuncioActivity" />
         <activity android:name=".formularios.QualPrecoActivity" />
         <activity android:name=".formularios.ResumoAnuncioActivity" />
-        <activity android:name=".formularios.FotoAnuncioActivity"
-            android:configChanges="orientation|keyboard|keyboardHidden|screenLayout|uiMode|screenSize|smallestScreenSize" android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".formularios.FotoAnuncioActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:screenOrientation="portrait" />
 
     </application>
 

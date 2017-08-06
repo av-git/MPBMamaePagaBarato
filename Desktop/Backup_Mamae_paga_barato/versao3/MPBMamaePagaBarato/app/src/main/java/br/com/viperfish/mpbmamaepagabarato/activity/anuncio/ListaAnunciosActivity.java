@@ -13,12 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
-import br.com.viperfish.mpbmamaepagabarato.activity.adapter.AdapterProdutoPersonalizadoNaListView;
+import br.com.viperfish.mpbmamaepagabarato.activity.adapter.AdapterAnuncioPersonalizadoNaListView;
+import br.com.viperfish.mpbmamaepagabarato.activity.categoria.CategoriaAnuncioActivity;
 import br.com.viperfish.mpbmamaepagabarato.dao.anuncio.AnuncioDao;
 import br.com.viperfish.mpbmamaepagabarato.dao.marca.MarcaDao;
 import br.com.viperfish.mpbmamaepagabarato.formularios.FotoAnuncioActivity;
-import br.com.viperfish.mpbmamaepagabarato.modelo.Marca;
 import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
+import br.com.viperfish.mpbmamaepagabarato.modelo.marca.Marca;
 
 public class ListaAnunciosActivity extends AppCompatActivity {
 
@@ -31,10 +32,10 @@ public class ListaAnunciosActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lista_produtos);
+        setContentView(R.layout.activity_lista_anuncios);
 
         //recupera componente ListView (Bynding)
-        listViewAnuncios = (ListView) findViewById(R.id.lista_produtos);
+        listViewAnuncios = (ListView) findViewById(R.id.lista_anuncios);
 
         configurarAcaoOnClickLista();
 
@@ -126,16 +127,10 @@ public class ListaAnunciosActivity extends AppCompatActivity {
         botaoNovo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Navegacao para uma nova activity Formulario
-                //Intent irParaFormularioProduto = new Intent(ListaAnunciosActivity.this, FormularioProdutoActivity.class);
-                //startActivity(irParaFormularioProduto);
-                //Navegacao para uma nova activity Formulario
 
-                //Intent irParaFormularioCategoriaAnuncio = new Intent(ListaAnunciosActivity.this, CategoriaAnuncioActivity.class);
-                //startActivity(irParaFormularioCategoriaAnuncio);
-
-                Intent irParaFormularioFotoAnuncio = new Intent(ListaAnunciosActivity.this, FotoAnuncioActivity.class);
-                startActivity(irParaFormularioFotoAnuncio);
+                //Navegacao para uma nova activity Formulario
+                Intent irParaFormularioCategoria = new Intent(ListaAnunciosActivity.this, CategoriaAnuncioActivity.class);
+                startActivity(irParaFormularioCategoria);
             }
         });
     }
@@ -146,7 +141,7 @@ public class ListaAnunciosActivity extends AppCompatActivity {
     private void popularListViewComAnuncios() {
 
         //precisamos criar um adapter para colocar os dados no ListView
-        AdapterProdutoPersonalizadoNaListView adapterAnuncios = new AdapterProdutoPersonalizadoNaListView(listaAnuncios, ListaAnunciosActivity.this);
+        AdapterAnuncioPersonalizadoNaListView adapterAnuncios = new AdapterAnuncioPersonalizadoNaListView(listaAnuncios, ListaAnunciosActivity.this);
         //setamos o adapter na ListView
         listViewAnuncios.setAdapter(adapterAnuncios);
     }

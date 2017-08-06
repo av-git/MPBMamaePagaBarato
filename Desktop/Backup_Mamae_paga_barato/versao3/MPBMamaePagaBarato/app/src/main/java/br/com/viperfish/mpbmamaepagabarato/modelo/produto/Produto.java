@@ -1,9 +1,11 @@
 package br.com.viperfish.mpbmamaepagabarato.modelo.produto;
 
+import java.io.Serializable;
+
 /**
  * Created by Av on 13/11/16.
  */
-public class Produto {
+public class Produto implements Serializable {
 
     private Long id;
     private String nome;

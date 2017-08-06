@@ -3,8 +3,10 @@ package br.com.viperfish.mpbmamaepagabarato.dao.produto;
 import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import br.com.viperfish.mpbmamaepagabarato.dao.DaoBase;
 import br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto;
 
@@ -136,4 +138,38 @@ public class ProdutoDao extends DaoBase {
 
         return produto;
     }
+
+    public List<Produto> buscarPorIdSubCategoria(Long idSubCategoria, Long idMarca) {
+
+        Cursor cursor = null;
+        List<Produto> produtos = new ArrayList<Produto>();
+
+        try {
+
+            abrirConexaoEmModoLeitura();
+
+            cursor = getDatabase().query (IProdutoSchema.TABELA,
+                    IProdutoSchema.COLUNAS,
+                    IProdutoSchema.SUBCATEGORIA_ID + " = ? " + " AND " + IProdutoSchema.MARCA_ID + " = ? ",
+                    new String[]{idSubCategoria.toString(), idMarca.toString()},
+                    null, null, null);
+
+            while (cursor.moveToNext()) {
+                Produto produto = transformaCursorEmEntidade(cursor);
+                produtos.add(produto);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.i(TAG, "ERRO Buscar Produto");
+
+        } finally {
+            cursor.close();
+            fecharConexao();
+        }
+
+        return produtos;
+    }
+
+
 }
