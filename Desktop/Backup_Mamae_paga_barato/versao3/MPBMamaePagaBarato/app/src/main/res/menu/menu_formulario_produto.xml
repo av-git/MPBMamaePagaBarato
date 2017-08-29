@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/formulario_produto_item_salvar"
-        android:title="@string/salvar"
+        android:title="@string/publicar"
         app:showAsAction="always|withText" />
 
 

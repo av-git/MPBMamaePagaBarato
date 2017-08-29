@@ -8,12 +8,20 @@
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
 
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the 'MyLocation' functionality. 
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/baby_icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="br.com.viperfish.mpbmamaepagabarato.fileprovider"
@@ -29,10 +37,10 @@
             android:theme="@style/AppCompat.TelaCheia">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.anuncio.MaisInformacoesProdutoActivity"
             android:parentActivityName=".activity.anuncio.ListaAnunciosActivity">
@@ -42,21 +50,43 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="br.com.viperfish.mpbmamaepagabarato.activity.anuncio.ListaAnunciosActivity" />
         </activity>
+        <activity android:name=".activity.anuncio.FormularioAnuncioActivity"
+                  android:configChanges="keyboard|keyboardHidden|orientation" />
 
-        <activity android:name=".activity.anuncio.FormularioAnuncioActivity" />
         <activity android:name=".activity.anuncio.ListaAnunciosActivity" />
         <activity android:name=".activity.categoria.CategoriaAnuncioActivity" />
         <activity android:name=".activity.categoria.SubCategoriaActivity" />
         <activity android:name=".activity.produto.ListaProdutosActivity" />
-        <activity android:name=".activity.marca.ListaMarcaActivity"/>
+        <activity android:name=".activity.marca.ListaMarcaActivity" />
         <activity android:name=".formularios.TituloAnuncioActivity" />
         <activity android:name=".formularios.QualPrecoActivity" />
-        <activity android:name=".formularios.ResumoAnuncioActivity" />
 
+        <activity android:name=".formularios.ResumoAnuncioActivity"
+                  android:configChanges="keyboard|keyboardHidden|orientation"/>
         <activity
             android:name=".formularios.FotoAnuncioActivity"
             android:configChanges="orientation|keyboard|keyboardHidden|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".formularios.EnderecoAnuncioActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden|screenLayout|uiMode|screenSize|smallestScreenSize"/>
+
+        <activity
+            android:name=".formularios.LocalAnuncioMapsActivity"
+            android:label="@string/title_activity_local_anuncio_maps" />
+
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
 
     </application>
 

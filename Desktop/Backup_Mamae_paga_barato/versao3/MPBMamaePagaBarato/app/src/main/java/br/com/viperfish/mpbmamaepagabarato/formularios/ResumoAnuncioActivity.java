@@ -14,6 +14,7 @@ import android.widget.Toast;
 import br.com.viperfish.mpbmamaepagabarato.R;
 import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.ListaAnunciosActivity;
 import br.com.viperfish.mpbmamaepagabarato.activity.helper.FormularioResumoAnuncioHelper;
+import br.com.viperfish.mpbmamaepagabarato.dao.anuncio.AnuncioDao;
 import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
 
 public class ResumoAnuncioActivity extends AppCompatActivity {
@@ -28,7 +29,7 @@ public class ResumoAnuncioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resumo_anuncio);
 
-        setTitle("Publicar Anúncio");
+        setTitle("Resumo Anúncio");
         configurarBotaoVoltarParaTelaPrincipal();
 
         Log.i("Avelino", "ResumoAnuncioActivity OnCreate");
@@ -78,7 +79,8 @@ public class ResumoAnuncioActivity extends AppCompatActivity {
                 FormularioResumoAnuncioHelper helper = new FormularioResumoAnuncioHelper(ResumoAnuncioActivity.this);
 
                 Log.i("Avelino", "Salvando o Anuncio: " + dadosAnuncio.toString());
-                //salvar(dadosAnuncio);
+                AnuncioDao anuncioDao = AnuncioDao.getInstance(this);
+                anuncioDao.inserir(dadosAnuncio);
 
                 Intent intent = new Intent(getApplicationContext(), ListaAnunciosActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

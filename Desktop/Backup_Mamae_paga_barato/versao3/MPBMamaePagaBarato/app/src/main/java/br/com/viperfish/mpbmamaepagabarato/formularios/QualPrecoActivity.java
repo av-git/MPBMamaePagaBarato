@@ -1,6 +1,8 @@
 package br.com.viperfish.mpbmamaepagabarato.formularios;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +12,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
 import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
@@ -27,7 +33,7 @@ public class QualPrecoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qual_preco);
 
-        setTitle("Inserir Anúncio");
+        setTitle("Dados Anúncio");
         configurarBotaoVoltarParaTelaPrincipal();
 
         Log.i("Avelino", "QualPrecoActivity OnCreate");
@@ -57,9 +63,9 @@ public class QualPrecoActivity extends AppCompatActivity {
 
         Toast.makeText(QualPrecoActivity.this, preco.toString()+ " Registrado com sucesso. Obrigado", Toast.LENGTH_LONG).show();
 
-        Intent irParaFormularioResumoAnuncio = new Intent(QualPrecoActivity.this, ResumoAnuncioActivity.class);
-        irParaFormularioResumoAnuncio.putExtra(ResumoAnuncioActivity.EXTRA_DADOS_ANUNCIO, anuncio);
-        startActivity(irParaFormularioResumoAnuncio);
+        Intent irParaFormularioEnderecoAnuncio = new Intent(QualPrecoActivity.this, EnderecoAnuncioActivity.class);
+        irParaFormularioEnderecoAnuncio.putExtra(EnderecoAnuncioActivity.EXTRA_DADOS_ANUNCIO, anuncio);
+        startActivity(irParaFormularioEnderecoAnuncio);
     }
 
     @Override

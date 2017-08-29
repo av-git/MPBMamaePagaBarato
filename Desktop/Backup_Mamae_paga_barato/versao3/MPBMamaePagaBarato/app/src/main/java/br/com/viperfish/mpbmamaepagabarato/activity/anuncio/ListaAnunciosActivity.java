@@ -131,6 +131,9 @@ public class ListaAnunciosActivity extends AppCompatActivity {
                 //Navegacao para uma nova activity Formulario
                 Intent irParaFormularioCategoria = new Intent(ListaAnunciosActivity.this, CategoriaAnuncioActivity.class);
                 startActivity(irParaFormularioCategoria);
+
+                //Intent irParaFormularioCategoria = new Intent(ListaAnunciosActivity.this, FotoAnuncioActivity.class);
+                //startActivity(irParaFormularioCategoria);
             }
         });
     }

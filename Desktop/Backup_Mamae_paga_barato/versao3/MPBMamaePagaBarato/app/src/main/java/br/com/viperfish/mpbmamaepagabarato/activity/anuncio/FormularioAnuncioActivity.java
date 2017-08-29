@@ -30,9 +30,10 @@ public class FormularioAnuncioActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_formulario_anuncio);
-        setTitle("Inserir Anúncio");
+        setTitle("Dados Anúncio");
         configurarBotaoVoltarParaTelaPrincipal();
 
         btnEscolherCategoria = (Button) findViewById(R.id.formulario_anuncio_btn_categoria);

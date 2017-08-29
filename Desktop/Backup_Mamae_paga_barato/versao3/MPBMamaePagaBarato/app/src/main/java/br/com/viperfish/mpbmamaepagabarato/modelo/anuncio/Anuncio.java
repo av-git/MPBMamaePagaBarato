@@ -1,5 +1,7 @@
 package br.com.viperfish.mpbmamaepagabarato.modelo.anuncio;
 
+import com.google.android.gms.location.places.Place;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -24,6 +26,7 @@ public class Anuncio implements Serializable {
     private Categoria categoria;
     private Categoria subCategoria;
     private Marca marca;
+    private Loja loja;
 
     public Anuncio(long id, long codigoProduto, String titulo, String descricao, long dataAnuncio, Double preco) {
 
@@ -119,6 +122,14 @@ public class Anuncio implements Serializable {
         this.marca = marca;
     }
 
+    public Loja getLoja() {
+        return loja;
+    }
+
+    public void setLoja(Loja loja) {
+        this.loja = loja;
+    }
+
     @Override
     public String toString() {
         return "Anuncio{" +
@@ -130,4 +141,6 @@ public class Anuncio implements Serializable {
                 ", preco=" + preco +
                 '}';
     }
+
+
 }

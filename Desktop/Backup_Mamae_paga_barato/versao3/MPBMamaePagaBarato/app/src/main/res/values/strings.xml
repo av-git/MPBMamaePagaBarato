@@ -12,6 +12,7 @@
     <string name="novo">Novo</string>
     <string name="usado">Usado</string>
     <string name="salvar">Salvar</string>
+    <string name="publicar">Publicar</string>
     <string name="Voltar">Voltar</string>
     <string name="proximo">Próximo</string>
     <string name="qual_nome_produto">Qual nome produto ?</string>
@@ -20,4 +21,7 @@
     <string name="exemplo_preencher_descricao_anuncio">Ex.: Corram mães. Promoção das Fraldas Pamper com 80 unid. Até as 20hs de hoje no supermecado!! :)</string>
     <string name="qual_preco_poduto">Qual o preço do produto ?</string>
     <string name="selecione_categoria">Selecione categoria</string>
+    <string name="title_activity_local_anuncio_maps">Map</string>
+    <string name="loja_ou_endereco_anunciante">Informe a Loja *</string>
+    <string name="campo_obrigatorio">Campo Obrigatório</string>
 </resources>

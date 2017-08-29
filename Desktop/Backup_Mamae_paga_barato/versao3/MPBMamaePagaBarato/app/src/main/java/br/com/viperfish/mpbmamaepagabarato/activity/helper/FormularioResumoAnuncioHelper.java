@@ -3,6 +3,7 @@ package br.com.viperfish.mpbmamaepagabarato.activity.helper;
 import android.content.res.Resources;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
 import br.com.viperfish.mpbmamaepagabarato.formularios.ResumoAnuncioActivity;
@@ -15,10 +16,15 @@ import util.Validador;
 
 public class FormularioResumoAnuncioHelper {
 
-    private final EditText campoTitulo;
-    private final EditText campoDescricao;
-    private final EditText campoCategoria;
-    private final EditText campoPreco;
+    private final TextView campoTitulo;
+    private final TextView campoDescricao;
+    private final TextView campoCategoria;
+    private final TextView campoPreco;
+
+    private final TextView campoNomeLoja;
+    private final TextView campoEnderecoLoja;
+    private final TextView campoFoneLoja;
+
     private final ResumoAnuncioActivity activity;
 
     private Anuncio produto;
@@ -32,11 +38,14 @@ public class FormularioResumoAnuncioHelper {
         recursos = activity.getResources();
         //camposObrigatorios.add(campoTitulo);
 
-        campoTitulo = (EditText) obterViewById(R.id.resumo_anuncio_titulo);
-        campoDescricao = (EditText) obterViewById(R.id.resumo_anuncio_descricao);
-        campoCategoria = (EditText) obterViewById(R.id.resumo_anuncio_categoria);
-        //campoTipo = (EditText) obterViewById(R.id.formulario_produto_tipo);
-        campoPreco = (EditText) obterViewById(R.id.resumo_anuncio_preco);
+        campoTitulo = (TextView) obterViewById(R.id.resumo_anuncio_titulo);
+        campoDescricao = (TextView) obterViewById(R.id.resumo_anuncio_descricao);
+        campoCategoria = (TextView) obterViewById(R.id.resumo_anuncio_categoria);
+        campoPreco = (TextView) obterViewById(R.id.resumo_anuncio_preco);
+
+        campoNomeLoja = (TextView) obterViewById(R.id.resumo_anuncio_nome_loja);
+        campoEnderecoLoja = (TextView) obterViewById(R.id.resumo_anuncio_endereco_loja);
+        campoFoneLoja = (TextView) obterViewById(R.id.resumo_anuncio_fone_loja);
 
         produto = new Anuncio();
     }
@@ -64,16 +73,24 @@ public class FormularioResumoAnuncioHelper {
     public void preencheFormulario(Anuncio anuncio) {
 
         campoTitulo.setText(anuncio.getProduto() != null ? anuncio.getProduto().getNome() : anuncio.getTitulo());
-        campoTitulo.setEnabled(false);
+        //campoTitulo.setEnabled(false);
 
         campoDescricao.setText(anuncio.getDescricao());
-        campoDescricao.setEnabled(false);
+        //campoDescricao.setEnabled(false);
 
         campoCategoria.setText(anuncio.getCategoria().getNome());
-        campoCategoria.setEnabled(false);
+        //campoCategoria.setEnabled(false);
 
         campoPreco.setText(anuncio.getPreco().toString());
-        campoPreco.setEnabled(false);
+        //campoPreco.setEnabled(false);
+
+        if (anuncio.getLoja() != null ) {
+            campoNomeLoja.setText(anuncio.getLoja().getNome());
+
+            campoEnderecoLoja.setText(anuncio.getLoja().getEndereco());
+
+            campoFoneLoja.setText(anuncio.getLoja().getFone());
+        }
 
         this.produto = produto;
     }
