@@ -9,6 +9,7 @@ import android.util.Log;
 import br.com.viperfish.mpbmamaepagabarato.R;
 import br.com.viperfish.mpbmamaepagabarato.activity.helper.MaisInformacoesProdutoHelper;
 import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
+import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.AnuncioDTO;
 
 public class MaisInformacoesProdutoActivity extends AppCompatActivity {
 
@@ -28,7 +29,7 @@ public class MaisInformacoesProdutoActivity extends AppCompatActivity {
 
     private void carregarDadosNoFormulario() {
         helper = new MaisInformacoesProdutoHelper(this);
-        Anuncio produto = getProduto();
+        AnuncioDTO produto = getProduto();
         helper.preencheFormulario(produto);
     }
 
@@ -37,9 +38,9 @@ public class MaisInformacoesProdutoActivity extends AppCompatActivity {
      * da {@link Intent}
      * @return Anuncio
      */
-    private Anuncio getProduto() {
+    private AnuncioDTO getProduto() {
         Intent intent = getIntent();
-        return (Anuncio) intent.getSerializableExtra("produto");
+        return (AnuncioDTO) intent.getSerializableExtra("produto");
     }
 
     /**

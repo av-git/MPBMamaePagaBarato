@@ -57,8 +57,8 @@ public class FormularioResumoAnuncioHelper {
     //TODO descomentar assim que for implementado
     public Anuncio obterProduto() {
 
-        produto.setTitulo(campoTitulo.getText().toString());
-        produto.setDescricao(campoDescricao.getText().toString());
+        produto.setNomeProdutoInformadorPeloUsuario(campoTitulo.getText().toString());
+        produto.setComentario(campoDescricao.getText().toString());
 
         //TODO descomentar assim que for implementado
         //produto.setCategoria(campoCategoria.getText().toString());
@@ -72,10 +72,10 @@ public class FormularioResumoAnuncioHelper {
     //TODO AVELINO VERIFICAR
     public void preencheFormulario(Anuncio anuncio) {
 
-        campoTitulo.setText(anuncio.getProduto() != null ? anuncio.getProduto().getNome() : anuncio.getTitulo());
+        campoTitulo.setText(anuncio.getProduto() != null ? anuncio.getProduto().getNome() : anuncio.getNomeProdutoInformadorPeloUsuario());
         //campoTitulo.setEnabled(false);
 
-        campoDescricao.setText(anuncio.getDescricao());
+        campoDescricao.setText(anuncio.getComentario());
         //campoDescricao.setEnabled(false);
 
         campoCategoria.setText(anuncio.getCategoria().getNome());

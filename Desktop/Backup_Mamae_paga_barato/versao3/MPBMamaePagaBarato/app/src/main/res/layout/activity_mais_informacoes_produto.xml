@@ -5,46 +5,122 @@
 
     <LinearLayout
 
-        android:id="@+id/activity_mais_informacoes_produto"
+        android:id="@+id/activity_informacoes_anuncio"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="1">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/titulo_produto" />
-
-        <EditText
-            android:id="@+id/mais_informacoes_produto_titulo"
-            android:layout_width="match_parent"
-            android:enabled="false"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/descricao_produto" />
-
-        <EditText
-            android:id="@+id/mais_informacoes_produto_descricao"
-            android:enabled="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="4" />
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp"
+            android:text="@string/titulo_produto"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/preco_produto" />
-
-        <EditText
-            android:id="@+id/mais_informacoes_produto_preco"
-            android:enabled="false"
+            android:id="@+id/activity_informacoes_anuncio_titulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="numberDecimal" />
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp"
+            android:text="@string/categoria_produto"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/activity_informacoes_anuncio_categoria"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp"
+            android:text="@string/preco_produto"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/activity_informacoes_anuncio_preco"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp"
+            android:text="Informações da Loja"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/activity_informacoes_anuncio_nome_loja"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp" />
+
+        <TextView
+            android:id="@+id/activity_informacoes_anuncio_endereco_loja"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="Fone" />
+
+        <TextView
+            android:id="@+id/activity_informacoes_anuncio_fone_loja"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp"
+            android:text="Comentário"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/activity_informacoes_anuncio_descricao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp" />
+
 
     </LinearLayout>
 </ScrollView>

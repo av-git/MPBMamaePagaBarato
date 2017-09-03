@@ -16,15 +16,18 @@ import br.com.viperfish.mpbmamaepagabarato.R;
 import br.com.viperfish.mpbmamaepagabarato.activity.adapter.AdapterAnuncioPersonalizadoNaListView;
 import br.com.viperfish.mpbmamaepagabarato.activity.categoria.CategoriaAnuncioActivity;
 import br.com.viperfish.mpbmamaepagabarato.dao.anuncio.AnuncioDao;
+import br.com.viperfish.mpbmamaepagabarato.dao.loja.LojaDao;
 import br.com.viperfish.mpbmamaepagabarato.dao.marca.MarcaDao;
 import br.com.viperfish.mpbmamaepagabarato.formularios.FotoAnuncioActivity;
 import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
+import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.AnuncioDTO;
+import br.com.viperfish.mpbmamaepagabarato.modelo.loja.Loja;
 import br.com.viperfish.mpbmamaepagabarato.modelo.marca.Marca;
 
 public class ListaAnunciosActivity extends AppCompatActivity {
 
     //String[] produtos = {"Aptamil 1 Premuim", "Nan Pro 2", "Ninho Fase +1","Nestogeno 1 ", "Enfamil Premium ", "Ninho Fase +1","Aptamil 1 Premuim", "Nan Pro 3", "Ninho Fase +3","Aptamil 2 Premuim", "Nan Pro 2", "Ninho Fase +4"};
-    private List<Anuncio> listaAnuncios;
+    private List<AnuncioDTO> listaAnuncios;
 
     //Representa a lista de anuncios dos produtos.
     ListView listViewAnuncios;
@@ -50,7 +53,7 @@ public class ListaAnunciosActivity extends AppCompatActivity {
         listViewAnuncios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> lista, View item, int posicao, long id) {
-                Anuncio anuncio = (Anuncio) lista.getItemAtPosition(posicao);
+                AnuncioDTO anuncio = (AnuncioDTO) lista.getItemAtPosition(posicao);
                 //Toast.makeText(ListaAnunciosActivity.this, "Anuncio selecionado: " + produto.getTitulo(), Toast.LENGTH_LONG).show();
                 navegarParaTelaMaisInformacoes(anuncio);
             }
@@ -60,7 +63,7 @@ public class ListaAnunciosActivity extends AppCompatActivity {
     /**
      * @param anuncio
      */
-    private void navegarParaTelaMaisInformacoes(Anuncio anuncio) {
+    private void navegarParaTelaMaisInformacoes(AnuncioDTO anuncio) {
         //Navegacao para uma nova activity MaisInformacoesProduto
         Intent irParaMaisInformacoesAnuncio = new Intent(ListaAnunciosActivity.this, MaisInformacoesProdutoActivity.class);
         //PENDURA NA INTENT O PRODUTO SELECIONADO PARA SER RECUPERADO PELA OUTRA ACTIVITY
@@ -75,24 +78,24 @@ public class ListaAnunciosActivity extends AppCompatActivity {
 
     //TODO AVELINO REMOVER ESSE MOCK QUANDO A CONEXAO BD ESTIVER CONCLUIDO
     private void criarMockAnuncios() {
-        listaAnuncios = new ArrayList<Anuncio>();
+        listaAnuncios = new ArrayList<AnuncioDTO>();
 
-        Anuncio produto1 = new Anuncio(new Long(1), new Long(1), "Aptamil 1 Premuim", "Corram Mamães!!! Promoção BigBen Da Doca", new Long(1), new Double(23.3));
-        listaAnuncios.add(produto1);
+        AnuncioDTO leite = new AnuncioDTO(new Long(1), new Long(1), "Aptamil 1 Premuim", "Corram Mamães!!! Promoção BigBen Da Doca", new Long(1), new Double(23.3));
+        listaAnuncios.add(leite);
 
-        Anuncio fralda = new Anuncio(new Long(2), new Long(1), "Pacote de Fraldas com 86 Unidades Confort sec M Pampers", "Achei no Walmart da Curuzu", new Long(1), new Double(23.3));
+        AnuncioDTO fralda = new AnuncioDTO(new Long(2), new Long(1), "Pacote de Fraldas com 86 Unidades Confort sec M Pampers", "Achei no Walmart da Curuzu", new Long(1), new Double(23.3));
         listaAnuncios.add(fralda);
 
-        Anuncio produto2 = new Anuncio(new Long(3), new Long(1), "Nan Pro 2", "Melhor Preço da Cidade djkasdlaskjiwuhjsdajskhdkjashdjsahjdkhsaj sjkahduaj jka jkash jkash jey hqwkjhq qwhkejh qwjk ehqkwjehqwkj ", new Long(1), new Double(23.3));
-        listaAnuncios.add(produto2);
+        AnuncioDTO leiteNan = new AnuncioDTO(new Long(3), new Long(1), "Nan Pro 2", "Melhor Preço da Cidade djkasdlaskjiwuhjsdajskhdkjashdjsahjdkhsaj sjkahduaj jka jkash jkash jey hqwkjhq qwhkejh qwjk ehqkwjehqwkj ", new Long(1), new Double(23.3));
+        listaAnuncios.add(leiteNan);
 
-        Anuncio produto3 = new Anuncio(new Long(4), new Long(1), "Ninho Fase +1", "Lojas Americanas Patio Belem. Fraldas com desconto", new Long(1), new Double(23.3));
+        AnuncioDTO produto3 = new AnuncioDTO(new Long(4), new Long(1), "Ninho Fase +1", "Lojas Americanas Patio Belem. Fraldas com desconto", new Long(1), new Double(23.3));
         listaAnuncios.add(produto3);
 
-        Anuncio produto4 = new Anuncio(new Long(5), new Long(1), "Nestogeno 1", "Corram Mamães!!! Promoção BigBen Da Doca", new Long(1), new Double(23.3));
+        AnuncioDTO produto4 = new AnuncioDTO(new Long(5), new Long(1), "Nestogeno 1", "Corram Mamães!!! Promoção BigBen Da Doca", new Long(1), new Double(23.3));
         listaAnuncios.add(produto4);
 
-        Anuncio produto6 = new Anuncio(new Long(6), new Long(1), "Mamaderas Avent", "Promoção na Casa do Paulo ", new Long(1), new Double(23.3));
+        AnuncioDTO produto6 = new AnuncioDTO(new Long(6), new Long(1), "Mamaderas Avent", "Promoção na Casa do Paulo ", new Long(1), new Double(23.3));
         listaAnuncios.add(produto6);
 
         listarAnuncios();
@@ -102,19 +105,29 @@ public class ListaAnunciosActivity extends AppCompatActivity {
     private void listarAnuncios() {
 
         AnuncioDao anuncioDao = AnuncioDao.getInstance(ListaAnunciosActivity.this);
-        List<Anuncio> produtos = anuncioDao.buscarTodos();
-
-        for (Anuncio p : produtos) {
-            Log.i("avelino: ", "Listando os anuncios" + String.valueOf(p.toString()));
+        List<AnuncioDTO> anuncios = anuncioDao.buscarAnunciosDaView();
+        /*
+        for (AnuncioDTO a : anuncios) {
+            Log.i("avelino: ", "Listando os anuncios" + String.valueOf(a.toString()));
         }
+        */
         //TODO AVELINO. REMOVER. ESTOU SO FORCANDO UMA ATUALIZACAO DA LISTA VIA BANCO DE DADOS
-        listaAnuncios.addAll(produtos);
+        listaAnuncios.addAll(anuncios);
 
         MarcaDao marcaDao = MarcaDao.getInstance(ListaAnunciosActivity.this);
         List<Marca> marcas = marcaDao.buscarTodos();
 
+        /*
         for (Marca p : marcas) {
             Log.i("avelino: ", "Listando os Marcas" + String.valueOf(p.toString()));
+        }
+        */
+
+        LojaDao lojaDao = LojaDao.getInstance(this);
+        List<Loja> lojas = lojaDao.buscarTodos();
+
+        for (Loja p : lojas) {
+            Log.i("avelino: ", "Listando os Lojas" + String.valueOf(p.toString()));
         }
     }
 

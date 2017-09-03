@@ -19,7 +19,7 @@ import br.com.viperfish.mpbmamaepagabarato.modelo.marca.Marca;
 public class MarcaDao extends DaoBase {
 
     private static MarcaDao instance;
-    private static String TAG = "MarcaDao"; // LogCat
+    private static String TAG = "LojaDao"; // LogCat
 
     /**
      * Private constructor to aboid object creation from outside classes.
@@ -46,7 +46,7 @@ public class MarcaDao extends DaoBase {
     /**
      * Insert a contact into the database.
      */
-    public boolean inserir(Marca marca) {
+    public long inserir(Marca marca) {
 
         ContentValues values = new ContentValues();
 

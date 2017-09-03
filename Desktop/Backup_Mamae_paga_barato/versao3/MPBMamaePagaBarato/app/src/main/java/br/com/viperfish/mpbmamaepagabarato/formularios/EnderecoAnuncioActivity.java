@@ -36,8 +36,7 @@ import java.util.Locale;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
 import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
-import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Loja;
-import util.Validador;
+import br.com.viperfish.mpbmamaepagabarato.modelo.loja.Loja;
 
 public class EnderecoAnuncioActivity extends AppCompatActivity {
 

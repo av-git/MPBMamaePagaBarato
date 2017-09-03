@@ -18,27 +18,45 @@
             android:id="@+id/lista_anuncio_personalizada_nome_produto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="Titulo"
-            android:textSize="20dp"
-            android:textColor="@color/cardview_dark_background" />
+            android:padding="5dp"
+            android:text="Nome"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/lista_anuncio_personalizada_sub_categoria"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Sub Categoria"
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/lista_anuncio_personalizada_descricao_produto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:padding="5dp"
             android:text="Descrição"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/lista_anuncio_personalizada_loja"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Loja"
             android:textSize="15dp" />
 
         <TextView
             android:id="@+id/lista_anuncio_personalizada_preco_produto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:padding="5dp"
             android:text="Preço"
-            android:textSize="18dp"
-            android:textColor="@android:color/holo_red_dark" />
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
 
     </LinearLayout>
 

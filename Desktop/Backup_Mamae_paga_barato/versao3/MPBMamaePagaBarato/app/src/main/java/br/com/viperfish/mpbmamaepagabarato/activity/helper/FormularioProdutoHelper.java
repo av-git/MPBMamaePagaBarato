@@ -48,8 +48,8 @@ public class FormularioProdutoHelper {
 
     public Anuncio obterProduto() {
 
-        produto.setTitulo(campoTitulo.getText().toString());
-        produto.setDescricao(campoDescricao.getText().toString());
+        produto.setNomeProdutoInformadorPeloUsuario(campoTitulo.getText().toString());
+        produto.setComentario(campoDescricao.getText().toString());
 
         //TODO descomentar assim que for implementado
         //produto.setCategoria(campoCategoria.getText().toString());
@@ -62,8 +62,8 @@ public class FormularioProdutoHelper {
 
     public void preencheFormulario(Anuncio produto) {
 
-        campoTitulo.setText(produto.getTitulo());
-        campoDescricao.setText(produto.getDescricao());
+        campoTitulo.setText(produto.getNomeProdutoInformadorPeloUsuario());
+        campoDescricao.setText(produto.getComentario());
 
         this.produto = produto;
     }

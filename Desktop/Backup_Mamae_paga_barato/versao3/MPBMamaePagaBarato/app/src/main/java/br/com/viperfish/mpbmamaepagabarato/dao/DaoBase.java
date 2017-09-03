@@ -49,7 +49,14 @@ public abstract class DaoBase {
         return database;
     }
 
-    protected boolean inserir(String tabela, ContentValues values) {
+    /**
+     * Salva os valores em tabela do sql lite
+     *
+     * @param tabela
+     * @param values
+     * @return Long id salvo no banco
+     */
+    protected long inserir(String tabela, ContentValues values) {
 
         long resultado = 0;
 
@@ -59,7 +66,7 @@ public abstract class DaoBase {
 
                 abriConexaoEmModoEscrita();
                 resultado = getDatabase().insert(tabela, null, values);
-
+                //Log.i(TAG, "Loja inserida:" +resultado);
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.i(TAG, "ERRO Buscar Marca");
@@ -72,7 +79,7 @@ public abstract class DaoBase {
             Log.i(TAG, "ERRO. Informe o nome da tabela e/ou seus valores");
         }
 
-        return resultado > 0;
+        return resultado;
     }
 
     protected boolean atualizar(String tabela, ContentValues values, String whereClause, String[] whereArgs) {

@@ -1,11 +1,10 @@
 package br.com.viperfish.mpbmamaepagabarato.modelo.anuncio;
 
-import com.google.android.gms.location.places.Place;
-
 import java.io.Serializable;
 import java.util.Date;
 
 import br.com.viperfish.mpbmamaepagabarato.modelo.categoria.Categoria;
+import br.com.viperfish.mpbmamaepagabarato.modelo.loja.Loja;
 import br.com.viperfish.mpbmamaepagabarato.modelo.marca.Marca;
 import br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto;
 
@@ -15,9 +14,9 @@ import br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto;
 public class Anuncio implements Serializable {
 
     private Long id;
-    private Long produtoId;
-    private String titulo;
-    private String descricao;
+    //private Long produtoId;
+    private String nomeProdutoInformadorPeloUsuario;
+    private String comentario;
     private Date dataAnuncio;
     private Double preco;
 
@@ -28,18 +27,35 @@ public class Anuncio implements Serializable {
     private Marca marca;
     private Loja loja;
 
-    public Anuncio(long id, long codigoProduto, String titulo, String descricao, long dataAnuncio, Double preco) {
-
+    public Anuncio(long id, long codigoProduto, String nomeProduto, String comentario, long dataAnuncio, Double preco) {
         this.id = id;
-        this.produtoId = codigoProduto;
-        this.titulo = titulo;
-        this.descricao = descricao;
-        this.dataAnuncio = new Date(dataAnuncio);
+        this.nomeProdutoInformadorPeloUsuario = nomeProduto;
+        this.comentario = comentario;
         this.preco = preco;
 
     }
 
     public Anuncio() {
+    }
+
+    /**
+     * Verifica se o existe algum produto selecionado da lista de sugestoes de produtos
+     * @return boolean
+     */
+    public boolean isProdutoSelecionadoPreviamente() {
+        return getProduto() != null && getProduto().getId() != null ? true : false;
+    }
+
+    public boolean isInformouLojaDoAnuncio() {
+        return getLoja() != null && !getLoja().getIdGoogle().isEmpty() ? true : false;
+    }
+
+    public String getNomeProdutoInformadorPeloUsuario() {
+        return nomeProdutoInformadorPeloUsuario;
+    }
+
+    public void setNomeProdutoInformadorPeloUsuario(String nomeProdutoInformadorPeloUsuario) {
+        this.nomeProdutoInformadorPeloUsuario = nomeProdutoInformadorPeloUsuario;
     }
 
     public Long getId() {
@@ -50,28 +66,12 @@ public class Anuncio implements Serializable {
         this.id = id;
     }
 
-    public Long getProdutoId() {
-        return produtoId;
+    public String getComentario() {
+        return comentario;
     }
 
-    public void setProdutoId(Long produtoId) {
-        this.produtoId = produtoId;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
     }
 
     public Date getDataAnuncio() {
@@ -129,18 +129,4 @@ public class Anuncio implements Serializable {
     public void setLoja(Loja loja) {
         this.loja = loja;
     }
-
-    @Override
-    public String toString() {
-        return "Anuncio{" +
-                "id=" + id +
-                ", produtoId=" + produtoId +
-                ", titulo='" + titulo + '\'' +
-                ", descricao='" + descricao + '\'' +
-                ", dataAnuncio=" + dataAnuncio +
-                ", preco=" + preco +
-                '}';
-    }
-
-
 }

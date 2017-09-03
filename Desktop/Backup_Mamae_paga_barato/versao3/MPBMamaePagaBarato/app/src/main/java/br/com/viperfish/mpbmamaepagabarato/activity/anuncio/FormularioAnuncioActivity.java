@@ -137,7 +137,7 @@ public class FormularioAnuncioActivity extends AppCompatActivity {
         AnuncioDao anuncioDao = AnuncioDao.getInstance(FormularioAnuncioActivity.this);
         anuncioDao.inserir(produto);
 
-        if (anuncioDao.inserir(produto)) {
+        if (anuncioDao.inserir(produto) > 0) {
             Toast.makeText(FormularioAnuncioActivity.this, "Registrado com sucesso. Obrigado", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(FormularioAnuncioActivity.this, "Ocorreu um erro ao salvar. Tente novamente", Toast.LENGTH_LONG).show();

@@ -56,12 +56,12 @@ public class TituloAnuncioActivity extends AppCompatActivity {
     }
 
     private void salvar(Anuncio produto) {
-        Toast.makeText(TituloAnuncioActivity.this, produto.getTitulo() +" Registrado com sucesso. Obrigado", Toast.LENGTH_LONG).show();
+        Toast.makeText(TituloAnuncioActivity.this, produto.getNomeProdutoInformadorPeloUsuario() +" Registrado com sucesso. Obrigado", Toast.LENGTH_LONG).show();
     }
 
     public void irParaFormularioPrecoProduto(View v) {
 
-        anuncio.setTitulo(tituloAnuncioEditText.getText().toString());
+        anuncio.setNomeProdutoInformadorPeloUsuario(tituloAnuncioEditText.getText().toString());
         //TODO AVELINO DEFINIR UNIDADE MEDIDA
         //anuncio.setTitulo(tituloAnuncioEditText.getText().toString());
 

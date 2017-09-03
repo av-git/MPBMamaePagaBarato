@@ -9,10 +9,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
 import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.ListaAnunciosActivity;
+import br.com.viperfish.mpbmamaepagabarato.activity.bc.AnuncioBC;
 import br.com.viperfish.mpbmamaepagabarato.activity.helper.FormularioResumoAnuncioHelper;
 import br.com.viperfish.mpbmamaepagabarato.dao.anuncio.AnuncioDao;
 import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
@@ -21,6 +23,8 @@ public class ResumoAnuncioActivity extends AppCompatActivity {
 
     public static final String EXTRA_DADOS_ANUNCIO = "EXTRA_DADOS_ANUNCIO";
     private Anuncio dadosAnuncio;
+    AnuncioBC anuncioBC;
+    private TextView campoComentario;
 
     private FormularioResumoAnuncioHelper helper;
 
@@ -42,6 +46,7 @@ public class ResumoAnuncioActivity extends AppCompatActivity {
         helper = new FormularioResumoAnuncioHelper(this);
         Intent intent = getIntent();
         dadosAnuncio = (Anuncio) intent.getSerializableExtra(EXTRA_DADOS_ANUNCIO);
+        campoComentario = (TextView) findViewById(R.id.resumo_anuncio_descricao);
 
         helper.preencheFormulario(dadosAnuncio);
     }
@@ -76,18 +81,22 @@ public class ResumoAnuncioActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.formulario_produto_item_salvar:
 
-                FormularioResumoAnuncioHelper helper = new FormularioResumoAnuncioHelper(ResumoAnuncioActivity.this);
+                //FormularioResumoAnuncioHelper helper = new FormularioResumoAnuncioHelper(ResumoAnuncioActivity.this);
+                dadosAnuncio.setComentario(campoComentario.getText().toString());
+                anuncioBC = new AnuncioBC(this);
 
-                Log.i("Avelino", "Salvando o Anuncio: " + dadosAnuncio.toString());
-                AnuncioDao anuncioDao = AnuncioDao.getInstance(this);
-                anuncioDao.inserir(dadosAnuncio);
+                if(anuncioBC.salvar(dadosAnuncio)) {
 
-                Intent intent = new Intent(getApplicationContext(), ListaAnunciosActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("EXIT", true);
-                startActivity(intent);
+                    Toast.makeText(ResumoAnuncioActivity.this, "Anúncio registrado com sucesso. Obrigado", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(getApplicationContext(), ListaAnunciosActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra("EXIT", true);
+                    startActivity(intent);
 
-                finish(); // Finaliza a Activity e volta para a quem chamou
+                    finish(); // Finaliza a Activity e volta para a quem chamou
+                } else {
+                    Toast.makeText(ResumoAnuncioActivity.this, "Não foi possível publicar o anúncio. :(", Toast.LENGTH_LONG).show();
+                }
 
                 break;
 
@@ -108,6 +117,10 @@ public class ResumoAnuncioActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         Log.i("Avelino", "ResumoAnuncioActivity OnResume");
+
+        AnuncioDao anuncioDao = AnuncioDao.getInstance(this);
+        anuncioDao.buscarAnunciosDaView();
+
         super.onResume();
     }
 
