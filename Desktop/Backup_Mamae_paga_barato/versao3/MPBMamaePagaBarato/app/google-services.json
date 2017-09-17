@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "92931968868",
+    "firebase_url": "https://mpb-mamae-paga-bar.firebaseio.com",
+    "project_id": "mpb-mamae-paga-bar",
+    "storage_bucket": "mpb-mamae-paga-bar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:92931968868:android:f7f59d088cf0a842",
+        "android_client_info": {
+          "package_name": "br.com.viperfish.mpbmamaepagabarato"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "92931968868-cifln4o3ajib6vcijd1j2f12cd86rm6m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.viperfish.mpbmamaepagabarato",
+            "certificate_hash": "eda529287406bcc75d64747bcad699f7b2953012"
+          }
+        },
+        {
+          "client_id": "92931968868-ke63vtek50qld2vnbljra4paq2pnmtur.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkRo1tjxfHV9aeUunRJrIOyH-QxcTcIvk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "92931968868-ke63vtek50qld2vnbljra4paq2pnmtur.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -8,6 +8,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import br.com.viperfish.mpbmamaepagabarato.dao.DaoBase;
 import br.com.viperfish.mpbmamaepagabarato.dao.loja.LojaDao;
@@ -66,6 +67,8 @@ public class AnuncioDao extends DaoBase {
             values.put(IAnuncioSchema.LOJA_ID, anuncio.getLoja().getId());
         }
 
+        values.put(IAnuncioSchema.UUID, anuncio.getUUID());
+
         values.put(IAnuncioSchema.COMENTARIO, anuncio.getComentario());
 
         values.put(IAnuncioSchema.DATA_ANUNCIO, new Date().getTime());
@@ -74,6 +77,51 @@ public class AnuncioDao extends DaoBase {
 
         return super.inserir(IAnuncioSchema.TABELA, values);
     }
+
+    public boolean isAnuncioExisteNoBancoLocalComUUID(String uuid) {
+
+        Anuncio anuncio = null;
+        Cursor cursor = null;
+
+        try {
+
+            abrirConexaoEmModoLeitura();
+
+            StringBuffer sql = new StringBuffer();
+            sql.append("SELECT _id as qtd " +
+                    " FROM ANUNCIO WHERE UUID = ? ");
+
+
+            //SOLUCAO PASSANDO A STRING SQL NA MAO
+            cursor = getDatabase().rawQuery(sql.toString(), new String[]{uuid});
+            int qtd = cursor.getCount();
+            //Log.i(TAG, "uuid " + String.valueOf(uuid));
+            //Log.i(TAG, "qtd " + String.valueOf(qtd));
+
+            return qtd > 0;
+            /*
+            cursor = getDatabase().query(IAnuncioSchema.TABELA,
+                    IAnuncioSchema.COLUNAS,
+                    IAnuncioSchema.UUID + " = ?",
+                    new String[]{uuid},
+                    null, null, null);
+
+            if (cursor.moveToNext()) {
+                anuncio = transformaCursorEmEntidade(cursor);
+            }
+            */
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.i(TAG, "ERRO Buscar Anuncio");
+
+        } finally {
+            cursor.close();
+            fecharConexao();
+        }
+
+        return true;
+    }
+
 
     public Anuncio buscarPorId(Integer id) {
 

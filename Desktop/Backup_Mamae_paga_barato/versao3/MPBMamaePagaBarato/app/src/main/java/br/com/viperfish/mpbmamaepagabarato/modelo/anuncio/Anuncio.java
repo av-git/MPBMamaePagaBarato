@@ -14,6 +14,7 @@ import br.com.viperfish.mpbmamaepagabarato.modelo.produto.Produto;
 public class Anuncio implements Serializable {
 
     private Long id;
+    private String UUID;
     //private Long produtoId;
     private String nomeProdutoInformadorPeloUsuario;
     private String comentario;
@@ -128,5 +129,30 @@ public class Anuncio implements Serializable {
 
     public void setLoja(Loja loja) {
         this.loja = loja;
+    }
+
+    public String getUUID() {
+        return UUID;
+    }
+
+    public void setUUID(String UUID) {
+        this.UUID = UUID;
+    }
+
+    @Override
+    public String toString() {
+        return "Anuncio{" +
+                "id=" + id +
+                ", UUID='" + UUID + '\'' +
+                ", nomeProdutoInformadorPeloUsuario='" + nomeProdutoInformadorPeloUsuario + '\'' +
+                ", comentario='" + comentario + '\'' +
+                ", dataAnuncio=" + dataAnuncio +
+                ", preco=" + preco +
+                ", produto=" + produto +
+                ", categoria=" + categoria +
+                ", subCategoria=" + subCategoria +
+                ", marca=" + marca +
+                ", loja=" + loja +
+                '}';
     }
 }

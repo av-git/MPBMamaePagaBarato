@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">"MPB Mamae Paga Barato"</string>
+    <string name="app_name">"MPB"</string>
     <string name="titulo_produto">Título</string>
     <string name="titulo_tipo_anuncio">Tipo de Anúncio</string>
     <string name="titulo_produto_obrigatorio">Campo Título Obrigatório!</string>
@@ -24,4 +24,16 @@
     <string name="title_activity_local_anuncio_maps">Map</string>
     <string name="loja_ou_endereco_anunciante">Informe a Loja *</string>
     <string name="campo_obrigatorio">Campo Obrigatório</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Senha</string>
+    <string name="action_sign_in">Entrar</string>
+    <string name="action_sign_in_short">Entrar</string>
+    <string name="error_invalid_email">Email inválido</string>
+    <string name="error_invalid_password">Senha fraca. Informe uma senha com Mínimo de 6 caracteres.</string>
+    <string name="error_incorrect_password">Senha incorreta</string>
+    <string name="error_field_required">Campo obrigatório</string>
+    <string name="permission_rationale">As permissões de contatos são necessárias para fornecer preenchimentos de e-mail."</string>
 </resources>

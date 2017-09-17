@@ -12,6 +12,12 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Date;
+import java.util.UUID;
+
 import br.com.viperfish.mpbmamaepagabarato.R;
 import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.ListaAnunciosActivity;
 import br.com.viperfish.mpbmamaepagabarato.activity.bc.AnuncioBC;
@@ -22,8 +28,9 @@ import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
 public class ResumoAnuncioActivity extends AppCompatActivity {
 
     public static final String EXTRA_DADOS_ANUNCIO = "EXTRA_DADOS_ANUNCIO";
+
     private Anuncio dadosAnuncio;
-    AnuncioBC anuncioBC;
+    private AnuncioBC anuncioBC;
     private TextView campoComentario;
 
     private FormularioResumoAnuncioHelper helper;
@@ -76,6 +83,21 @@ public class ResumoAnuncioActivity extends AppCompatActivity {
         Toast.makeText(ResumoAnuncioActivity.this, dadosAnuncio + " Registrado com sucesso. Obrigado", Toast.LENGTH_LONG).show();
     }
 
+    private void exemplo3_criando_estruta_com_objeto_anuncio() {
+        //ex3 - passando um objeto para firebase salvar
+        Anuncio anuncio = new Anuncio();
+        //anuncio.setId("001");
+        anuncio.setDataAnuncio(new Date());
+        //anuncio.setDescricao("promo");
+        anuncio.setPreco(22.3);
+        //anuncio.setProdutoId(new Long(2));
+        //anuncio.setTitulo("Fralda Pamper");
+
+        String uniqueID = UUID.randomUUID().toString();
+
+        //anunciosReferencia.child(uniqueID).setValue(anuncio);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -92,7 +114,6 @@ public class ResumoAnuncioActivity extends AppCompatActivity {
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("EXIT", true);
                     startActivity(intent);
-
                     finish(); // Finaliza a Activity e volta para a quem chamou
                 } else {
                     Toast.makeText(ResumoAnuncioActivity.this, "Não foi possível publicar o anúncio. :(", Toast.LENGTH_LONG).show();
@@ -107,6 +128,8 @@ public class ResumoAnuncioActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 
     @Override
     protected void onStart() {

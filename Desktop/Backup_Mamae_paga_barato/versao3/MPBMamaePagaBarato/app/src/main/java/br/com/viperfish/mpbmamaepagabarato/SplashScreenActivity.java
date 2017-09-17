@@ -5,8 +5,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
-import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.FormularioAnuncioActivity;
 import br.com.viperfish.mpbmamaepagabarato.activity.anuncio.ListaAnunciosActivity;
+import br.com.viperfish.mpbmamaepagabarato.activity.login.LoginActivity;
+import br.com.viperfish.mpbmamaepagabarato.config.ConexaoFirebase;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -19,12 +20,27 @@ public class SplashScreenActivity extends AppCompatActivity {
         handle.postDelayed(new Runnable() {
             @Override
             public void run() {
-                mostrarTelaPrincipal();
+                definirNavegacao();
             }
         }, 1000);
     }
 
-    private void mostrarTelaPrincipal() {
+    private void definirNavegacao() {
+
+        if(ConexaoFirebase.isUsuarioLogado()) {
+            irParaTelaPrincipal();
+        } else {
+            irParaTelaLogin();
+        }
+    }
+
+    private void irParaTelaLogin() {
+        Intent intent = new Intent(SplashScreenActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void irParaTelaPrincipal() {
         Intent intent = new Intent(SplashScreenActivity.this, ListaAnunciosActivity.class);
         startActivity(intent);
         finish();

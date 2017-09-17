@@ -93,13 +93,13 @@ public class AdapterAnuncioPersonalizadoNaListView extends BaseAdapter {
         anuncioViewHolder.preco.setText("R$ " + new Double(anuncio.getPrecoAnuncio()));
 
         if (anuncio.getIdAnuncio() == 2) {
-            anuncioViewHolder.imagem.setImageResource(R.drawable.pamper);
+            anuncioViewHolder.imagem.setImageResource(R.drawable.prod_01);
         } else if (anuncio.getIdAnuncio() == 1) {
-            anuncioViewHolder.imagem.setImageResource(R.drawable.aptamil);
+            anuncioViewHolder.imagem.setImageResource(R.drawable.prod_01);
         } else if (anuncio.getIdAnuncio() == 3) {
-            anuncioViewHolder.imagem.setImageResource(R.drawable.nan_pro);
+            anuncioViewHolder.imagem.setImageResource(R.drawable.prod_01);
         } else if (anuncio.getIdAnuncio() == 4) {
-            anuncioViewHolder.imagem.setImageResource(R.drawable.ninho_fase1);
+            anuncioViewHolder.imagem.setImageResource(R.drawable.prod_01);
         } else if (anuncio.getIdAnuncio() == 6) {
             //produtoHolder.imagem.setImageResource(R.drawable.mamadeira);
         } else {

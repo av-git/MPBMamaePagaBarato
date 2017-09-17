@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
@@ -15,13 +16,17 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:allowBackup="true"
-        android:icon="@drawable/baby_icon"
+        android:icon="@drawable/icone_cesar"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="br.com.viperfish.mpbmamaepagabarato.fileprovider"
@@ -50,9 +55,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="br.com.viperfish.mpbmamaepagabarato.activity.anuncio.ListaAnunciosActivity" />
         </activity>
-        <activity android:name=".activity.anuncio.FormularioAnuncioActivity"
-                  android:configChanges="keyboard|keyboardHidden|orientation" />
-
+        <activity
+            android:name=".activity.anuncio.FormularioAnuncioActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation" />
         <activity android:name=".activity.anuncio.ListaAnunciosActivity" />
         <activity android:name=".activity.categoria.CategoriaAnuncioActivity" />
         <activity android:name=".activity.categoria.SubCategoriaActivity" />
@@ -60,17 +65,16 @@
         <activity android:name=".activity.marca.ListaMarcaActivity" />
         <activity android:name=".formularios.TituloAnuncioActivity" />
         <activity android:name=".formularios.QualPrecoActivity" />
-
-        <activity android:name=".formularios.ResumoAnuncioActivity"
-                  android:configChanges="keyboard|keyboardHidden|orientation"/>
+        <activity
+            android:name=".formularios.ResumoAnuncioActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation" />
         <activity
             android:name=".formularios.FotoAnuncioActivity"
             android:configChanges="orientation|keyboard|keyboardHidden|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".formularios.EnderecoAnuncioActivity"
-            android:configChanges="orientation|keyboard|keyboardHidden|screenLayout|uiMode|screenSize|smallestScreenSize"/>
-
+        <activity
+            android:name=".formularios.EnderecoAnuncioActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden|screenLayout|uiMode|screenSize|smallestScreenSize" />
         <activity
             android:name=".formularios.LocalAnuncioMapsActivity"
             android:label="@string/title_activity_local_anuncio_maps" />
@@ -87,7 +91,11 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <activity android:name=".activity.usuario.CadastroUsuarioActivity"></activity>
 
+        <activity
+            android:name=".activity.login.LoginActivity"
+            android:label="@string/title_activity_login"></activity>
     </application>
 
 </manifest>

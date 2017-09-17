@@ -4,33 +4,50 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.viperfish.mpbmamaepagabarato.R;
 import br.com.viperfish.mpbmamaepagabarato.activity.adapter.AdapterAnuncioPersonalizadoNaListView;
+import br.com.viperfish.mpbmamaepagabarato.activity.bc.AnuncioBC;
 import br.com.viperfish.mpbmamaepagabarato.activity.categoria.CategoriaAnuncioActivity;
+import br.com.viperfish.mpbmamaepagabarato.activity.login.LoginActivity;
+import br.com.viperfish.mpbmamaepagabarato.config.ConexaoFirebase;
 import br.com.viperfish.mpbmamaepagabarato.dao.anuncio.AnuncioDao;
-import br.com.viperfish.mpbmamaepagabarato.dao.loja.LojaDao;
-import br.com.viperfish.mpbmamaepagabarato.dao.marca.MarcaDao;
-import br.com.viperfish.mpbmamaepagabarato.formularios.FotoAnuncioActivity;
 import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.Anuncio;
 import br.com.viperfish.mpbmamaepagabarato.modelo.anuncio.AnuncioDTO;
-import br.com.viperfish.mpbmamaepagabarato.modelo.loja.Loja;
-import br.com.viperfish.mpbmamaepagabarato.modelo.marca.Marca;
 
 public class ListaAnunciosActivity extends AppCompatActivity {
 
     //String[] produtos = {"Aptamil 1 Premuim", "Nan Pro 2", "Ninho Fase +1","Nestogeno 1 ", "Enfamil Premium ", "Ninho Fase +1","Aptamil 1 Premuim", "Nan Pro 3", "Ninho Fase +3","Aptamil 2 Premuim", "Nan Pro 2", "Ninho Fase +4"};
     private List<AnuncioDTO> listaAnuncios;
+    AnuncioBC anuncioBC;
 
     //Representa a lista de anuncios dos produtos.
     ListView listViewAnuncios;
+
+    //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+    //DatabaseReference databaseReference;
+    DatabaseReference anunciosReferencia;
+
+    private FirebaseAuth autenticacao;
+
+    private static String TAG = "ListaAnunciosActivity"; // LogCat
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +61,62 @@ public class ListaAnunciosActivity extends AppCompatActivity {
 
         //carregarListaAnuncios(); // carrega a lista no OnResume. Boa pratica pois a Activity poderia estar Em Pause
         configurarBotaoFlutuanteNovo();
+
+        //databaseReference = ConexaoFirebase.getConexao();
+        anunciosReferencia = ConexaoFirebase.getNoAnucio();
+
+        configurarEventosAtualizacaoFireBase();
+
+        /*
+        anunciosReferencia.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Log.i("Chamada no firebase", dataSnapshot.getValue().toString());
+                anuncioBC = new AnuncioBC(ListaAnunciosActivity.this);
+                anuncioBC.sincronizarDadosDaNuvemComBancoLocal(dataSnapshot.getValue(Anuncio.class), dataSnapshot.getKey());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        */
+    }
+
+    private void configurarEventosAtualizacaoFireBase() {
+
+        anunciosReferencia.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                if (dataSnapshot != null && dataSnapshot.exists()) {
+                    Log.i(TAG, dataSnapshot.getValue().toString());
+                    anuncioBC = new AnuncioBC(ListaAnunciosActivity.this);
+                    anuncioBC.sincronizarDadosDaNuvemComBancoLocal(dataSnapshot.getValue(Anuncio.class), dataSnapshot.getKey());
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     /**
@@ -78,8 +151,9 @@ public class ListaAnunciosActivity extends AppCompatActivity {
 
     //TODO AVELINO REMOVER ESSE MOCK QUANDO A CONEXAO BD ESTIVER CONCLUIDO
     private void criarMockAnuncios() {
-        listaAnuncios = new ArrayList<AnuncioDTO>();
 
+        listaAnuncios = new ArrayList<AnuncioDTO>();
+        /*
         AnuncioDTO leite = new AnuncioDTO(new Long(1), new Long(1), "Aptamil 1 Premuim", "Corram Mamães!!! Promoção BigBen Da Doca", new Long(1), new Double(23.3));
         listaAnuncios.add(leite);
 
@@ -97,7 +171,7 @@ public class ListaAnunciosActivity extends AppCompatActivity {
 
         AnuncioDTO produto6 = new AnuncioDTO(new Long(6), new Long(1), "Mamaderas Avent", "Promoção na Casa do Paulo ", new Long(1), new Double(23.3));
         listaAnuncios.add(produto6);
-
+        */
         listarAnuncios();
     }
 
@@ -106,29 +180,57 @@ public class ListaAnunciosActivity extends AppCompatActivity {
 
         AnuncioDao anuncioDao = AnuncioDao.getInstance(ListaAnunciosActivity.this);
         List<AnuncioDTO> anuncios = anuncioDao.buscarAnunciosDaView();
-        /*
-        for (AnuncioDTO a : anuncios) {
-            Log.i("avelino: ", "Listando os anuncios" + String.valueOf(a.toString()));
-        }
-        */
         //TODO AVELINO. REMOVER. ESTOU SO FORCANDO UMA ATUALIZACAO DA LISTA VIA BANCO DE DADOS
         listaAnuncios.addAll(anuncios);
+    }
 
-        MarcaDao marcaDao = MarcaDao.getInstance(ListaAnunciosActivity.this);
-        List<Marca> marcas = marcaDao.buscarTodos();
+    /**
+     * Personaliza Itens (Botoes) na actionBar do android com comandos
+     *
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
 
-        /*
-        for (Marca p : marcas) {
-            Log.i("avelino: ", "Listando os Marcas" + String.valueOf(p.toString()));
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_lista_anuncio, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    /**
+     * Captura o item do OptionsMenu (Menu Bar)
+     * selecionado
+     *
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.lista_anuncio_filtro:
+
+                //TODO AVELINO - PENDENTE IMPLEMENTAR FILTRO
+
+                break;
+
+            case R.id.lista_anuncio_sair:
+
+                autenticacao = ConexaoFirebase.getFireBaseAutenticacao();
+                autenticacao.signOut();
+
+                Intent intent = new Intent(ListaAnunciosActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+
+                break;
+            case android.R.id.home:
+                finish();
+                break;
         }
-        */
 
-        LojaDao lojaDao = LojaDao.getInstance(this);
-        List<Loja> lojas = lojaDao.buscarTodos();
-
-        for (Loja p : lojas) {
-            Log.i("avelino: ", "Listando os Lojas" + String.valueOf(p.toString()));
-        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -162,6 +264,92 @@ public class ListaAnunciosActivity extends AppCompatActivity {
         listViewAnuncios.setAdapter(adapterAnuncios);
     }
 
+    //ex5 - listando os registros do firebase
+    //chamamos o metodo que fica ouvindo mudanças na base do firebase
+    //aula: sessao 16 aula 153 Udemy
+    private void listandoDadosFireBaseEmTempoReal() {
+        String valor = "";
+
+
+        anunciosReferencia.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //DICA. PODEMOS FICAR OUVINDO UM NO RAIZ (anuncios) OU UM DOS SEUS NOS FILHOS (EX: anuncios --> 001)
+                //Log.i("FIREBASE", dataSnapshot.getValue().toString());
+                //Anuncio anuncio = dataSnapshot.getValue(Anuncio.class);
+                //System.out.println(anuncio);
+                //Log.i("FIREBASE 2", anuncio.toString());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        //Toast.makeText(this, valor + "Alguem anuncio novidades", Toast.LENGTH_LONG).show();
+    }
+
+    public void carregarAnunciosFireBase() {
+
+        anunciosReferencia.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                Anuncio newPost = dataSnapshot.getValue(Anuncio.class);
+                Log.i("avelino: ", "Produto: " + newPost.getProduto().getNome());
+                Log.i("avelino: ", "Preco: " + newPost.getPreco());
+                Log.i("avelino: ", "Previous Post ID: " + prevChildKey);
+
+                //System.out.println("Title: " + newPost.getPreco());
+                //System.out.println("Previous Post ID: " + prevChildKey);
+               /*
+                AnuncioDTO anuncioDTO = new AnuncioDTO(
+                        new Long(1),
+                        newPost.getComentario(),
+                        new Long(1),
+                        newPost.getPreco(),
+                        newPost.getProduto().getNome(),
+
+                        new Long(newPost.getProduto().getId()),
+                        null,
+
+                        new Long(newPost.getCategoria().getId()),
+                        new Long(newPost.getCategoria().getIdPai()),
+                        newPost.getCategoria().getNome(),
+
+                        new Long(newPost.getSubCategoria().getId()),
+                        new Long(newPost.getSubCategoria().getIdPai()),
+                        newPost.getSubCategoria().getNome());
+                */
+                anuncioBC = new AnuncioBC(ListaAnunciosActivity.this);
+
+                Anuncio anuncio = new Anuncio();
+                anuncio.setLoja(newPost.getLoja());
+                anuncio.setProduto(newPost.getProduto());
+                anuncio.setComentario(newPost.getComentario());
+                anuncio.setDataAnuncio(newPost.getDataAnuncio());
+                anuncio.setPreco(newPost.getPreco());
+
+                //listaAnuncios.add(anuncioDTO);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -172,6 +360,7 @@ public class ListaAnunciosActivity extends AppCompatActivity {
     protected void onResume() {
         Log.i("Avelino", "ListaAnunciosActivity OnResume");
         carregarListaAnuncios();
+
         super.onResume();
     }
 
